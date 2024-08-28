@@ -41,7 +41,7 @@ class Form{
   public static function get_all(): array
   {
     // change * to the column names when the table is created
-    $sql = "SELECT * FROM forms";
+    $sql = "SELECT id, name, description FROM forms";
     $stmt = Database::get_instance()->get_connection()->query($sql);
 
     $data = [];
@@ -79,5 +79,48 @@ class Form{
   }
 
   // pending: read, update, delete
+
+  public static function read(string $id): array
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "SELECT * FROM forms
+            WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  public function update(string $id, array $data): void
+  {
+    $sql = "UPDATE forms 
+            SET name = :name, description = :description, code = :code, is_visible = :is_visible 
+            WHERE id = :id";
+
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+    $stmt->bindParam(':description', $data['description'], PDO::PARAM_STR);
+    $stmt->bindParam(':code', $data['code'], PDO::PARAM_STR);
+    $stmt->bindParam(':is_visible', $data['is_visible'], PDO::PARAM_BOOL);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+  }
+
+  public static function delete(string $id): int
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "DELETE FROM forms 
+            WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->rowCount();
+  }
 
 }

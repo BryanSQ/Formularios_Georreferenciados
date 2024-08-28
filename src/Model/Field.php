@@ -25,7 +25,7 @@ class Field{
     
     $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
     $stmt->bindParam(':is_required', $this->is_required, PDO::PARAM_BOOL);
-    $stmt->bindParam(':type', $this->type_id, PDO::PARAM_INT);
+    $stmt->bindParam(':type_id', $this->type_id, PDO::PARAM_INT);
     $stmt->bindParam(':form_id', $form_id, PDO::PARAM_INT);
 
     $stmt->execute();

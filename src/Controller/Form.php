@@ -13,8 +13,16 @@ class FormController{
   }
 
   private function process_resource_request(string $method, ?string $id, ?string $code){
-    http_response_code(404);
-    echo json_encode(["error" => "Not Implemented yet"]);
+    switch ($method){
+      case "DELETE":
+        echo $this->remove_form($id);
+        break;
+      default:
+        http_response_code(405);
+        echo json_encode(["error" => "Method Not Allowed"]);
+        break;
+    }
+    
   }
 
   private function process_collection_request(string $method){
@@ -64,8 +72,15 @@ class FormController{
 
     $new_form->create();
 
+    // returns the new form ID as a JSON string
     return json_encode(["id" => $new_form->get_id()]);
+  }
 
+  private function remove_form(string $id){    
+    $is_deleted = Form::delete($id);
+    $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
+    // returns the result as a JSON string
+    return json_encode($result);
   }
 
   private function get_validation_errors(array $data, bool $is_new = true): array

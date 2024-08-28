@@ -11,11 +11,12 @@ class User{
       $this->connection = Database::get_instance()->get_connection();
   }
 
-  public function get_all()
-  { 
-      // change * to the column names when the table is created
-      $sql = "SELECT * FROM users";
-      $stmt = $this->connection->query($sql);
+  public static function get_all()
+  {       
+      $connection = Database::get_instance()->get_connection();
+
+      $sql = "SELECT id, email, password FROM users";
+      $stmt = $connection->query($sql);
 
       $data = [];
       while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -24,17 +25,17 @@ class User{
       return $data;      
   }
 
-  public function create(array $data): string 
+  public function create(): string 
   {
     $sql = "INSERT INTO users (email, password) 
             VALUES (:email, :password)";
             
     $stmt = $this->connection->prepare($sql);
     
-    $stmt->bindParam(':email', $data["user"], PDO::PARAM_STR);
+    $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
 
     // hash the password later
-    $stmt->bindParam(':password', $data["password"], PDO::PARAM_STR);
+    $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
 
     $stmt->execute();
 
@@ -42,12 +43,15 @@ class User{
     return $this->connection->lastInsertId();
   }
 
-  public function read(string $id): array | false 
+  public static function read(string $id): array | false 
   {
+
+    $connection = Database::get_instance()->get_connection();
+
     $sql = "SELECT * FROM users
             WHERE id = :id";
 
-    $stmt = $this->connection->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -72,11 +76,13 @@ class User{
     return $stmt->rowCount();
   }
 
-  public function delete(string $id): int
+  public static function delete(string $id): int
   {
+    $connection = Database::get_instance()->get_connection();
+
     $sql = 'DELETE FROM users
             WHERE id = :id';
-    $stmt = $this->connection->prepare($sql);
+    $stmt = $connection->prepare($sql);
 
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
