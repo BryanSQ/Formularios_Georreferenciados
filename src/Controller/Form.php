@@ -3,7 +3,9 @@
 class FormController{
   public function __construct(){}
 
-
+  public function home(){
+    return json_encode(["message" => "Welcome to the form API"]);
+  }
 
   private function add_form(array $data){
 

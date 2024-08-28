@@ -25,7 +25,6 @@ class Form{
     $this->is_visible = $is_visible;    
   }
 
-  public function __construct(){}
 
   public function add_field(Field $field){
     $this->fields[] = $field;
