@@ -76,6 +76,25 @@ class FormController{
     return json_encode(["id" => $new_form->get_id()]);
   }
 
+  private function update_form(string $id, array $data){
+    $form = Form::read($id);
+    if (!$form){
+      return json_encode(["error" => "Form not found"]);
+    }
+
+    $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario
+
+    // el update no es estático, por lo que debo crear una instancia para usarlo. 
+    $form = new Form("", "", 0, false);
+    $updated_form = $form->update($updated_data);
+
+    if(!$updated_form){
+      return json_encode(["error" => "Failed to update form"]);
+    }
+
+    return json_encode(["id" => $id]);
+  }
+
   private function remove_form(string $id){    
     $is_deleted = Form::delete($id);
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
