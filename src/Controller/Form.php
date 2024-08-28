@@ -3,71 +3,13 @@
 class FormController{
   public function __construct(){}
 
-  public function process_request(string $method, ?string $id, ?string $code){
-    if ($id){
-      $this->process_resource_request($method, $id, $code);
-    }
-    else{
-      $this->process_collection_request($method);
-    }
-  }
 
-  private function process_resource_request(string $method, ?string $id, ?string $code){
-    switch ($method){
-      case "GET":
-        echo $this->get_form($id);
-        break;
-      case "DELETE":
-        echo $this->remove_form($id);
-        break;
-      case "PUT": 
-        $data = json_decode(file_get_contents("php://input"), true);
-        $errors = $this->get_validation_errors($data, false);
-  
-        if (!empty($errors)){
-          http_response_code(400);
-          echo json_encode(["errors" => $errors]);
-          break;
-        }
-  
-        echo $this->update_form($data);
-        break;
-      default:
-        http_response_code(405);
-        echo json_encode(["error" => "Method Not Allowed"]);
-        break;
-    }
-    
-  }
-
-  private function process_collection_request(string $method){
-    switch ($method) {
-      case "GET":        
-        http_response_code(201);
-        echo json_encode(["forms" => Form::get_all()]);
-        break;
-      
-      case "POST":
-        $data = json_decode(file_get_contents("php://input"), true);
-        $errors = $this->get_validation_errors($data);
-
-        if (!empty($errors)){
-          http_response_code(400);
-          echo json_encode(["errors" => $errors]);
-          break;
-        }
-
-        echo $this->add_form($data);
-        break;
-
-      default:
-        http_response_code(405);
-        echo json_encode(["error" => "Method Not Allowed"]);
-        break;
-    }
-  }
 
   private function add_form(array $data){
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+
     $name = $data["name"];
     $description = $data["description"];
     $is_visible = $data["is_visible"];
@@ -106,11 +48,9 @@ class FormController{
       return json_encode(["error" => "Form not found"]);
     }
 
-    $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario
-
-    // el update no es estático, por lo que debo crear una instancia para usarlo. 
-    $form = new Form("", "", 0, false);
-    $updated_form = $form->update($updated_data);
+    $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario 
+    
+    $updated_form = Form::update($updated_data);
 
     if(!$updated_form){
       return json_encode(["error" => "Failed to update form"]);
@@ -124,6 +64,29 @@ class FormController{
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
     // returns the result as a JSON string
     return json_encode($result);
+  }
+
+  // save the anwsers of a form
+  private function save_answer(array $data){
+
+    // data should contain the form_id, and an array of arrays with the field_id and the answer
+    // data = { 
+    //          form_id,
+    //          answers: [{field_id, answer}, {field_id, answer},...]
+    //        }
+
+    $form = Form::read($data["form_id"]);
+    if (!$form){
+      return json_encode(["error" => "Form not found"]);
+    }
+
+    $answers = $data["answers"];
+    foreach ($answers as $answer){
+      $field_id = $answer["field_id"];
+      $answer = $answer["answer"];
+      new Answer($field_id, $answer)->create();      
+    }
+    return json_encode(["success" => "Answers saved"]);
   }
 
   private function get_validation_errors(array $data, bool $is_new = true): array

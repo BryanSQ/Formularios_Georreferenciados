@@ -25,6 +25,7 @@ class Form{
     $this->is_visible = $is_visible;    
   }
 
+  public function __construct(){}
 
   public function add_field(Field $field){
     $this->fields[] = $field;
@@ -94,19 +95,22 @@ class Form{
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function update(array $data): void
+  public static function update(array $data): array
   {
+    $connection = Database::get_instance()->get_connection();
+
     $sql = "UPDATE forms 
             SET name = :name, description = :description, code = :code, is_visible = :is_visible 
             WHERE id = :id";
 
-    $stmt = $this->connection->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
     $stmt->bindParam(':description', $data['description'], PDO::PARAM_STR);
     $stmt->bindParam(':code', $data['code'], PDO::PARAM_STR);
     $stmt->bindParam(':is_visible', $data['is_visible'], PDO::PARAM_BOOL);
     $stmt->bindParam(':id', $data["id"], PDO::PARAM_INT);
     $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   public static function delete(string $id): int
