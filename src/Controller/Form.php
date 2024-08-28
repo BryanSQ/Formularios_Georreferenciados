@@ -14,6 +14,9 @@ class FormController{
 
   private function process_resource_request(string $method, ?string $id, ?string $code){
     switch ($method){
+      case "GET":
+        echo $this->get_form($id);
+        break;
       case "DELETE":
         echo $this->remove_form($id);
         break;
@@ -88,11 +91,14 @@ class FormController{
     return json_encode(["id" => $new_form->get_id()]);
   }
 
-  private function update_form(string $id, array $data){
+  private function get_form(string $id){
     $form = Form::read($id);
     if (!$form){
       return json_encode(["error" => "Form not found"]);
     }
+
+    return json_encode($form);
+  }
 
   private function update_form(array $data){
     $form = Form::read($data["id"]);
