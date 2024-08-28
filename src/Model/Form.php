@@ -94,7 +94,7 @@ class Form{
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function update(string $id, array $data): void
+  public function update(array $data): void
   {
     $sql = "UPDATE forms 
             SET name = :name, description = :description, code = :code, is_visible = :is_visible 
@@ -105,7 +105,7 @@ class Form{
     $stmt->bindParam(':description', $data['description'], PDO::PARAM_STR);
     $stmt->bindParam(':code', $data['code'], PDO::PARAM_STR);
     $stmt->bindParam(':is_visible', $data['is_visible'], PDO::PARAM_BOOL);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':id', $data["id"], PDO::PARAM_INT);
     $stmt->execute();
   }
 

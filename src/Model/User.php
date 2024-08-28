@@ -58,19 +58,16 @@ class User{
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function update(array $current, array $new): int
+  public function update(array $data): int
   {
     $sql = 'UPDATE users
             SET email = :email, password = :password
             WHERE id = :id';
     $stmt = $this->connection->prepare($sql);
 
-    $email = $new["email"] ?? $current["email"];
-    $password = $new["password"] ?? $current["password"];
-
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-    $stmt->bindParam(':id', $current['id'], PDO::PARAM_INT);
+    $stmt->bindParam(':email', $data["email"], PDO::PARAM_STR);
+    $stmt->bindParam(':password', $data["password"], PDO::PARAM_STR);
+    $stmt->bindParam(':id', $data["id"], PDO::PARAM_INT);
 
     $stmt->execute();
     return $stmt->rowCount();
