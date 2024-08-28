@@ -17,6 +17,18 @@ class FormController{
       case "DELETE":
         echo $this->remove_form($id);
         break;
+      case "PUT": 
+        $data = json_decode(file_get_contents("php://input"), true);
+        $errors = $this->get_validation_errors($data, false);
+  
+        if (!empty($errors)){
+          http_response_code(400);
+          echo json_encode(["errors" => $errors]);
+          break;
+        }
+  
+        echo $this->update_form($data);
+        break;
       default:
         http_response_code(405);
         echo json_encode(["error" => "Method Not Allowed"]);
@@ -82,6 +94,12 @@ class FormController{
       return json_encode(["error" => "Form not found"]);
     }
 
+  private function update_form(array $data){
+    $form = Form::read($data["id"]);
+    if (!$form){
+      return json_encode(["error" => "Form not found"]);
+    }
+
     $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario
 
     // el update no es estático, por lo que debo crear una instancia para usarlo. 
@@ -92,7 +110,7 @@ class FormController{
       return json_encode(["error" => "Failed to update form"]);
     }
 
-    return json_encode(["id" => $id]);
+    return json_encode(["id" => $updated_form["id"]]);
   }
 
   private function remove_form(string $id){    
