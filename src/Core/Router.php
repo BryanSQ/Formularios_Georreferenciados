@@ -11,8 +11,18 @@ class Router{
     ];
   }
 
-  private function parse_path(string $path){
-    return '/^' . str_replace(['{', '}'], ['(?P<', '>[a-zA-Z0-9-_]+)'], $path) . '$/';
+  public function get_routes(){
+    return $this->routes;
+  }
+
+
+  private function parse_path(string $path): string {        
+    // Escape forward slashes in the path
+    $escaped_path = str_replace('/', '\/', $path);
+    // Replace dynamic segments with named capturing groups
+    $pattern = str_replace(['{', '}'], ['(?P<', '>[a-zA-Z0-9\-_]+)'], $escaped_path);
+    // Return the complete regular expression pattern
+    return "/^{$pattern}$/";
   }
 
   public function get(string $path, string $controller){
@@ -36,15 +46,13 @@ class Router{
       if ($route["method"] === $method && preg_match($route["path"], $uri, $matches)){
         // Controller@method
         $handler = explode("@", $route["handler"]);
+      
         $controller = new $handler[0]();
-
         $controller_method = $handler[1];
-
         $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-
-
+            
         call_user_func_array([$controller, $controller_method], $params);
-
+    
         return;
       }
     }

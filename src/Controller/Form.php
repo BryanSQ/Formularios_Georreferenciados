@@ -4,7 +4,9 @@ class FormController{
   public function __construct(){}
 
   public function home(){
-    return json_encode(["message" => "Welcome to the form API"]);
+    http_response_code(200);
+    echo json_encode(["message" => "Welcome to the form API"]);
+    return;
   }
 
   private function add_form(array $data){
@@ -86,7 +88,8 @@ class FormController{
     foreach ($answers as $answer){
       $field_id = $answer["field_id"];
       $answer = $answer["answer"];
-      new Answer($field_id, $answer)->create();      
+      $new_answer = new Answer($field_id, $answer);
+      $new_answer->create();
     }
     return json_encode(["success" => "Answers saved"]);
   }
