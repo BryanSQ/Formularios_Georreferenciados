@@ -3,8 +3,8 @@ CREATE DATABASE IF NOT EXISTS formsSystem;
 USE formsSystem;
 CREATE TABLE User(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,
@@ -15,9 +15,10 @@ CREATE TABLE User(
 
 CREATE TABLE Form(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    description VARCHAR(255),
-    code VARCHAR(50) NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    code VARCHAR(6) NOT NULL UNIQUE,
+    is_visible BOOLEAN,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,
@@ -28,7 +29,7 @@ CREATE TABLE Form(
 
 CREATE TABLE Field_Type(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name TEXT NOT NULL,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,
@@ -41,7 +42,7 @@ CREATE TABLE Field(
     id INT AUTO_INCREMENT PRIMARY KEY,
     form_id INT NOT NULL,
     type_id INT NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    name TEXT NOT NULL,
     is_required BOOLEAN,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -56,7 +57,7 @@ CREATE TABLE Field(
 CREATE TABLE Answer(
     id INT AUTO_INCREMENT PRIMARY KEY,
     field_id INT,
-    answer VARCHAR(300),
+    answer TEXT,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,

@@ -1,0 +1,17 @@
+DELIMITER //
+
+CREATE FUNCTION generate_code()
+RETURNS CHAR(6)
+DETERMINISTIC
+BEGIN
+    DECLARE chars CHAR(62) DEFAULT '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    DECLARE result CHAR(6) DEFAULT '';
+    DECLARE i INT DEFAULT 0;
+    WHILE i < 6 DO
+        SET result = CONCAT(result, SUBSTRING(chars, FLOOR(1 + RAND() * 62), 1));
+        SET i = i + 1;
+    END WHILE;
+    RETURN result;
+END //
+
+DELIMITER ;

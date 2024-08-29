@@ -52,6 +52,27 @@ class Form{
   }
 
   // get a form with answers
+  public static function get_form_with_answers(string $id): array
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, Form.is_visible, Field.id, Field.name, Field_Type.name, Field.is_required, fields.options, Answer.id, answers.answer
+            FROM Form
+            JOIN Field ON Form.id = Field.form_id
+            JOIN Field_Type ON Field.type_id = Field_Type.id
+            JOIN Answer ON Field.id = Answer.field_id
+            WHERE Form.id =:id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $data = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $data[] = $row;
+    }
+    return $data;
+  }
 
 
   public function create(): string
