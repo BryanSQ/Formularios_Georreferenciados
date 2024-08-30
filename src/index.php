@@ -14,7 +14,7 @@ $database = Database::get_instance();
 
 $router = new Router();
 
-$router->get('/user', 'UserController@login');
+$router->post('/user', 'UserController@login');
 
 
 // $router->get('/forms', 'Form@get_form');

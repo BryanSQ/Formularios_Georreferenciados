@@ -11,8 +11,7 @@ class UserController{
       echo json_encode(["error" => "Email and password are required"]);
       return;
     }
-      
-      
+            
     $email = $data["email"];
     $password = $data["password"];
 
