@@ -86,4 +86,17 @@ class User{
     return $stmt->rowCount();
   }
 
+  public static function login(string $email, string $password): bool
+  {
+    $connection = Database::get_instance()->get_connection();
+    $sql = 'SELECT id FROM User
+            WHERE email = :email AND password = :password';
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
 }

@@ -8,12 +8,13 @@ require 'Core/Database.php';
 require 'Core/Router.php';
 
 require 'Controller/Form.php';
+require 'Controller/User.php';
 
 $database = Database::get_instance();
 
 $router = new Router();
 
-$router->get('/hola', 'FormController@home');
+$router->get('/user', 'UserController@login');
 
 
 // $router->get('/forms', 'Form@get_form');
