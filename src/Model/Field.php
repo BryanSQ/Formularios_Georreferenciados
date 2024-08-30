@@ -5,6 +5,7 @@ class Field{
   private string $name;
   private bool $is_required;
   private int $type_id;
+  private array $answers = [];
 
   private PDO $connection;
 
@@ -15,6 +16,15 @@ class Field{
     $this->connection = Database::get_instance()->get_connection();
   }
 
+  public function add_answer(Answer $answer)
+  {
+    $this->answers[] = $answer;
+  }
+
+  public function get_id(): int
+  {
+    return $this->id;
+  }
 
   public function create(int $form_id): string
   {

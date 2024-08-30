@@ -25,9 +25,18 @@ class Form{
     $this->is_visible = $is_visible;    
   }
 
-
-  public function add_field(Field $field){
+  public function add_field(Field $field)
+  {
     $this->fields[] = $field;
+  }
+  
+  public function get_a_field(int $field_id): Field
+  {
+    foreach ($this->fields as $field) {
+      if ($field->get_id() == $field_id) {
+        return $field;
+      }
+    }
   }
 
   // getters and setters
@@ -35,6 +44,18 @@ class Form{
   {
     return $this->id;
   }
+
+  // check if the form has a specific field with his id
+  public function has_field(int $field_id): bool
+  {
+    foreach ($this->fields as $field) {
+      if ($field->get_id() == $field_id) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
 
   // get all forms 
 
@@ -56,7 +77,7 @@ class Form{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, Form.is_visible, Field.id, Field.name, Field_Type.name, Field.is_required, fields.options, Answer.id, answers.answer
+    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, Form.is_visible, Field.id, Field.name, Field_Type.id, Field.is_required, Answer.id, Answer.answer
             FROM Form
             JOIN Field ON Form.id = Field.form_id
             JOIN Field_Type ON Field.type_id = Field_Type.id
