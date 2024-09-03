@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './styles/Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -12,17 +13,19 @@ function Login() {
     setPassword(event.target.value);
   }
 
-  const login = () => {
+  const login = (event) => {
     event.preventDefault();
     console.log('Logging in');
     const data = {
       username: username,
       password: password
     }
+    setUsername('');
+    setPassword('');
     console.log(data);
-
+  }	
     return (
-      <div>
+      <div className='main-login'>
         <h1>Iniciar sesión</h1>
         <form onSubmit={login}>
           <div>
@@ -40,7 +43,7 @@ function Login() {
         </form>
       </div>
     );
-  }
 }
+
 
 export default Login;

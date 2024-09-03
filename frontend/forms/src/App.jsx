@@ -1,5 +1,6 @@
 import CreateForm from './components/CreateForm'
 import AnswerView from './components/AnswerView'
+import Login from './components/Login'
 
 const formMock = {
   "form": {
@@ -78,8 +79,9 @@ function App() {
 
   return (
     <>
-      <CreateForm></CreateForm>
+      {/*<CreateForm></CreateForm>*/}
       {/* <AnswerView id={1} /> */}
+      <Login></Login>
     </>
   )
 }
