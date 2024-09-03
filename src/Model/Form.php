@@ -30,13 +30,15 @@ class Form{
     $this->fields[] = $field;
   }
   
-  public function get_a_field(int $field_id): Field
+  public function get_a_field(int $field_id): Field | null
   {
     foreach ($this->fields as $field) {
       if ($field->get_id() == $field_id) {
         return $field;
       }
     }
+    // No field found with the given field ID, return null or throw an exception depending on your requirements.
+    return null;
   }
 
   // getters and setters
@@ -62,7 +64,7 @@ class Form{
   public static function get_all(): array
   {
     // change * to the column names when the table is created
-    $sql = "SELECT id, name, description FROM forms";
+    $sql = "SELECT id, name, description FROM Form";
     $stmt = Database::get_instance()->get_connection()->query($sql);
 
     $data = [];
@@ -95,10 +97,33 @@ class Form{
     return $data;
   }
 
+  public static function get_fields(string $id): array
+  {
+    
+    $connection = Database::get_instance()->get_connection();
+    $sql = 'SELECT Field.id as field_id, Field.name as field_name, Field.is_required as is_required,
+                   Field_Type.id as type_id, Field_Type.name as type_name
+            FROM Form
+            JOIN Field ON Form.id = Field.form_id
+            JOIN Field_Type ON Field.type_id = Field_Type.id
+            WHERE Form.id = :id';
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $data = [];
+    // format data as data = ['form' =>[form data], 'fields' => [type => [type data], fields data]]
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $row["is_required"] = (bool) $row["is_required"];
+      $data[] = $row;
+    }
+    return $data;
+  }
+
 
   public function create(): string
   {
-    $sql = "INSERT INTO forms (name, description, code, is_visible) 
+    $sql = "INSERT INTO Form (name, description, code, is_visible) 
             VALUES (:name, :description, :code, :is_visible)";
             
     $stmt = $this->connection->prepare($sql);
@@ -122,25 +147,27 @@ class Form{
 
   // pending: read, update, delete
 
-  public static function read(string $id): array
+  public static function read(string $id): array | false
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT * FROM forms
+    $sql = "SELECT * FROM Form
             WHERE id = :id";
 
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $data;
   }
 
   public static function update(array $data): array
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "UPDATE forms 
+    $sql = "UPDATE Form 
             SET name = :name, description = :description, code = :code, is_visible = :is_visible 
             WHERE id = :id";
 
@@ -158,7 +185,7 @@ class Form{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "DELETE FROM forms 
+    $sql = "DELETE FROM Form 
             WHERE id = :id";
 
     $stmt = $connection->prepare($sql);

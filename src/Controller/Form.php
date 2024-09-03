@@ -1,15 +1,20 @@
 <?php
 
+require 'Model/Form.php';
+require 'Model/Field.php';
+require 'Model/Answer.php';
+
 class FormController{
   public function __construct(){}
 
-  public function home(){
+  public function home(string $id){
+    echo $id . PHP_EOL;
     http_response_code(200);
     echo json_encode(["message" => "Welcome to the form API"]);
     return;
   }
 
-  private function add_form(array $data){
+  public function add_form(array $data){
 
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -37,16 +42,42 @@ class FormController{
     return json_encode(["id" => $new_form->get_id()]);
   }
 
-  private function get_form(string $id){
+  public function get_form(string $id){
     $form = Form::read($id);
     if (!$form){
-      return json_encode(["error" => "Form not found"]);
+      echo json_encode(["error" => "Form not found"]);
+      return;
     }
-
-    return json_encode($form);
+    
+    echo json_encode($form);
+    return;
   }
 
-  private function update_form(array $data){
+  public function get_form_with_fields(string $id){
+    $form = Form::read($id);
+    if (!$form){
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+
+    $fields = Form::get_fields($id);
+
+    if (!$fields){
+      echo json_encode(["error" => "Form does not have fields"]);
+      return;
+    }
+    
+    $form_with_fields = [
+      'form' => $form,
+      'fields' => $fields,
+    ];
+
+    echo json_encode($form_with_fields);
+    return;
+  }
+
+
+  public function update_form(array $data){
     $form = Form::read($data["id"]);
     if (!$form){
       return json_encode(["error" => "Form not found"]);
@@ -63,7 +94,7 @@ class FormController{
     return json_encode(["id" => $updated_form["id"]]);
   }
 
-  private function remove_form(string $id){    
+  public function remove_form(string $id){    
     $is_deleted = Form::delete($id);
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
     // returns the result as a JSON string
@@ -71,7 +102,7 @@ class FormController{
   }
 
   // save the anwsers of a form
-  private function save_answer(array $data){
+  public function save_answer(array $data){
 
     // data should contain the form_id, and an array of arrays with the field_id and the answer
     // data = { 
@@ -94,7 +125,7 @@ class FormController{
     return json_encode(["success" => "Answers saved"]);
   }
 
-  private function get_validation_errors(array $data, bool $is_new = true): array
+  public function get_validation_errors(array $data, bool $is_new = true): array
   {
     $errors = [];
 
@@ -111,7 +142,7 @@ class FormController{
     return $errors;
   }
 
-  private function get_form_with_answers(string $id)
+  public function get_form_with_answers(string $id)
   {
     $data = Form::get_form_with_answers($id);
     if (!$data){

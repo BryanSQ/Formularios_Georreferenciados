@@ -5,6 +5,7 @@ class Field{
   private string $name;
   private bool $is_required;
   private int $type_id;
+  private int $form_id;
   private array $answers = [];
 
   private PDO $connection;
