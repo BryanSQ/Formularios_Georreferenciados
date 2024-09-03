@@ -1,46 +1,69 @@
-import { useState, useEffect } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import React, { useRef, useEffect, useState } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const Map = ({ latitude, longitude }) => {
-
+  const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
 
   useEffect(() => {
-    const mapInstance = window.L.map("map").setView([latitude, longitude], 8);
+    // Inicializa el mapa
+    const mapInstance = L.map(mapRef.current).setView([latitude, longitude], 9);
 
-    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap contributors",
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(mapInstance);
 
     setMap(mapInstance);
 
-    mapInstance.on("click", (e) => {
-      const { lat, lng } = e.latlng;
-      console.log({lat, lng});
-      if (marker) {
-        marker.setLatLng([lat, lng]).openPopup();
-      }
-      else{
-        const newMarker = window.L.marker([lat, lng]).addTo(mapInstance)
-          .bindPopup(`Marker at ${lat.toFixed(2)}, ${lng.toFixed(2)}`).openPopup();
-
-        setMarker(newMarker);
-      }
-    });
-
-    
-
+    // limpiar al desmontar
     return () => {
       mapInstance.remove();
     };
+  }, []);
 
-  }, [marker]);
+  useEffect(() => {
+    if (map) {
+      map.on('click', (e) => {
+        const { lat, lng } = e.latlng;
 
-  return(
-    <div id="map" style={{ height: "600px", width:"800px" }}>
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          const newMarker = L.marker([lat, lng]).addTo(map);
+          setMarker(newMarker);
+        }
 
+        // Actualiza la posición del marcador en el estado
+        setMarkerPosition({ lat, lng });
+      });
+    }
+
+    return () => {
+      if (map) {
+        map.off('click');
+      }
+    };
+  }, [map, marker]);
+
+  const handleGetCoordinates = () => {
+    if (markerPosition) {
+      alert(`Latitud: ${markerPosition.lat}, Longitud: ${markerPosition.lng}`);
+    } else {
+      alert('No hay marcador en el mapa.');
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ height: "600px", width: "800px" }}
+        ref={mapRef}
+      />
+      <button onClick={handleGetCoordinates}>
+        Obtener Coordenadas
+      </button>
     </div>
   );
 };
