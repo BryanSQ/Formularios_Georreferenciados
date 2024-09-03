@@ -1,7 +1,7 @@
 const List = ({id, options, addOption, handleChangeOptions, removeOption}) => {
 
   return (
-    <div>
+    <>
       {options.map((option, index) => (
         <div key={index}>
           <input
@@ -13,8 +13,8 @@ const List = ({id, options, addOption, handleChangeOptions, removeOption}) => {
           <button onClick={() => removeOption(id, index)}>Eliminar opción</button>
         </div>
       ))}
-      <button onClick={() => addOption(id)}>Add Option</button>
-    </div>
+      <button onClick={() => addOption(id)}>Agregar opción</button>
+    </>
   );
 
 }

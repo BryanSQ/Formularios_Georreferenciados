@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import Question from './Question';
+import "./CreateForm.css";
 
 function CreateForm() {
+  const [formTitle, setFormTitle] = useState('');
+  const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('short');
 
@@ -12,7 +15,6 @@ function CreateForm() {
 
   const handleAddQuestionClick = () => {
     addQuestion(selectedQuestion);
-    
   }
 
   const addQuestion = (type) => {
@@ -66,50 +68,65 @@ function CreateForm() {
   }
 
   const handleSubmit = () => {
-    console.log(questions);
+    const data = {
+      title: formTitle,
+      description: formDescription,
+      questions: questions
+    }
+    console.log(data);
   }
 
   return (
-    <div>
+    <div className='main-section'>
       <h1>Crear un formulario</h1>
-
-      <div>
-        <h3>Título del formulario:</h3>
-        <input type="text"></input>
-        <p>Descripción:</p>
-        <input type="text"></input>
+      <div className='form-header'>
+        <input className='title-input'
+          type="text"
+          placeholder='Título del formulario'
+          value={formTitle}
+          onChange={(e) => setFormTitle(e.target.value)}></input>
+        <input
+          className='description-input'
+          type="text"
+          placeholder='Descripción'
+          value={formDescription}
+          onChange={(e) => setFormDescription(e.target.value)}></input>
       </div>
 
-      <div>
+      <div className='add-question-section'>
         <h3>Agregar pregunta</h3>
-        <select value={selectedQuestion}
-          onChange={(e) => handleSelectChange(e.target.value)}>
-          <option value="short">Respuesta corta</option>
-          <option value="long">Párrafo</option>
-          <option value="dropdown">Desplegable</option>
-          <option value="checkbox">Casilla de verificación</option>
-          <option value="map">Mapa</option>
-        </select>
-        <button onClick={handleAddQuestionClick}>Agregar</button>
+        <div className='add-question'>
+          <select value={selectedQuestion}
+            onChange={(e) => handleSelectChange(e.target.value)}>
+            <option value="short">Respuesta corta</option>
+            <option value="long">Párrafo</option>
+            <option value="dropdown">Desplegable</option>
+            <option value="checkbox">Casilla de verificación</option>
+            <option value="map">Mapa</option>
+          </select>
+          <button onClick={handleAddQuestionClick}>Agregar</button>
+        </div>
       </div>
 
-      <div>
+      <div className='question-section'>
         <h3>Preguntas</h3>
-        {questions.map((question, index) => {
-          return (
-            <div key={index}>
-              <Question
-                type={question.type}
-                id={index}
-                handleDelete={handleDeleteQuestion}
-                handleChangeName={handleChangeName}
-                options={question.options}
-                addOption={addOption}
-                handleChangeOptions={handleChangeOptions}
-                removeOption={removeOption}></Question>
-            </div>
-          )
-        })}
+        <div className='questions'>
+          {questions.map((question, index) => {
+            return (
+              <div className='question-box' key={index}>
+                <Question
+                  type={question.type}
+                  id={index}
+                  handleDelete={handleDeleteQuestion}
+                  handleChangeName={handleChangeName}
+                  options={question.options}
+                  addOption={addOption}
+                  handleChangeOptions={handleChangeOptions}
+                  removeOption={removeOption}></Question>
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       <button onClick={handleSubmit}>Enviar</button>

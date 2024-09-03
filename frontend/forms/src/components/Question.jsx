@@ -39,7 +39,7 @@ const Question = (
     case 'map':
       question = (
         <div>
-          <p>Este es el mapa*</p>
+          <p>Visualización de mapa</p>
         </div>
       )
       break;
@@ -47,11 +47,11 @@ const Question = (
       break;
   }
   return (
-    <div>
+    <>
       <input type="text" placeholder='Pregunta' onChange={(e) => handleChangeName(id, e.target.value)}></input>
       {question}
-      <button onClick={() => handleDelete(id)}>Eliminar</button>
-    </div>
+      <button onClick={() => handleDelete(id)}>Eliminar pregunta</button>
+    </>
   )
 }
 
