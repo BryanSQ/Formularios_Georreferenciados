@@ -66,3 +66,10 @@ CREATE TABLE Answer(
     CONSTRAINT fk_answer_created_by FOREIGN KEY (created_by) REFERENCES User(id),
     CONSTRAINT fk_answer_updated_by FOREIGN KEY (updated_by) REFERENCES User(id)
 );
+
+CREATE TABLE `Option`(  
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    field_id int NOT NULL,
+    value VARCHAR(255),
+    CONSTRAINT fk_option_field_id FOREIGN KEY (field_id) REFERENCES Field(id)
+);

@@ -31,7 +31,7 @@ const AnswerView = ({ id }) => {
             .map((field, index) => (
               <FormField
                 key={index}
-                field={{ name: field.field_name, type: field.type_name, options: field.options || [] }}
+                field={{ name: field.name, type: field.type, options: field.options || [] }}
               />
             ))
         }

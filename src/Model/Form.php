@@ -101,23 +101,51 @@ class Form{
   {
     
     $connection = Database::get_instance()->get_connection();
-    $sql = 'SELECT Field.id as field_id, Field.name as field_name, Field.is_required as is_required,
-                   Field_Type.id as type_id, Field_Type.name as type_name
+    $sql = 'SELECT Field.id as field_id, 
+       Field.name as field_name,
+       Field.is_required as is_required,
+       Field_Type.id as type_id, Field_Type.name as type_name,
+       `Option`.id as option_id, `Option`.value as option_value
             FROM Form
             JOIN Field ON Form.id = Field.form_id
             JOIN Field_Type ON Field.type_id = Field_Type.id
+            LEFT JOIN `Option` ON Field.id = `Option`.field_id
             WHERE Form.id = :id';
 
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $data = [];
-    // format data as data = ['form' =>[form data], 'fields' => [type => [type data], fields data]]
+    
+    // group the fields by their id and add the options to the field
+
+    // make it follow this example: [fields: [{field_data}, {field_data}, ...]]
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $row["is_required"] = (bool) $row["is_required"];
-      $data[] = $row;
-    }
-    return $data;
+      $field_id = $row['field_id'];
+      if (!array_key_exists($field_id, $data)) {
+          $data[$field_id] = [
+              'id' => $field_id,
+              'name' => $row['field_name'],
+              'is_required' => $row['is_required'],
+              'type' => [
+                  'id' => $row['type_id'],
+                  'name' => $row['type_name']
+              ],
+              'options' => []
+          ];
+      }
+      if ($row['option_id']) {
+          $data[$field_id]['options'][] = [
+              'id' => $row['option_id'],
+              'value' => $row['option_value']
+          ];
+      }
+  }
+  
+  // Convert associative array to indexed array
+  $fields = array_values($data);
+  
+  return $fields;
   }
 
 
