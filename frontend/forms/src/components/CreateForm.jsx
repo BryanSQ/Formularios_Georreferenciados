@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Question from './Question';
-import ".styles/CreateForm.css";
+import './styles/CreateForm.css';
 
 function CreateForm() {
   const [formTitle, setFormTitle] = useState('');
