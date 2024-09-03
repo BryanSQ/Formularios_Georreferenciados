@@ -56,6 +56,7 @@ class FormController{
   public function get_form_with_fields(string $id){
     $form = Form::read($id);
     if (!$form){
+      http_response_code(404);
       echo json_encode(["error" => "Form not found"]);
       return;
     }
@@ -63,6 +64,7 @@ class FormController{
     $fields = Form::get_fields($id);
 
     if (!$fields){
+      http_response_code(404);
       echo json_encode(["error" => "Form does not have fields"]);
       return;
     }

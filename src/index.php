@@ -10,6 +10,11 @@ require 'Core/Router.php';
 require 'Controller/Form.php';
 require 'Controller/User.php';
 
+
+
+header("Content-type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+
 $database = Database::get_instance();
 
 $router = new Router();
