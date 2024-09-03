@@ -2,6 +2,7 @@ INSERT INTO Field_Type(name) VALUES('short'); -- id:2
 INSERT INTO Field_Type(name) VALUES('long'); -- id:3
 INSERT INTO Field_Type(name) VALUES('checkbox'); -- id:4
 INSERT INTO Field_Type(name) VALUES('select'); -- id:5
+INSERT INTO Field_Type(name) VALUES('map'); -- id:6
 
 INSERT INTO Form(name, description, is_visible) VALUES('Formulario de Prueba 2', 'Formulario de Prueba 2', false);
 
