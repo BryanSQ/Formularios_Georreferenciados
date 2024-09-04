@@ -78,6 +78,15 @@ class FormController{
     return;
   }
 
+  public function get_all_forms(){
+    $forms = Form::get_all();
+    if (!$forms){
+      return json_encode(["error" => "No forms found"]);
+    }
+    
+    return json_encode($forms);
+  }
+
 
   public function update_form(array $data){
     $form = Form::read($data["id"]);

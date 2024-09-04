@@ -1,0 +1,26 @@
+.admin-view {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.admin-view h1 {
+    text-align: center;
+}
+
+.admin-view .create-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    color: black;
+    cursor: pointer;
+}
+.admin-view .create-button:hover {
+    background-color: gray;
+    color: #fff;
+}
+
+.admin-view .forms-container {
+    margin-top: 60px;
+}

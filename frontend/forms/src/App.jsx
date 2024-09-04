@@ -2,6 +2,7 @@ import CreateForm from './components/CreateForm'
 import AnswerView from './components/AnswerView'
 import Login from './components/Login'
 import Map from './components/Map'
+import AdminView from './components/AdminView'
 
 const formMock = {
   "form": {
@@ -80,10 +81,11 @@ function App() {
 
   return (
     <>
-      <CreateForm></CreateForm>
+      {/*<CreateForm></CreateForm>*/}
       {/*<AnswerView id={1} />*/}
       {/* <Login></Login> */}
       {/* <Map latitude={9.6301892}  longitude={-84.2541844}/> */}
+      <AdminView></AdminView>
     </>
   )
 }
