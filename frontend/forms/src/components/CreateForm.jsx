@@ -7,6 +7,7 @@ function CreateForm() {
   const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('short');
+  const [isRequired, setIsRequired] = useState(false);
 
   const handleSelectChange = (value) => {
     setSelectedQuestion(value);
@@ -22,13 +23,15 @@ function CreateForm() {
       setQuestions([...questions, {
         type: type,
         name: "",
-        options: []
+        options: [],
+        isRequired: isRequired
       }]);
     }
     else {
       setQuestions([...questions, {
         type: type,
-        name: ""
+        name: "",
+        isRequired: isRequired
       }]);
     }
   }
@@ -64,6 +67,12 @@ function CreateForm() {
 
   const handleDeleteQuestion = (index) => {
     const newQuestions = questions.filter((_, i) => i !== index);
+    setQuestions(newQuestions);
+  }
+
+  const handleIsRequiredChange = (index) => {
+    const newQuestions = [...questions];
+    newQuestions[index].isRequired = !newQuestions[index].isRequired;
     setQuestions(newQuestions);
   }
 
@@ -117,12 +126,15 @@ function CreateForm() {
                 <Question
                   type={question.type}
                   id={index}
+                  questions={questions}
                   handleDelete={handleDeleteQuestion}
                   handleChangeName={handleChangeName}
                   options={question.options}
                   addOption={addOption}
                   handleChangeOptions={handleChangeOptions}
-                  removeOption={removeOption}></Question>
+                  removeOption={removeOption}
+                  handleIsRequiredChange={handleIsRequiredChange}>
+                  </Question>
               </div>
             )
           })}

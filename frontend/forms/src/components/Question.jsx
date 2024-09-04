@@ -3,13 +3,15 @@ import List from './questions/List';
 
 const Question = (
   { type, 
-    id, 
+    id,
+    questions,  
     handleDelete, 
     handleChangeName, 
     options, 
     addOption, 
     handleChangeOptions, 
-    removeOption 
+    removeOption,
+    handleIsRequiredChange 
   }) => {
 
   let question;
@@ -51,6 +53,11 @@ const Question = (
       <input type="text" placeholder='Pregunta' onChange={(e) => handleChangeName(id, e.target.value)}></input>
       {question}
       <button onClick={() => handleDelete(id)}>Eliminar pregunta</button>
+      <button onClick={() => handleIsRequiredChange(id)}>
+        Obligatoria:
+        {questions[id].isRequired ? ' Sí' : ' No'}
+        </button>
+      
     </>
   )
 }
