@@ -82,10 +82,10 @@ function App() {
   return (
     <>
       {/*<CreateForm></CreateForm>*/}
-      {/*<AnswerView id={1} />*/}
+      <AnswerView id={1} />
       {/* <Login></Login> */}
-      {/* <Map latitude={9.6301892}  longitude={-84.2541844}/> */}
-      <AdminView></AdminView>
+      {/* <Map/> */}
+      {/* <AdminView></AdminView> */}
     </>
   )
 }

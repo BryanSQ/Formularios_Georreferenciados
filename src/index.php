@@ -12,8 +12,27 @@ require 'Controller/User.php';
 
 
 
-header("Content-type: application/json; charset=UTF-8");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  header("Access-Control-Allow-Origin: *");
+  header("Access-Control-Allow-Headers: Content-Type, Authorization");
+  header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+  exit;
+}
+
+
+// Set the content type for responses
+header("Content-Type: application/json; charset=UTF-8");
+
+// Allow requests from any origin (adjust for security as needed)
 header("Access-Control-Allow-Origin: *");
+
+// Allow specific HTTP methods
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+
+// Allow specific headers (adjust if needed)
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+
 
 $database = Database::get_instance();
 
@@ -24,8 +43,8 @@ $router->post('/user', 'UserController@login');
 
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
-// $router->post('/forms', 'Form@add_form');
-// $router->put('/forms/{id}', 'Form@update_form');
+$router->post('/forms/{id}/answers', 'FormController@save_answer');
+$router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
 // $router->delete('/forms/{id}', 'Form@remove_form');
 
 

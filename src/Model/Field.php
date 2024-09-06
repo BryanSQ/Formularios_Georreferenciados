@@ -29,7 +29,7 @@ class Field{
 
   public function create(int $form_id): string
   {
-    $sql = "INSERT INTO fields (name, is_required, type, form_id) 
+    $sql = "INSERT INTO Field (name, is_required, type, form_id) 
             VALUES (:name, :is_required, :type_id, :form_id)";
             
     $stmt = $this->connection->prepare($sql);
@@ -45,5 +45,23 @@ class Field{
 
     return $this->id;
   }
+
+
+  public static function read(int $id): array | false
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "SELECT * FROM Field
+            WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $data;
+  }
+
 
 }

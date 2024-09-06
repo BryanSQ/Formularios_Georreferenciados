@@ -1,24 +1,17 @@
+import { Dropdown } from "./fields/Dropdown";
+import { Checkbox } from "./fields/Checkbox";
+
 const FormField = ({ field }) => {
-  console.log(field);
   return (
     <div>
       <label>{field.name}</label>      
       {
-        field.type.name === 'select' ? (
-          <select>
-            {field.options.map((option, index) => (
-              <option key={index} value={option.value}>{option.value}</option>
-            ))}
-          </select>
-        ) : field.type.name === 'checkbox' ? (
-          field.options.map((option, index) => (
-            <div key={index}>
-              <input type="checkbox" id={option.value} name={field.name} value={option.value} />
-              <label htmlFor={option.value}>{option.value}</label>
-            </div>
-          ))
-        ) : (
-          <input type={field.type} />
+        field.type.name === 'select' 
+        ? ( <Dropdown field={field} />)  
+        : field.type.name === 'checkbox' 
+          ? ( <Checkbox field={field} /> ) 
+            // If the field is not a select or a checkbox, render a simple input element
+          : ( <input id={field.id} name={field.name} type={field.type.name} />
         )
       }
     </div>
