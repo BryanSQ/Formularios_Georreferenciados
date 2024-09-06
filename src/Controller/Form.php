@@ -113,27 +113,38 @@ class FormController{
   }
 
   // save the anwsers of a form
-  public function save_answer(array $data){
+  public function save_answer(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
 
     // data should contain the form_id, and an array of arrays with the field_id and the answer
     // data = { 
     //          form_id,
-    //          answers: [{field_id, answer}, {field_id, answer},...]
+    //          fields: [{field_id, answer}, {field_id, answer},...]
     //        }
 
-    $form = Form::read($data["form_id"]);
+    $form = Form::read($id);
     if (!$form){
       return json_encode(["error" => "Form not found"]);
     }
 
-    $answers = $data["answers"];
-    foreach ($answers as $answer){
-      $field_id = $answer["field_id"];
-      $answer = $answer["answer"];
+    $fields = $data["fields"];
+    foreach ($fields as $field){
+      $field_id = $field["field_id"];
+
+      $field_exists = Field::read($field_id);
+
+      if (!$field_exists){
+        return json_encode(["error" => "Field not found"]);
+      }
+      
+      $answer = $field["answer"];
+
       $new_answer = new Answer($field_id, $answer);
+      
       $new_answer->create();
     }
-    return json_encode(["success" => "Answers saved"]);
+    echo json_encode(["success" => "Answers saved"]);
+    return;
   }
 
   public function get_validation_errors(array $data, bool $is_new = true): array

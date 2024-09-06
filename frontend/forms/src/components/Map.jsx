@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const Map = ({ latitude, longitude }) => {
+const Map = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
@@ -10,7 +10,7 @@ const Map = ({ latitude, longitude }) => {
 
   useEffect(() => {
     // Inicializa el mapa
-    const mapInstance = L.map(mapRef.current).setView([latitude, longitude], 9);
+    const mapInstance = L.map(mapRef.current).setView([9.6301892, -84.2541844], 9);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
