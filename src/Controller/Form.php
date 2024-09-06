@@ -3,18 +3,18 @@
 require 'Model/Form.php';
 require 'Model/Field.php';
 require 'Model/Answer.php';
+require 'Model/Option.php';
 
 class FormController{
   public function __construct(){}
 
-  public function home(string $id){
-    echo $id . PHP_EOL;
+  public function home(){
     http_response_code(200);
     echo json_encode(["message" => "Welcome to the form API"]);
     return;
   }
 
-  public function add_form(array $data){
+  public function add_form(){
 
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -34,6 +34,15 @@ class FormController{
 
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
+
+      if ($field_type === "select" || $field_type === "checkbox"){ {
+        $options = $field["options"];
+        foreach ($options as $option){
+          $new_option = new Option($option);
+          $new_field->add_option($new_option);
+        }
+      }
+
     }
 
     $new_form->create();
@@ -41,6 +50,7 @@ class FormController{
     // returns the new form ID as a JSON string
     return json_encode(["id" => $new_form->get_id()]);
   }
+}
 
   public function get_form(string $id){
     $form = Form::read($id);

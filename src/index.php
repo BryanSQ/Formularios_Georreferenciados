@@ -40,6 +40,7 @@ $router = new Router();
 
 $router->post('/user', 'UserController@login');
 
+$router->get('/home', 'FormController@home');
 
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');

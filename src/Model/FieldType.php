@@ -10,6 +10,17 @@ class FieldType{
     $this->connection = Database::get_instance()->get_connection();
   }
 
+  static function get_id_by_name(string $name){
+    $connection = Database::get_instance()->get_connection();
+    $sql = "SELECT id FROM Field_Type WHERE name = :name";
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(":name", $name, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row["id"];
+  }
+
   public function create(): string
   {
     $sql = "INSERT INTO field_types (name) 

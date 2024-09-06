@@ -82,7 +82,7 @@ function CreateForm() {
       description: formDescription,
       questions: questions
     }
-    console.log(data);
+    console.log(JSON.stringify(data));
   }
 
   return (
