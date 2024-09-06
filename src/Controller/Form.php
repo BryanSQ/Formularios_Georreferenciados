@@ -48,7 +48,8 @@ class FormController{
     $new_form->create();
 
     // returns the new form ID as a JSON string
-    return json_encode(["id" => $new_form->get_id()]);
+    echo json_encode(["id" => $new_form->get_id()]);
+    return;
   }
 }
 
@@ -91,18 +92,19 @@ class FormController{
   public function get_all_forms(){
     $forms = Form::get_all();
     if (!$forms){
-      return json_encode(["error" => "No forms found"]);
+      echo json_encode(["error" => "No forms found"]);
+      return;
     }
     
     echo json_encode($forms);
     return;
   }
 
-
   public function update_form(array $data){
     $form = Form::read($data["id"]);
     if (!$form){
-      return json_encode(["error" => "Form not found"]);
+      echo json_encode(["error" => "Form not found"]);
+      return;
     }
 
     $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario 
@@ -110,10 +112,12 @@ class FormController{
     $updated_form = Form::update($updated_data);
 
     if(!$updated_form){
-      return json_encode(["error" => "Failed to update form"]);
+      echo json_encode(["error" => "Failed to update form"]);
+      return;
     }
 
-    return json_encode(["id" => $updated_form["id"]]);
+    echo json_encode(["id" => $updated_form["id"]]);
+    return;
   }
 
   public function remove_form(string $id){    
@@ -147,7 +151,8 @@ class FormController{
       $field_exists = Field::read($field_id);
 
       if (!$field_exists){
-        return json_encode(["error" => "Field not found"]);
+        echo json_encode(["error" => "Field not found"]);
+        return;
       }
       
       $answer = $field["answer"];
