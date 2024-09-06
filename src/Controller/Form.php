@@ -83,7 +83,8 @@ class FormController{
       return json_encode(["error" => "No forms found"]);
     }
     
-    return json_encode($forms);
+    echo json_encode($forms);
+    return;
   }
 
 
@@ -108,7 +109,8 @@ class FormController{
     $is_deleted = Form::delete($id);
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
     // returns the result as a JSON string
-    return json_encode($result);
+    echo json_encode($result);
+    return;
   }
 
   // save the anwsers of a form
@@ -123,7 +125,8 @@ class FormController{
 
     $form = Form::read($id);
     if (!$form){
-      return json_encode(["error" => "Form not found"]);
+      echo json_encode(["error" => "Form not found"]);
+      return;
     }
 
     $fields = $data["fields"];
