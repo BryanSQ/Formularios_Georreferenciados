@@ -7,8 +7,7 @@ require 'Model/Answer.php';
 class FormController{
   public function __construct(){}
 
-  public function home(string $id){
-    echo $id . PHP_EOL;
+  public function home(){
     http_response_code(200);
     echo json_encode(["message" => "Welcome to the form API"]);
     return;
