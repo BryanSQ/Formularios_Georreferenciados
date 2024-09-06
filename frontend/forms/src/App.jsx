@@ -82,10 +82,10 @@ function App() {
   return (
     <>
       {/*<CreateForm></CreateForm>*/}
-      <AnswerView id={1} />
+      {/* <AnswerView id={1} /> */}
       {/* <Login></Login> */}
       {/* <Map/> */}
-      {/* <AdminView></AdminView> */}
+       <AdminView></AdminView> 
     </>
   )
 }
