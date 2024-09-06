@@ -22,7 +22,7 @@ const Question = (
     case 'long':
       question = <Text option="larga"></Text>
       break;
-    case 'dropdown':
+    case 'select':
       question = <List
         id={id}
         options={options}

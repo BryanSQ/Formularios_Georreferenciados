@@ -85,7 +85,7 @@ function App() {
       {/* <AnswerView id={1} /> */}
       {/* <Login></Login> */}
       {/* <Map/> */}
-      {/* <AdminView></AdminView> */}
+       <AdminView></AdminView> 
     </>
   )
 }

@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import Question from './Question';
 import './styles/CreateForm.css';
 
-function CreateForm() {
-  const [formTitle, setFormTitle] = useState('');
+function EditForm({ id }) {
+  //const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+
+
+  const [formTitle, setFormTitle] = useState(data.form.title);
   const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('short');
@@ -19,7 +22,7 @@ function CreateForm() {
   }
 
   const addQuestion = (type) => {
-    if (type === "select" || type === "checkbox") {
+    if (type === "dropdown" || type === "checkbox") {
       setQuestions([...questions, {
         type: type,
         name: "",
@@ -82,7 +85,7 @@ function CreateForm() {
       description: formDescription,
       questions: questions
     }
-    console.log(JSON.stringify(data));
+    console.log(data);
   }
 
   return (
@@ -109,7 +112,7 @@ function CreateForm() {
             onChange={(e) => handleSelectChange(e.target.value)}>
             <option value="short">Respuesta corta</option>
             <option value="long">Párrafo</option>
-            <option value="select">Desplegable</option>
+            <option value="dropdown">Desplegable</option>
             <option value="checkbox">Casilla de verificación</option>
             <option value="map">Mapa</option>
           </select>
@@ -146,4 +149,4 @@ function CreateForm() {
   );
 }
 
-export default CreateForm;
+export default EditForm;
