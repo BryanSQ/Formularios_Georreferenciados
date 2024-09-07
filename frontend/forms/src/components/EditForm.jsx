@@ -3,7 +3,10 @@ import Question from './Question';
 import './styles/CreateForm.css';
 
 function EditForm({ id }) {
-  const [formTitle, setFormTitle] = useState('');
+  //const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+
+
+  const [formTitle, setFormTitle] = useState(data.form.title);
   const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('short');

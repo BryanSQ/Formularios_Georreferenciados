@@ -8,6 +8,8 @@ class Field{
   private int $form_id;
   private array $answers = [];
 
+  private array $options = [];
+
   private PDO $connection;
 
   public function __construct(string $name, bool $is_required, int $type){
@@ -20,6 +22,11 @@ class Field{
   public function add_answer(Answer $answer)
   {
     $this->answers[] = $answer;
+  }
+
+  public function add_option(Option $option)
+  {
+    $this->options[] = $option;
   }
 
   public function get_id(): int
@@ -42,6 +49,11 @@ class Field{
     $stmt->execute();
 
     $this->id = $this->connection->lastInsertId();
+
+    foreach ($this->options as $option) {
+      $option->create($this->id);
+    }
+
 
     return $this->id;
   }

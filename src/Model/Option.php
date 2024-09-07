@@ -6,8 +6,7 @@ class Option{
   private $value;
   private $connection;
 
-  public function __construct($field_id, $value){    
-    $this->field_id = $field_id;
+  public function __construct($value){
     $this->value = $value;
     $this->connection = Database::get_instance()->get_connection();
   }
@@ -28,14 +27,14 @@ class Option{
   }
 
 
-  public function create(): string
+  public function create(int $field_id): string
   {
     $sql = "INSERT INTO Option (field_id, value)
             VALUES (:field_id, :value)";
     
     $stmt = $this->connection->prepare($sql);
     
-    $stmt->bindParam(':field_id', $this->field_id, PDO::PARAM_INT);
+    $stmt->bindParam(':field_id', $field_id, PDO::PARAM_INT);
     $stmt->bindParam(':value', $this->value, PDO::PARAM_STR);
     
     $stmt->execute();

@@ -19,7 +19,7 @@ function CreateForm() {
   }
 
   const addQuestion = (type) => {
-    if (type === "dropdown" || type === "checkbox") {
+    if (type === "select" || type === "checkbox") {
       setQuestions([...questions, {
         type: type,
         name: "",
@@ -82,7 +82,7 @@ function CreateForm() {
       description: formDescription,
       questions: questions
     }
-    console.log(data);
+    console.log(JSON.stringify(data));
   }
 
   return (
@@ -109,7 +109,7 @@ function CreateForm() {
             onChange={(e) => handleSelectChange(e.target.value)}>
             <option value="short">Respuesta corta</option>
             <option value="long">Párrafo</option>
-            <option value="dropdown">Desplegable</option>
+            <option value="select">Desplegable</option>
             <option value="checkbox">Casilla de verificación</option>
             <option value="map">Mapa</option>
           </select>

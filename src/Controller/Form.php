@@ -3,6 +3,7 @@
 require 'Model/Form.php';
 require 'Model/Field.php';
 require 'Model/Answer.php';
+require 'Model/Option.php';
 
 class FormController{
   public function __construct(){}
@@ -13,7 +14,7 @@ class FormController{
     return;
   }
 
-  public function add_form(array $data){
+  public function add_form(){
 
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -33,13 +34,24 @@ class FormController{
 
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
+
+      if ($field_type === "select" || $field_type === "checkbox"){ {
+        $options = $field["options"];
+        foreach ($options as $option){
+          $new_option = new Option($option);
+          $new_field->add_option($new_option);
+        }
+      }
+
     }
 
     $new_form->create();
 
     // returns the new form ID as a JSON string
-    return json_encode(["id" => $new_form->get_id()]);
+    echo json_encode(["id" => $new_form->get_id()]);
+    return;
   }
+}
 
   public function get_form(string $id){
     $form = Form::read($id);
@@ -80,6 +92,7 @@ class FormController{
   public function get_all_forms(){
     $forms = Form::get_all();
     if (!$forms){
+
       http_response_code(404);
       echo json_encode(["error" => "No forms found"]);
       return;
@@ -89,11 +102,11 @@ class FormController{
     return;
   }
 
-
   public function update_form(array $data){
     $form = Form::read($data["id"]);
     if (!$form){
-      return json_encode(["error" => "Form not found"]);
+      echo json_encode(["error" => "Form not found"]);
+      return;
     }
 
     $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario 
@@ -101,10 +114,12 @@ class FormController{
     $updated_form = Form::update($updated_data);
 
     if(!$updated_form){
-      return json_encode(["error" => "Failed to update form"]);
+      echo json_encode(["error" => "Failed to update form"]);
+      return;
     }
 
-    return json_encode(["id" => $updated_form["id"]]);
+    echo json_encode(["id" => $updated_form["id"]]);
+    return;
   }
 
   public function remove_form(string $id){    
@@ -138,7 +153,8 @@ class FormController{
       $field_exists = Field::read($field_id);
 
       if (!$field_exists){
-        return json_encode(["error" => "Field not found"]);
+        echo json_encode(["error" => "Field not found"]);
+        return;
       }
       
       $answer = $field["answer"];
