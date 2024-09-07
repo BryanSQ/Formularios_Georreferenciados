@@ -46,7 +46,7 @@ $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->post('/forms/{id}/answers', 'FormController@save_answer');
 $router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
 $router->get('/forms', 'FormController@get_all_forms');
-// $router->delete('/forms/{id}', 'Form@remove_form');
+$router->delete('/forms/{id}', 'FormController@remove_form');
 
 
 

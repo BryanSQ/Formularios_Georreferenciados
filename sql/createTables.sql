@@ -48,8 +48,8 @@ CREATE TABLE Field(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_field_form_id FOREIGN KEY (form_id) REFERENCES Form(id),
-    CONSTRAINT fk_field_field_type_id FOREIGN KEY (type_id) REFERENCES Field_Type(id),
+    CONSTRAINT fk_field_form_id FOREIGN KEY (form_id) REFERENCES Form(id) ON DELETE CASCADE,
+    CONSTRAINT fk_field_field_type_id FOREIGN KEY (type_id) REFERENCES Field_Type(id) ON DELETE CASCADE,
     CONSTRAINT fk_field_created_by FOREIGN KEY (created_by) REFERENCES User(id),
     CONSTRAINT fk_field_updated_by FOREIGN KEY (updated_by) REFERENCES User(id)
 );
@@ -62,7 +62,7 @@ CREATE TABLE Answer(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by INT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_answer_field_id FOREIGN KEY (field_id) REFERENCES Field(id),
+    CONSTRAINT fk_answer_field_id FOREIGN KEY (field_id) REFERENCES Field(id) ON DELETE CASCADE,
     CONSTRAINT fk_answer_created_by FOREIGN KEY (created_by) REFERENCES User(id),
     CONSTRAINT fk_answer_updated_by FOREIGN KEY (updated_by) REFERENCES User(id)
 );
@@ -71,5 +71,5 @@ CREATE TABLE `Option`(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     field_id int NOT NULL,
     value VARCHAR(255),
-    CONSTRAINT fk_option_field_id FOREIGN KEY (field_id) REFERENCES Field(id)
+    CONSTRAINT fk_option_field_id FOREIGN KEY (field_id) REFERENCES Field(id) ON DELETE CASCADE
 );

@@ -1,10 +1,8 @@
 import './styles/AdminForm.css';
 
-function AdminForm({ form }) {
+function AdminForm({ form, handleDelete }) {
+    
 
-    const handleDelete = () => {
-        console.log('Eliminar', {"formd.id" : form.id});
-    }
     return (
         <div className="forms">
             <h2>{form.name}</h2>
@@ -12,7 +10,7 @@ function AdminForm({ form }) {
             <p>{form.is_visible ? 'Visible' : 'No visible'}</p>
             <div className="buttons">
                 <button>Editar</button>
-                <button onClick={handleDelete}>Eliminar</button>
+                <button onClick={() => handleDelete(form.id)}>Eliminar</button>
             </div>
         </div>
     );

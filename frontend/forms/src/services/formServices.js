@@ -16,3 +16,15 @@ export const sendAnswer = async (id, data) => {
   return response.json();
 };
 
+export const deleteForm = async (id) => {
+  const response = await fetch(`${URL}/forms/${id}`, {
+    method: 'DELETE'
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al eliminar el formulario');
+  }
+
+  return response.json();
+}
+
