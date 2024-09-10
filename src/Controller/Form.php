@@ -92,6 +92,8 @@ class FormController{
   public function get_all_forms(){
     $forms = Form::get_all();
     if (!$forms){
+
+      http_response_code(404);
       echo json_encode(["error" => "No forms found"]);
       return;
     }
