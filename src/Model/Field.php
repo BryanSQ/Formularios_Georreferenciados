@@ -73,4 +73,27 @@ class Field{
 
     return $data;
   }
+
+  public static function get_maps(): array | false{
+    $connection = Database::get_instance()->get_connection();
+
+    $map_id_query = 'SELECT id FROM Field_Type
+            WHERE name = "map" OR name = "MAP"';
+
+    // query only fields with map type
+    $sql = "SELECT Answer.answer as answer, Field.name as field_name
+        FROM Field
+        JOIN Answer ON Field.id = Answer.field_id
+        WHERE Field.type_id = ({$map_id_query})";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->execute();
+
+    $data = [];
+    
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $data[] = $row;
+    }
+    return $data;
+  }
 }
