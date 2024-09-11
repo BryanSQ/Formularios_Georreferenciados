@@ -34,7 +34,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
 
-$database = Database::get_instance();
+// $database = Database::get_instance();
 
 $router = new Router();
 
