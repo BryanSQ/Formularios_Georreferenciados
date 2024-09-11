@@ -15,9 +15,7 @@ class FormController{
   }
 
   public function add_form(){
-
     $data = json_decode(file_get_contents("php://input"), true);
-
 
     $name = $data["name"];
     $description = $data["description"];
@@ -34,25 +32,21 @@ class FormController{
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
 
-      if ($field_type === "select" || $field_type === "checkbox"){ {
+      if ($field_type === 4 || $field_type === 3){ 
         $options = $field["options"];
         foreach ($options as $option){
           $new_option = new Option($option);
           $new_field->add_option($new_option);
         }
       }
-
     }
 
     $new_form_id = $new_form->create();
-
-
 
     // returns the new form ID as a JSON string
     echo json_encode(["id" => $new_form_id]);
     return;
   }
-}
 
   public function get_form(string $id){
     $form = Form::read($id);
