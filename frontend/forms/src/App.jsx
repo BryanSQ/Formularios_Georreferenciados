@@ -11,7 +11,7 @@ function App() {
       {/* <CreateForm></CreateForm> */}
       {/* <AnswerView id={1} /> */}
       {/* <Login></Login> */}
-      <Map/>
+      {/* <Map/> */}
       {/* <AdminView></AdminView>  */}
     </>
   )

@@ -168,59 +168,8 @@ class FormController{
     return;
   }
 
-  public function get_validation_errors(array $data, bool $is_new = true): array
-  {
-    $errors = [];
-
-    if ($is_new && empty($data["name"])) {
-      $errors[] = "name is required";
-    }
-
-    if (array_key_exists("size", $data)) {
-      if (filter_var($data["size"], FILTER_VALIDATE_INT) === false) {
-        $errors[] = "size must be an integer";
-      }
-    }
-
-    return $errors;
-  }
-
-  public function get_form_with_answers(string $id)
-  {
-    $data = Form::get_form_with_answers($id);
-    if (!$data){
-      return json_encode(["error" => "Form not found"]);
-    }
-
-    $id = $data[0]["id"];
-    $name = $data[0]["name"];
-    $description = $data[0]["description"];
-    $code = $data[0]["code"];
-    $is_visible = $data[0]["is_visible"];
-    $form = new Form($name, $description, $code, $is_visible);
+  public function get_map_results(){
     
-    foreach($data as $row){
-      $field_id = $row["Field.id"];
-      
-      if(!$form->has_field($field_id)){
-        $field_name = $row["Field.name"];
-        $field_is_required = $row["Field.is_required"];
-        $field_type = $row["Field_Type.id"];
-        $field = new Field($field_id, $field_name, $field_is_required, $field_type);
-        $anser_id = $row["Answer.id"];
-        $answer = $row["Answer.answer"];
-        
-        $field->add_answer(new Answer($anser_id, $field_id, $answer));
-        $form->add_field($field);
-      } else { 
-        $field = $form->get_a_field($field_id);
-        $anser_id = $row["Answer.id"];
-        $answer = $row["Answer.answer"];
-        $field->add_answer(new Answer($anser_id, $field_id, $answer));
-      
-      }
-    }
-    return json_encode($form);
   }
 
 }
