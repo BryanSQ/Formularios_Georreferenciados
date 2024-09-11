@@ -10,9 +10,9 @@ function App() {
     <>
       {/* <CreateForm></CreateForm> */}
       {/* <AnswerView id={1} /> */}
-      {/* <Login></Login> */}
+       {/*<Login></Login>*/} 
       {/* <Map/> */}
-      {/* <AdminView></AdminView>  */}
+      <AdminView></AdminView> 
     </>
   )
 }

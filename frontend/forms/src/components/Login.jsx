@@ -1,49 +1,53 @@
 import { useState } from 'react';
 import './styles/Login.css';
+import { login } from '../services/userServices';
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   }
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
 
-  const login = (event) => {
+  const submitlogin = (event) => {
     event.preventDefault();
-    console.log('Logging in');
+    //console.log('Logging in');
     const data = {
-      username: username,
+      email: email,
       password: password
     }
-    setUsername('');
-    setPassword('');
-    console.log(data);
-  }	
-    return (
+    login(data).then(() => {
+      console.log('Logged in');
+      setPassword('');
+      setEmail('');
+    }).catch((error) => {
+      console.error('Error logging in', error);
+    });
+  }
+
+  return (
       <div className='main-login'>
         <h1>Iniciar sesión</h1>
-        <form onSubmit={login}>
+        <form onSubmit={submitlogin}>
           <div>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <br />
-            <input type="username" id="username" name="username" value={username} onChange={handleUsernameChange} />
+            <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <br />
             <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} />
           </div>
-
           <button type="submit">Iniciar sesión</button>
         </form>
       </div>
     );
 }
-
 
 export default Login;
