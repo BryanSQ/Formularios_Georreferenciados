@@ -41,6 +41,7 @@ export const createForm = async (data) => {
     throw new Error('Error al crear el formulario');
   }
 
-  return response.json();
+  
+  return response;
 }
 

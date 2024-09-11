@@ -44,10 +44,12 @@ class FormController{
 
     }
 
-    $new_form->create();
+    $new_form_id = $new_form->create();
+
+
 
     // returns the new form ID as a JSON string
-    echo json_encode(["id" => $new_form->get_id()]);
+    echo json_encode(["id" => $new_form_id]);
     return;
   }
 }

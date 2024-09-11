@@ -8,11 +8,11 @@ function App() {
 
   return (
     <>
-      <CreateForm></CreateForm>
+      {/* <CreateForm></CreateForm> */}
       {/* <AnswerView id={1} /> */}
       {/* <Login></Login> */}
-      {/* <Map/> */}
-      <AdminView></AdminView> 
+      <Map/>
+      {/* <AdminView></AdminView>  */}
     </>
   )
 }
