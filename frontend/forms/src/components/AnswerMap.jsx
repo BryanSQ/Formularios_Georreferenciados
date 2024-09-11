@@ -58,7 +58,7 @@ const AnswerMap = () => {
 
   return (
     <div>
-      <div style={{ height: "600px", width: "800px" }}
+      <div style={{ height: '400px' }}
         ref={mapRef}
       />
       <button onClick={handleGetCoordinates}>
