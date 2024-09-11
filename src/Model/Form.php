@@ -18,10 +18,9 @@ class Form{
   private array $fields = [];
 
 
-  public function __construct(string $name, string $description, string $code, bool $is_visible){
+  public function __construct(string $name, string $description, bool $is_visible){
     $this->name = $name;
     $this->description = $description;
-    $this->code = $code;
     $this->is_visible = $is_visible;    
   }
 
@@ -151,14 +150,15 @@ class Form{
 
   public function create(): string
   {
-    $sql = "INSERT INTO Form (name, description, code, is_visible) 
-            VALUES (:name, :description, :code, :is_visible)";
+    $this->connection = Database::get_instance()->get_connection();
+    
+    $sql = "INSERT INTO Form (name, description, is_visible) 
+            VALUES (:name, :description, :is_visible)";
             
     $stmt = $this->connection->prepare($sql);
     
     $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
     $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
-    $stmt->bindParam(':code', $this->code, PDO::PARAM_STR);
     $stmt->bindParam(':is_visible', $this->is_visible, PDO::PARAM_BOOL);
 
     $stmt->execute();

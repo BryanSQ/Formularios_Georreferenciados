@@ -16,13 +16,13 @@ const Question = (
 
   let question;
   switch (type) {
-    case 'short':
+    case '1':
       question = <Text option="corta"></Text>
       break;
-    case 'long':
+    case '2':
       question = <Text option="larga"></Text>
       break;
-    case 'select':
+    case '4':
       question = <List
         id={id}
         options={options}
@@ -30,7 +30,7 @@ const Question = (
         handleChangeOptions={handleChangeOptions}
         removeOption={removeOption}></List>
       break;
-    case 'checkbox':
+    case '3':
       question = <List
         id={id}
         options={options}
@@ -38,7 +38,7 @@ const Question = (
         handleChangeOptions={handleChangeOptions}
         removeOption={removeOption}></List>
       break;
-    case 'map':
+    case '5':
       question = (
         <div>
           <p>Visualización de mapa</p>
@@ -55,7 +55,7 @@ const Question = (
       <button onClick={() => handleDelete(id)}>Eliminar pregunta</button>
       <button onClick={() => handleIsRequiredChange(id)}>
         Obligatoria:
-        {questions[id].isRequired ? ' Sí' : ' No'}
+        {questions[id].is_required ? ' Sí' : ' No'}
         </button>
       
     </>

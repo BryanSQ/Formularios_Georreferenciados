@@ -22,15 +22,14 @@ class FormController{
     $name = $data["name"];
     $description = $data["description"];
     $is_visible = $data["is_visible"];
-    $code = $data["code"];
 
-    $new_form = new Form($name, $description, $code, $is_visible);
+    $new_form = new Form($name, $description, $is_visible);
 
     $fields = $data["fields"];
     foreach ($fields as $field){
       $field_name = $field["name"];
       $field_is_required = $field["is_required"];
-      $field_type = $field["type"];
+      $field_type = $field["type_id"];
 
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
