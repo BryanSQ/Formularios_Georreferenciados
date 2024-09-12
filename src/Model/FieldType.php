@@ -21,6 +21,24 @@ class FieldType{
     return $row["id"];
   }
 
+  static function get_all(){
+    $connection = Database::get_instance()->get_connection();
+    $sql = "SELECT * FROM Field_Type";
+    $stmt = $connection->prepare($sql);
+    $stmt->execute();
+
+    $field_types = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      // get id and name from the row
+      $field_types[] = [
+        "id" => $row["id"],
+        "name" => $row["name"]
+      ];
+    }
+
+    return $field_types;
+  }
+
   public function create(): string
   {
     $sql = "INSERT INTO field_types (name) 

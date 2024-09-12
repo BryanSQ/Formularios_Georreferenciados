@@ -9,6 +9,7 @@ require 'Core/Router.php';
 
 require 'Controller/Form.php';
 require 'Controller/User.php';
+require 'Controller/FieldType.php';
 
 
 
@@ -45,6 +46,7 @@ $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/results/map', 'FormController@get_map_results');
+$router->get('/fields', 'FieldTypeController@get_field_types');
 
 $router->get('/forms/{id}/answers', 'Form@get_form_with_answers');
 

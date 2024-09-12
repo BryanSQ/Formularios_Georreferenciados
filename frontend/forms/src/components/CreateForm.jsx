@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react';
 import Question from './Question';
 import './styles/CreateForm.css';
 import { createForm } from '../services/formServices';
+import useFetchData from '../hooks/useFetchData';
 
 function CreateForm() {
+
+  const { data, loading, error } = useFetchData('http://localhost/fields');
+
   const [questions, setQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState('1');
+  const [selectedQuestion, setSelectedQuestion] = useState("1");
+
+
 
   const handleSelectChange = (value) => {
     setSelectedQuestion(value);
@@ -24,7 +30,10 @@ function CreateForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = { fields: [] };
+    const data = {
+      is_visible: true,
+      fields: []
+    };
 
     const form = new FormData(e.target);
 
@@ -64,12 +73,20 @@ function CreateForm() {
     console.log(data);
 
 
-    // try {
-    //   const response = await createForm(data);
-    //   console.log('Formulario creado con éxito:', response);
-    // } catch (error) {
-    //   console.error('Error al crear el formulario:', error);
-    // }
+    try {
+      const response = await createForm(data);
+      console.log('Formulario creado con éxito:', response);
+    } catch (error) {
+      console.error('Error al crear el formulario:', error);
+    }
+  }
+
+  if (loading) {
+    return <p>Cargando...</p>
+  }
+
+  if (error) {
+    return <p>Ocurrió un error: {error}</p>
   }
 
   return (
@@ -100,11 +117,11 @@ function CreateForm() {
             value={selectedQuestion}
             onChange={(e) => handleSelectChange(e.target.value)}
           >
-            <option value="1">Respuesta corta</option>
-            <option value="2">Párrafo</option>
-            <option value="4">Desplegable</option>
-            <option value="3">Casilla de verificación</option>
-            <option value="5">Mapa</option>
+            {
+              data.map((type) => {
+                return <option key={type.id} value={type.id}>{type.name}</option>
+              })
+            }
           </select>
           <button onClick={handleAddQuestionClick}>Agregar</button>
         </div>
