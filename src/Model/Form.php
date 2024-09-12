@@ -78,11 +78,14 @@ class Form{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, Form.is_visible, Field.id, Field.name, Field_Type.id, Field.is_required, Answer.id, Answer.answer
+    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, 
+    Form.is_visible, Field.id, Field.name, Field_Type.id, 
+    Field.is_required, Answer.id, Answer.answer, `Option`.id, `Option`.value
             FROM Form
-            JOIN Field ON Form.id = Field.form_id
-            JOIN Field_Type ON Field.type_id = Field_Type.id
-            JOIN Answer ON Field.id = Answer.field_id
+            LEFT JOIN Field ON Form.id = Field.form_id
+            LEFT JOIN Field_Type ON Field.type_id = Field_Type.id
+            LEFT JOIN Answer ON Field.id = Answer.field_id
+            LEFT JOIN `Option` ON Field.id = `Option`.field_id
             WHERE Form.id =:id";
 
     $stmt = $connection->prepare($sql);
@@ -191,23 +194,25 @@ class Form{
     return $data;
   }
 
-  public static function update(array $data): array
-  {
+  public static function update(array $data): array | false {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "UPDATE Form 
-            SET name = :name, description = :description, code = :code, is_visible = :is_visible 
-            WHERE id = :id";
+    $sql = "UPDATE Form SET name = :name, 
+    description = :description, 
+    is_visible = :is_visible WHERE id = :id";
 
     $stmt = $connection->prepare($sql);
-    $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
-    $stmt->bindParam(':description', $data['description'], PDO::PARAM_STR);
-    $stmt->bindParam(':code', $data['code'], PDO::PARAM_STR);
-    $stmt->bindParam(':is_visible', $data['is_visible'], PDO::PARAM_BOOL);
-    $stmt->bindParam(':id', $data["id"], PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-  }
+    $stmt->bindParam(':name', $data['name']);
+    $stmt->bindParam(':description', $data['description']);
+    $stmt->bindParam(':is_visible', $data['is_visible']);
+    $stmt->bindParam(':id', $data['id']);
+
+    if ($stmt->execute()) {
+        return $data;
+    } else {
+        return false;
+    }
+}
 
   public static function delete(string $id): int
   {
