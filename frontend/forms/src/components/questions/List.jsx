@@ -2,11 +2,11 @@ const List = ({id, options, addOption, handleChangeOptions, removeOption}) => {
 
   return (
     <>
-      {options.map((option, index) => (
+      {options.map((_, index) => (
         <div key={index}>
           <input
             type="text"
-            value={option}
+            value={options[index] || ''}
             onChange={(event) => handleChangeOptions(id, index, event)}
             placeholder={`Opción ${index + 1}`}
           />
