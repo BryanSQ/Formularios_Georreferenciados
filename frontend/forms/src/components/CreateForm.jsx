@@ -81,10 +81,9 @@ function CreateForm() {
     const data = {
       name: formTitle,
       description: formDescription,
-      fields: questions
+      fields: questions,
+      is_visible: true
     };
-
-    console.log('Datos a enviar:', data);
   
     try {
       const response = await createForm(data);
