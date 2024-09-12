@@ -29,6 +29,7 @@ export const deleteForm = async (id) => {
 }
 
 export const createForm = async (data) => {
+  console.log('Data:', data);
   const response = await fetch(`${URL}/forms`, {
     method: 'POST',
     headers: {
@@ -43,5 +44,21 @@ export const createForm = async (data) => {
 
   
   return response;
+}
+
+export const updateForm = async (id, data) => {
+  const response = await fetch(`${URL}/forms/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al actualizar el formulario');
+  }
+
+  return response.json();
 }
 

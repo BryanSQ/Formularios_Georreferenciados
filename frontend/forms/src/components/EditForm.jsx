@@ -1,16 +1,48 @@
 import { useState, useEffect } from 'react';
 import Question from './Question';
+import useFetchData from '../hooks/useFetchData';
 import './styles/CreateForm.css';
+import { updateForm } from '../services/formServices';
 
 function EditForm({ id }) {
-  //const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
-
-
-  const [formTitle, setFormTitle] = useState(data.form.title);
+  const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+  
+  const [formTitle, setFormTitle] = useState('');
   const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('short');
   const [isRequired, setIsRequired] = useState(false);
+
+  useEffect(() => {
+    if (data && data.form) {
+      setFormTitle(data.form.name);
+      setFormDescription(data.form.description);
+      setQuestions(formatOptions(data.fields));
+    }
+  }, [data]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const formatOptions = (fields) => {
+    return fields.map((field) => {
+      const formattedField = {
+        name: field.name,
+        type_id: String(field.type.id),
+        is_required: field.is_required,
+      };
+  
+      if (field.type.id === 4 || field.type.id === 3) {
+        formattedField.options = field.options.map((option) => option.value);
+      }
+  
+      return formattedField;
+    });
+  }
 
   const handleSelectChange = (value) => {
     setSelectedQuestion(value);
@@ -24,17 +56,17 @@ function EditForm({ id }) {
   const addQuestion = (type) => {
     if (type === "dropdown" || type === "checkbox") {
       setQuestions([...questions, {
-        type: type,
+        type_id: type,
         name: "",
         options: [],
-        isRequired: isRequired
+        is_required: isRequired
       }]);
     }
     else {
       setQuestions([...questions, {
-        type: type,
+        type_id: type,
         name: "",
-        isRequired: isRequired
+        is_required: isRequired
       }]);
     }
   }
@@ -75,22 +107,29 @@ function EditForm({ id }) {
 
   const handleIsRequiredChange = (index) => {
     const newQuestions = [...questions];
-    newQuestions[index].isRequired = !newQuestions[index].isRequired;
+    newQuestions[index].is_required = !newQuestions[index].is_required;
     setQuestions(newQuestions);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = {
-      title: formTitle,
+      name: formTitle,
       description: formDescription,
-      questions: questions
+      questions: questions,
+      is_visible: true
     }
-    console.log(data);
+
+    try {
+      const response = await updateForm(id, data);
+      console.log('Formulario creado con éxito:', response);
+    } catch (error) {
+      console.error('Error al crear el formulario:', error);
+    }
   }
 
   return (
     <div className='main-section'>
-      <h1>Crear un formulario</h1>
+      <h1>Editar formulario</h1>
       <div className='form-header'>
         <input className='title-input'
           type="text"
@@ -110,11 +149,11 @@ function EditForm({ id }) {
         <div className='add-question'>
           <select value={selectedQuestion}
             onChange={(e) => handleSelectChange(e.target.value)}>
-            <option value="short">Respuesta corta</option>
-            <option value="long">Párrafo</option>
-            <option value="dropdown">Desplegable</option>
-            <option value="checkbox">Casilla de verificación</option>
-            <option value="map">Mapa</option>
+            <option value="1">Respuesta corta</option>
+            <option value="2">Párrafo</option>
+            <option value="4">Desplegable</option>
+            <option value="3">Casilla de verificación</option>
+            <option value="5">Mapa</option>
           </select>
           <button onClick={handleAddQuestionClick}>Agregar</button>
         </div>
@@ -127,7 +166,7 @@ function EditForm({ id }) {
             return (
               <div className='question-box' key={index}>
                 <Question
-                  type={question.type}
+                  type={question.type_id}
                   id={index}
                   questions={questions}
                   handleDelete={handleDeleteQuestion}
@@ -137,7 +176,7 @@ function EditForm({ id }) {
                   handleChangeOptions={handleChangeOptions}
                   removeOption={removeOption}
                   handleIsRequiredChange={handleIsRequiredChange}>
-                  </Question>
+                </Question>
               </div>
             )
           })}
