@@ -50,6 +50,8 @@ $router->post('/forms/{id}/answers', 'FormController@save_answer');
 
 $router->post('/forms', 'FormController@add_form');
 
+$router->put('/forms/{id}', 'FormController@update_form');
+
 $router->delete('/forms/{id}', 'FormController@remove_form');
 
 
