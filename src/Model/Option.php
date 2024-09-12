@@ -29,7 +29,7 @@ class Option{
 
   public function create(int $field_id): string
   {
-    $sql = "INSERT INTO Option (field_id, value)
+    $sql = "INSERT INTO `Option` (field_id, value)
             VALUES (:field_id, :value)";
     
     $stmt = $this->connection->prepare($sql);
@@ -60,22 +60,24 @@ class Option{
     return $data;
   }
 
-  public static function update($id, array $data): bool
+  public static function update(array $data): array | false
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "UPDATE Option 
+    $sql = "UPDATE `Option` 
             SET field_id = :field_id, value = :value
             WHERE id = :id";
 
     $stmt = $connection->prepare($sql);
     $stmt->bindParam(':field_id', $data['field_id'], PDO::PARAM_INT);
     $stmt->bindParam(':value', $data['value'], PDO::PARAM_STR);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
 
-    $stmt->execute();
-
-    return true;
+    if ($stmt->execute()) {
+      return $data;
+    } else {
+      return false;
+    }
   }
 
   public static function delete($id): bool
