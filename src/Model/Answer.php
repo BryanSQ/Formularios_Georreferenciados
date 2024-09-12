@@ -1,6 +1,6 @@
 <?php
 
-class Answer{
+class Answer {
   private int $id;
   private int $field_id;
   private string $answer;
@@ -29,6 +29,8 @@ class Answer{
 
     return $this->id;
   }
+
+
 
 
 }

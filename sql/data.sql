@@ -11,7 +11,7 @@ INSERT INTO Field(form_id, type_id, name, is_required) VALUES(1, 1, 'Apellido', 
 INSERT INTO Field(form_id, type_id, name, is_required) VALUES(1, 4, 'Es mayor de edad?', true);
 INSERT INTO Field(form_id, type_id, name, is_required) VALUES(1, 5, 'Rango', true);
 
-INSERT INTO Field(form_id, type_id, name, is_required) VALUES(1, 6, 'Ubicacion', true);
+INSERT INTO Field(form_id, type_id, name, is_required) VALUES(1, 5, 'Ubicacion', true);
 
 INSERT INTO `Option`(field_id, value) VALUES(3, 'Si');
 INSERT INTO `Option`(field_id, value) VALUES(3, 'No');
@@ -25,5 +25,5 @@ INSERT INTO Answer(field_id, answer) VALUES(1, 'Pedro');
 INSERT INTO Answer(field_id, answer) VALUES(1, 'Pablo');
 INSERT INTO Answer(field_id, answer) VALUES(2, 'Gomez');
 
-INSERT INTO Answer(field_id, answer) VALUES(5, '9.6301892, -84.2541844');
-INSERT INTO Answer(field_id, answer) VALUES(5, '9.6301892, -83.2582374');
+INSERT INTO Answer(field_id, answer) VALUES(6, '9.6301892, -84.2541844');
+INSERT INTO Answer(field_id, answer) VALUES(6, '9.6301892, -83.2582374');

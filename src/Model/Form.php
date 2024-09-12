@@ -78,9 +78,9 @@ class Form{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT Form.id, Form.name, Form.description, Form.code, 
-    Form.is_visible, Field.id, Field.name, Field_Type.id, 
-    Field.is_required, Answer.id, Answer.answer, `Option`.id, `Option`.value
+    $sql = "SELECT Form.id AS form_id, Form.name AS form_name, Form.description AS form_description, Form.code AS form_code, 
+    Form.is_visible AS form_is_visible, Field.id AS field_id, Field.name AS field_name, Field_Type.id AS type_id, Field_Type.name AS type_name,
+    Field.is_required AS field_is_required, Answer.id AS answer_id, Answer.answer AS answer_answer, `Option`.id AS option_id, `Option`.value AS option_value
             FROM Form
             LEFT JOIN Field ON Form.id = Field.form_id
             LEFT JOIN Field_Type ON Field.type_id = Field_Type.id
@@ -96,7 +96,51 @@ class Form{
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $data[] = $row;
     }
-    return $data;
+
+    $grouped_data = [];
+    foreach ($data as $row) {
+        $form_id = $row['form_id'];
+        if (!array_key_exists($form_id, $grouped_data)) {
+            $grouped_data[$form_id] = [
+                'id' => $form_id,
+                'name' => $row['form_name'],
+                'description' => $row['form_description'],
+                'code' => $row['form_code'],
+                'is_visible' => $row['form_is_visible'],
+                'fields' => []
+            ];
+        }
+        $field_id = $row['field_id'];
+        if (!array_key_exists($field_id, $grouped_data[$form_id]['fields'])) {
+            $grouped_data[$form_id]['fields'][$field_id] = [
+                'id' => $field_id,
+                'name' => $row['field_name'],
+                'is_required' => $row['field_is_required'],
+                'type' => [
+                    'id' => $row['type_id'],
+                    'name' => $row['type_name']
+                ],
+                'answers' => []
+            ];
+        }
+        if ($row['answer_id']) {
+            $grouped_data[$form_id]['fields'][$field_id]['answers'][] = [
+                'id' => $row['answer_id'],
+                'answer' => $row['answer_answer']
+            ];
+        }
+        if ($row['option_id']) {
+            $grouped_data[$form_id]['fields'][$field_id]['options'][] = [
+                'id' => $row['option_id'],
+                'value' => $row['option_value']
+            ];
+        }
+    }
+
+
+
+
+    return $grouped_data;
   }
 
   public static function get_fields(string $id): array
@@ -118,6 +162,7 @@ class Form{
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $data = [];
+
     
     // group the fields by their id and add the options to the field
 
@@ -142,7 +187,8 @@ class Form{
               'value' => $row['option_value']
           ];
       }
-  }
+      
+    }
   
   // Convert associative array to indexed array
   $fields = array_values($data);

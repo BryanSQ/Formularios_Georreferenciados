@@ -1,6 +1,6 @@
 <?php
 
-class FieldType{
+class FieldType {
   private int $id;
   private string $name;
   private PDO $connection;

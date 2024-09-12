@@ -1,6 +1,6 @@
 <?php
 
-class Field{
+class Field {
   private int $id;
   private string $name;
   private bool $is_required;
