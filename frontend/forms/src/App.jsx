@@ -1,7 +1,6 @@
 import CreateForm from './components/CreateForm'
-import AnswerView from './components/AnswerView'
+import AnswerForm from './components/AnswerForm'
 import Login from './components/Login'
-import AnswerMap from './components/AnswerMap'
 import ResultMap from './components/ResultMap'
 import AdminView from './components/AdminView'
 
@@ -9,10 +8,9 @@ function App() {
 
   return (
     <>
-      {/* <CreateForm></CreateForm> */}
-      <AnswerView id={1} />
-      {/* <Login></Login> */}
-      {/* <AnswerMap/> */}
+      <CreateForm />
+      {/* <AnswerForm id={1} /> */}
+      {/* <Login /> */}
       {/* <AdminView></AdminView>  */}
       {/* <ResultMap /> */}
     </>

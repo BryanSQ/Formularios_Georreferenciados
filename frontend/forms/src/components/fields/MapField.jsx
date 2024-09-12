@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const AnswerMap = () => {
+const MapField = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
@@ -68,4 +68,4 @@ const AnswerMap = () => {
   );
 };
 
-export default AnswerMap;
+export default MapField;

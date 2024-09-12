@@ -73,6 +73,7 @@ function EditForm({ id }) {
 
   const handleChangeName = (index, value) => {
     const newQuestions = [...questions];
+    console.log(value);
     newQuestions[index].name = value;
     setQuestions(newQuestions);
   }

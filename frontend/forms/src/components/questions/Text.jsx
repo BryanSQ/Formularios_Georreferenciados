@@ -1,7 +1,7 @@
-const Text = (props) => {
+const Text = ({ option }) => {
     return (
       <>
-        <input type="text" placeholder={"Texto de respuesta "+props.option} disabled></input>
+        <input type="text" placeholder={"Texto de respuesta "+option} disabled></input>
       </>
     )
   }

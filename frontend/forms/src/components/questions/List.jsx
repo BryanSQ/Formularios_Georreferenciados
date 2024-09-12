@@ -1,20 +1,37 @@
-const List = ({id, options, addOption, handleChangeOptions, removeOption}) => {
+import { useState } from "react";
+
+const List = ({ type }) => {
+
+  const [options, setOptions] = useState(1);
+
+  const addOption = () => {
+    setOptions(options + 1);
+  }
+
+  const removeOption = () => {
+    setOptions(options - 1);
+  }
+
 
   return (
-    <>
-      {options.map((_, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            value={options[index] || ''}
-            onChange={(event) => handleChangeOptions(id, index, event)}
-            placeholder={`Opción ${index + 1}`}
-          />
-          <button onClick={() => removeOption(id, index)}>Eliminar opción</button>
-        </div>
-      ))}
-      <button onClick={() => addOption(id)}>Agregar opción</button>
-    </>
+    <div name="options">
+      {
+        Array.from({length: options}, (_, index) => (
+          <div key={index}>
+            <input
+              className="multiple"
+              type_id={type}
+              name={`option-${index}`}
+              type="text"
+              placeholder={`Opción ${index + 1}`}
+            />
+            <button onClick={removeOption}>Eliminar opción</button>
+          </div>
+        ))
+      }
+
+      <button onClick={addOption}>Agregar opción</button>
+    </div>
   );
 
 }

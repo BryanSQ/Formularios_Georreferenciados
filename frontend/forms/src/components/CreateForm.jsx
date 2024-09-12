@@ -4,117 +4,102 @@ import './styles/CreateForm.css';
 import { createForm } from '../services/formServices';
 
 function CreateForm() {
-  const [formTitle, setFormTitle] = useState('');
-  const [formDescription, setFormDescription] = useState('');
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState('1');
-  const [isRequired, setIsRequired] = useState(false);
 
   const handleSelectChange = (value) => {
     setSelectedQuestion(value);
-    addQuestion(value);
   }
 
   const handleAddQuestionClick = () => {
-    addQuestion(selectedQuestion);
+    setQuestions([...questions, { type: selectedQuestion }]);
   }
 
-  const addQuestion = (type) => {
-    if (type === "4" || type === "3") {
-      setQuestions([...questions, {
-        type_id: type,
-        name: "",
-        options: [],
-        is_required: isRequired
-      }]);
-    }
-    else {
-      setQuestions([...questions, {
-        type_id: type,
-        name: "",
-        is_required: isRequired
-      }]);
-    }
-  }
-
-  const handleChangeName = (index, value) => {
-    const newQuestions = [...questions];
-    newQuestions[index].name = value;
-    setQuestions(newQuestions);
-  }
-
-  const addOption = (index) => {
-    const newQuestions = [...questions];
-    const newOptions = [...newQuestions[index].options];
-    newOptions.push('');
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const handleChangeOptions = (index, optionIndex, event) => {
-    const newQuestions = [...questions];
-    const newOptions = [...newQuestions[index].options];
-    newOptions[optionIndex] = event.target.value;
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const removeOption = (index, optionIndex) => {
-    const newQuestions = [...questions];
-    const newOptions = newQuestions[index].options.filter((_, i) => i !== optionIndex);
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const handleDeleteQuestion = (index) => {
+  const handleDelete = (index) => {
     const newQuestions = questions.filter((_, i) => i !== index);
     setQuestions(newQuestions);
   }
 
-  const handleIsRequiredChange = (index) => {
-    const newQuestions = [...questions];
-    newQuestions[index].is_required = !newQuestions[index].is_required;
-    setQuestions(newQuestions);
-  }
 
-  const handleSubmit = async () => {
-    const data = {
-      name: formTitle,
-      description: formDescription,
-      fields: questions,
-      is_visible: true
-    };
-  
-    try {
-      const response = await createForm(data);
-      console.log('Formulario creado con éxito:', response);
-    } catch (error) {
-      console.error('Error al crear el formulario:', error);
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = { fields: [] };
+
+    const form = new FormData(e.target);
+
+    data.name = form.get('name');
+    data.description = form.get('description');
+
+    const boxes = e.target.querySelectorAll('.question-box');
+
+    boxes.forEach((box) => {
+      const question = box.querySelector('[name="question-name"]');
+      const questionName = question.value;
+      const required = box.querySelector('[name="required"]').checked;
+
+      const questionData = {
+        name: questionName,
+        type_id: question.getAttribute('type_id'),
+        is_required: required
+      };
+
+      const options = box.querySelector('[name="options"]');
+
+      if (options) {
+        const optionInputs = options.querySelectorAll('input');
+
+        const optionsArray = [];
+
+        optionInputs.forEach((input, index) => {
+          optionsArray.push(input.value);
+        });
+
+        questionData.options = optionsArray;
+      }
+
+      data.fields.push(questionData);
+    });
+
+    console.log(data);
+
+
+    // try {
+    //   const response = await createForm(data);
+    //   console.log('Formulario creado con éxito:', response);
+    // } catch (error) {
+    //   console.error('Error al crear el formulario:', error);
+    // }
   }
 
   return (
-    <div className='main-section'>
+    <form onSubmit={handleSubmit} className='main-section'>
       <h1>Crear un formulario</h1>
       <div className='form-header'>
         <input className='title-input'
           type="text"
           placeholder='Título del formulario'
-          value={formTitle}
-          onChange={(e) => setFormTitle(e.target.value)}></input>
+          name='name'
+          required
+        >
+        </input>
         <input
           className='description-input'
           type="text"
           placeholder='Descripción'
-          value={formDescription}
-          onChange={(e) => setFormDescription(e.target.value)}></input>
+          name='description'
+          required
+        >
+        </input>
       </div>
 
       <div className='add-question-section'>
         <h3>Agregar pregunta</h3>
         <div className='add-question'>
-          <select value={selectedQuestion}
-            onChange={(e) => handleSelectChange(e.target.value)}>
+          <select
+            value={selectedQuestion}
+            onChange={(e) => handleSelectChange(e.target.value)}
+          >
             <option value="1">Respuesta corta</option>
             <option value="2">Párrafo</option>
             <option value="4">Desplegable</option>
@@ -128,29 +113,20 @@ function CreateForm() {
       <div className='question-section'>
         <h3>Preguntas</h3>
         <div className='questions'>
-          {questions.map((question, index) => {
-            return (
-              <div className='question-box' key={index}>
-                <Question
-                  type={question.type_id}
-                  id={index}
-                  questions={questions}
-                  handleDelete={handleDeleteQuestion}
-                  handleChangeName={handleChangeName}
-                  options={question.options}
-                  addOption={addOption}
-                  handleChangeOptions={handleChangeOptions}
-                  removeOption={removeOption}
-                  handleIsRequiredChange={handleIsRequiredChange}>
-                  </Question>
-              </div>
-            )
-          })}
+          {
+            questions.map((question, index) => {
+              return (
+                <div className='question-box' key={index}>
+                  <Question type={question.type} />
+                  <button onClick={() => handleDelete(index)}>Eliminar pregunta</button>
+                </div>
+              )
+            })}
         </div>
       </div>
 
-      <button onClick={handleSubmit}>Enviar</button>
-    </div>
+      <button>Enviar</button>
+    </form>
   );
 }
 

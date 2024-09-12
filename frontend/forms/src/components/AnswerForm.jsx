@@ -7,19 +7,19 @@ import { sendAnswer } from '../services/formServices';
 // Los datos no deben ser inyectados en el componente, deben ser obtenidos desde un servicio
 
 
-const AnswerView = ({ id }) => {
+const AnswerForm = ({ id }) => {
 
-  const { data: formData, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+  const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
 
 
   const handleSubmitAnswer = async (e) => {
     e.preventDefault();
 
-    const fData = new FormData(e.target);
+    const formData = new FormData(e.target);
 
     // Convert FormData to a plain object
-    const data = [];
-    for (let [key, value] of fData.entries()) {
+    const objectData = [];
+    for (let [key, value] of formData.entries()) {
       let element = e.target.querySelector(`[name="${key}"]`);
       const elementId = element ? element.id : null;
       let selectedOptionId = null;
@@ -34,12 +34,12 @@ const AnswerView = ({ id }) => {
 
       // Handle checkboxes: if it's a checkbox, get its id as well
       if (element && element.type === 'checkbox') {
-        element = e.target.querySelector(`[name="${key}"]:checked`);      
+        element = e.target.querySelector(`[name="${key}"]:checked`);
         selectedOptionId = element.getAttribute('option_id'); // Retrieve the custom option_id attribute
       }
 
       // Push the data to the array, including the field id and the option/checkbox id
-      data.push({
+      objectData.push({
         field_id: elementId, // The form element's id
         option_id: selectedOptionId, // The id of the selected option or checkbox, if applicable
         field: key, // The name attribute of the field
@@ -48,15 +48,15 @@ const AnswerView = ({ id }) => {
     }
 
     const answer = {
-      form_id: formData.form.id,
-      fields: data
+      form_id: data.form.id,
+      fields: objectData
     }
-  
-    try{
-      const response = await sendAnswer(formData.form.id,answer);
+
+    try {
+      const response = await sendAnswer(data.form.id, answer);
       console.log(response);
     }
-    catch(error){
+    catch (error) {
       console.error(error);
     }
   }
@@ -69,20 +69,18 @@ const AnswerView = ({ id }) => {
     return <p>Ha ocurrido un error: {error}</p>;
   }
 
-  if (formData.error) {
-    return <p>{formData.error}</p>;
-  }
+  console.log(formData);
 
   return (
     <div className='main-section'>
-      <h1>Formulario: {formData.form.name}</h1>
-      <p>{formData.form.description}</p>
-      <form 
+      <h1>Formulario: {data.form.name}</h1>
+      <p>{data.form.description}</p>
+      <form
         onSubmit={handleSubmitAnswer}
-        className='question-section'      
+        className='question-section'
       >
         {
-          formData.fields
+          data.fields
             .map((field) => (
               <FormField
                 key={field.id}
@@ -96,4 +94,4 @@ const AnswerView = ({ id }) => {
   )
 };
 
-export default AnswerView;
+export default AnswerForm;
