@@ -50,7 +50,7 @@ const Question = (
   }
   return (
     <>
-      <input type="text" placeholder='Pregunta' onChange={(e) => handleChangeName(id, e.target.value)}></input>
+      <input type="text" value={questions[id].name || ''} placeholder='Pregunta' onChange={(e) => handleChangeName(id, e.target.value)}></input>
       {question}
       <button onClick={() => handleDelete(id)}>Eliminar pregunta</button>
       <button onClick={() => handleIsRequiredChange(id)}>
