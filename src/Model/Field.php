@@ -74,6 +74,26 @@ class Field{
     return $data;
   }
 
+  public static function update(array $data): array | false {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "UPDATE Field SET name = :name, 
+    is_required = :is_required, 
+    type_id = :type_id WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':name', $data['name']);
+    $stmt->bindParam(':is_required', $data['is_required']);
+    $stmt->bindParam(':type_id', $data['type_id']);
+    $stmt->bindParam(':id', $data['id']);
+
+    if ($stmt->execute()) {
+        return $data;
+    } else {
+        return false;
+    }
+  }
+
   public static function get_maps(): array | false{
     $connection = Database::get_instance()->get_connection();
 
