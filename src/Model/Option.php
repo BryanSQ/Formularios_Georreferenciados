@@ -11,7 +11,6 @@ class Option{
     $this->connection = Database::get_instance()->get_connection();
   }
 
-
   public static function get_from_field( $field_id )
   {
     $connection = Database::get_instance()->get_connection();

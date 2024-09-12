@@ -46,7 +46,8 @@ $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/results/map', 'FormController@get_map_results');
 
-$router->get('/forms/{id}/answers', 'Form@get_form_with_answers');
+
+$router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
 
 $router->post('/forms/{id}/answers', 'FormController@save_answer');
 

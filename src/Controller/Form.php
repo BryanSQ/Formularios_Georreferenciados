@@ -176,4 +176,17 @@ class FormController{
     return;
   }
 
+  public function get_form_with_answers(string $id) {
+    $data = Form::get_form_with_answers($id);
+    if (!$data){
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+
+    echo json_encode($data);
+    return;
+  }
 }
+
+
