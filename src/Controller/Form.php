@@ -97,15 +97,15 @@ class FormController{
     return;
   }
 
-  public function update_form(array $data){
-    $form = Form::read($data["id"]);
+  public function update_form(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
+    $form = Form::read($id);
     if (!$form){
       echo json_encode(["error" => "Form not found"]);
       return;
     }
 
     $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario 
-    
     $updated_form = Form::update($updated_data);
 
     if(!$updated_form){
