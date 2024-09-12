@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapField = () => {
+const MapField = ({ field }) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
-  const [markerPosition, setMarkerPosition] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState({ lat: '', lng: '' });
 
   useEffect(() => {
     // Inicializa el mapa
@@ -61,9 +61,10 @@ const MapField = () => {
       <div style={{ height: '400px' }}
         ref={mapRef}
       />
-      <button onClick={handleGetCoordinates}>
-        Obtener Coordenadas
-      </button>
+      <div>
+        <label>Latitud:</label>
+          <input id={field.id} type="text" name={field.name} value={`${markerPosition.lat} ${markerPosition.lng}`}readOnly />
+      </div>
     </div>
   );
 };

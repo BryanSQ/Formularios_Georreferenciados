@@ -14,7 +14,7 @@ const FormField = ({ field }) => {
           : field.type.name === 'checkbox' 
             ? ( <Checkbox field={field} /> ) 
             : field.type.name === 'map'
-              ? ( <MapField />)// If the field is not a select or a checkbox, render a simple input element
+              ? ( <MapField field={field} />)// If the field is not a select or a checkbox, render a simple input element
               : ( <TextBox field={field} /> )
         }
       </div>
