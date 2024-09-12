@@ -70,7 +70,7 @@ function CreateForm() {
       data.fields.push(questionData);
     });
 
-    console.log(data);
+    console.log(JSON.stringify(data));
 
 
     try {
@@ -123,7 +123,7 @@ function CreateForm() {
               })
             }
           </select>
-          <button onClick={handleAddQuestionClick}>Agregar</button>
+          <button type='button' onClick={handleAddQuestionClick}>Agregar</button>
         </div>
       </div>
 
@@ -135,14 +135,14 @@ function CreateForm() {
               return (
                 <div className='question-box' key={index}>
                   <Question type={question.type} />
-                  <button onClick={() => handleDelete(index)}>Eliminar pregunta</button>
+                  <button type='button' onClick={() => handleDelete(index)}>Eliminar pregunta</button>
                 </div>
               )
             })}
         </div>
       </div>
 
-      <button>Enviar</button>
+      <button type='submit'>Enviar</button>
     </form>
   );
 }

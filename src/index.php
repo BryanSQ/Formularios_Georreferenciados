@@ -44,7 +44,6 @@ $router->get('/home', 'FormController@home');
 $router->get('/forms', 'FormController@get_all_forms');
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
-$router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/results/map', 'FormController@get_map_results');
 $router->get('/fields', 'FieldTypeController@get_field_types');
 

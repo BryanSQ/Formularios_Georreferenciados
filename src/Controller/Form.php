@@ -32,7 +32,7 @@ class FormController{
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
 
-      if ($field_type === 4 || $field_type === 3){ 
+      if ($field_type === "3" || $field_type === "4"){
         $options = $field["options"];
         foreach ($options as $option){
           $new_option = new Option($option);
@@ -177,14 +177,27 @@ class FormController{
   }
 
   public function get_form_with_answers(string $id) {
-    $data = Form::get_form_with_answers($id);
-    if (!$data){
+    $form = Form::read($id);
+    if (!$form){
       http_response_code(404);
       echo json_encode(["error" => "Form not found"]);
       return;
     }
 
-    echo json_encode($data);
+    $answers = Form::get_form_with_answers($id);
+
+    if (!$answers){
+      http_response_code(404);
+      echo json_encode(["error" => "Form has no answers"]);
+      return;
+    }
+
+    $form_with_answers = [
+      'form' => $form,
+      'answers' => $answers,
+    ];
+
+    echo json_encode($form_with_answers);
     return;
   }
 }

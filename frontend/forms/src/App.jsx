@@ -8,8 +8,8 @@ function App() {
 
   return (
     <>
-      <CreateForm />
-      {/* <AnswerForm id={1} /> */}
+      {/* <CreateForm /> */}
+      <AnswerForm id={29} />
       {/* <Login /> */}
       {/* <AdminView></AdminView>  */}
       {/* <ResultMap /> */}

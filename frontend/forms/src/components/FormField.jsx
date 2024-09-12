@@ -7,7 +7,7 @@ const FormField = ({ field }) => {
   return (
     <div className="questions">
       <div className="question-box">
-        <label>{field.name}</label>      
+        <label>{field.name}</label>
         {
           field.type.name === 'select' 
           ? ( <Dropdown field={field} />)  

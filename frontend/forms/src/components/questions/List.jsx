@@ -25,12 +25,12 @@ const List = ({ type }) => {
               type="text"
               placeholder={`Opción ${index + 1}`}
             />
-            <button onClick={removeOption}>Eliminar opción</button>
+            <button type='button' onClick={removeOption}>Eliminar opción</button>
           </div>
         ))
       }
 
-      <button onClick={addOption}>Agregar opción</button>
+      <button type='button' onClick={addOption}>Agregar opción</button>
     </div>
   );
 

@@ -4,7 +4,6 @@ import List from './questions/List';
 
 
 const Question = ({ type }) => {
-  console.log(typeof type);
   return (
     <>
       <input type_id={type} name='question-name' type="text" placeholder='Pregunta'></input>

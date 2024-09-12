@@ -69,8 +69,6 @@ const AnswerForm = ({ id }) => {
     return <p>Ha ocurrido un error: {error}</p>;
   }
 
-  console.log(formData);
-
   return (
     <div className='main-section'>
       <h1>Formulario: {data.form.name}</h1>
