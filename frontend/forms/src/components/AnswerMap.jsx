@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const Map = () => {
+const AnswerMap = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
@@ -58,7 +58,7 @@ const Map = () => {
 
   return (
     <div>
-      <div style={{ height: "600px", width: "800px" }}
+      <div style={{ height: '400px' }}
         ref={mapRef}
       />
       <button onClick={handleGetCoordinates}>
@@ -68,4 +68,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default AnswerMap;

@@ -74,10 +74,13 @@ const AnswerView = ({ id }) => {
   }
 
   return (
-    <div>
+    <div className='main-section'>
       <h1>Formulario: {formData.form.name}</h1>
       <p>{formData.form.description}</p>
-      <form onSubmit={handleSubmitAnswer}>
+      <form 
+        onSubmit={handleSubmitAnswer}
+        className='question-section'      
+      >
         {
           formData.fields
             .map((field) => (
