@@ -1,31 +1,28 @@
-import { useState, useEffect } from 'react';
-import Question from './Question';
-import './styles/CreateForm.css';
+import { useState } from 'react';
 import { createForm } from '../services/formServices';
-import useFetchData from '../hooks/useFetchData';
+
+import Question from './Question';
+import TypeSelect from './helper/TypeSelect';
+
+import './styles/CreateForm.css';
 
 function CreateForm() {
-
-  const { data, loading, error } = useFetchData('http://localhost/fields');
 
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(1);
 
 
-
   const handleSelectChange = (value) => {
-    setSelectedQuestion(value);
+    setSelectedQuestion(parseInt(value));
   }
 
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, { type: selectedQuestion }]);
+    setQuestions([...questions, { id: crypto.randomUUID(), type: selectedQuestion }]);
   }
 
-  const handleDelete = (index) => {
-    const newQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(newQuestions);
+  const handleDelete = (id) => {
+    setQuestions(questions.filter(question => question.id !== id));
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +67,6 @@ function CreateForm() {
       data.fields.push(questionData);
     });
 
-    console.log(JSON.stringify(data));
 
 
     try {
@@ -79,14 +75,6 @@ function CreateForm() {
     } catch (error) {
       console.error('Error al crear el formulario:', error);
     }
-  }
-
-  if (loading) {
-    return <p>Cargando...</p>
-  }
-
-  if (error) {
-    return <p>Ocurrió un error: {error}</p>
   }
 
   return (
@@ -109,32 +97,17 @@ function CreateForm() {
         ></input>
       </div>
 
-      <div className='add-question-section'>
-        <h3>Agregar pregunta</h3>
-        <div className='add-question'>
-          <select
-            value={selectedQuestion}
-            onChange={(e) => handleSelectChange(e.target.value)}
-          >
-            {
-              data.map((type) => {
-                return <option key={type.id} value={type.id}>{type.name}</option>
-              })
-            }
-          </select>
-          <button type='button' onClick={handleAddQuestionClick}>Agregar</button>
-        </div>
-      </div>
+      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange} />
 
       <div className='question-section'>
         <h3>Preguntas</h3>
         <div className='questions'>
           {
-            questions.map((question, index) => {
+            questions.map(({ id, type }) => {
               return (
-                <div className='question-box' key={index}>
-                  <Question type={question.type} />
-                  <button type='button' onClick={() => handleDelete(index)}>Eliminar pregunta</button>
+                <div className='question-box' key={id}>
+                  <Question type={type}/>
+                  <button type='button' onClick={() => handleDelete(id)}>Eliminar pregunta</button>
                 </div>
               )
             })}

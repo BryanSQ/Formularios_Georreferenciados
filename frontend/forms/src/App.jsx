@@ -10,11 +10,11 @@ function App() {
 
   return (
     <>
-      {/* <CreateForm /> */}
+      <CreateForm />
       {/* <AnswerForm id={32} /> */}
       {/* <Login /> */}
       {/* <AdminView/> */}
-      <EditForm id={32} />
+      {/* <EditForm id={32} /> */}
       {/* <ResultMap />     */}
       {/* <ResultTable id={32} /> */}
     </>

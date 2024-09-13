@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import Question from './Question';
-import useFetchData from '../hooks/useFetchData';
-import './styles/CreateForm.css';
 import { updateForm } from '../services/formServices';
 
+import useFetchData from '../hooks/useFetchData';
+
+import Question from './Question';
+import TypeSelect from './helper/TypeSelect';
+
+import './styles/CreateForm.css';
+
 function EditForm({ id }) {
-
-  const { data: fieldData, loading: fieldLoading, error: FieldError } = useFetchData(`http://localhost/fields`);
-
+  
   const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
 
   const [questions, setQuestions] = useState([]);
@@ -29,8 +31,9 @@ function EditForm({ id }) {
   const formatOptions = (fields) => {
     return fields.map((field) => {
       const formattedField = {
+        id: field.id,
         name: field.name,
-        type_id: parseInt(field.type.id),
+        type: parseInt(field.type.id),
         is_required: field.is_required,
       };
   
@@ -44,16 +47,15 @@ function EditForm({ id }) {
 
 
   const handleSelectChange = (value) => {
-    setSelectedQuestion(value);
+    setSelectedQuestion(parseInt(value));
   }
 
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, { type_id: parseInt(selectedQuestion) }]);
+    setQuestions([...questions, { id: crypto.randomUUID() , type: selectedQuestion }]);
   }
 
-  const handleDelete = (index) => {
-    const newQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(newQuestions);
+  const handleDelete = (id) => {
+    setQuestions(questions.filter(question => question.id !== id));
   }
 
   const handleSubmit = async () => {
@@ -75,7 +77,7 @@ function EditForm({ id }) {
 
 
   return (
-    <div className='main-section'>
+    <form onSubmit={handleSubmit} className='main-section'>
       <h1>Editar formulario</h1>
 
       <div className='form-header'>
@@ -92,31 +94,17 @@ function EditForm({ id }) {
           onChange={(e) => setFormDescription(e.target.value)}></input>
       </div>
 
-      <div className='add-question-section'>
-        <h3>Agregar pregunta</h3>
-        <div className='add-question'>
-          <select value={selectedQuestion}
-            onChange={(e) => handleSelectChange(e.target.value)}>
-            {
-              fieldData.map((type) => {
-                return <option key={type.id} value={type.id}>{type.name}</option>
-              })
-            }
-          </select>
-          <button type='button' onClick={handleAddQuestionClick}>Agregar</button>
-        </div>
-      </div>
+      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange}/>
 
       <div className='question-section'>
         <h3>Preguntas</h3>
         <div className='questions'>
           {
-            questions.map((question, index) => {
+            questions.map(({ id, type }) => {
               return (
-                <div className='question-box' key={index}>
-                  {question.type_id}    
-                  <Question type={question.type_id} />
-                  <button type='button' onClick={() => handleDelete(index)}>Eliminar</button>
+                <div className='question-box' key={id}>
+                  <Question type={type} />
+                  <button type='button' onClick={() => handleDelete(id)}>Eliminar</button>
                 </div>
               )
             })
@@ -124,8 +112,8 @@ function EditForm({ id }) {
         </div>
       </div>
 
-      <button type='submit' onClick={handleSubmit}>Enviar</button>
-    </div>
+      <button type='submit'>Enviar</button>
+    </form>
   );
 }
 

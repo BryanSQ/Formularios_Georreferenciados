@@ -2,32 +2,34 @@ import { useState } from "react";
 
 const List = ({ type }) => {
 
-  const [options, setOptions] = useState(1);
+  const [options, setOptions] = useState([]);
 
   const addOption = () => {
-    setOptions(options + 1);
+    setOptions([...options, { id: crypto.randomUUID() }]);
   }
 
-  const removeOption = () => {
-    setOptions(options - 1);
+  const removeOption = (id) => {
+    setOptions(options.filter(option => option.id !== id));
   }
 
 
   return (
     <div name="options">
       {
-        Array.from({length: options}, (_, index) => (
-          <div key={index}>
-            <input
-              className="multiple"
-              type_id={type}
-              name={`option-${index}`}
-              type="text"
-              placeholder={`Opción ${index + 1}`}
-            />
-            <button type='button' onClick={removeOption}>Eliminar opción</button>
-          </div>
-        ))
+        options.map(({id}, index) => {
+          return (
+            <div key={id}>
+              <input
+                className="multiple"
+                type_id={type}
+                name={`option-${index}`}
+                type="text"
+                placeholder={`Opción ${index + 1}`}
+              />
+              <button type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
+            </div>
+          )
+        })
       }
 
       <button type='button' onClick={addOption}>Agregar opción</button>
