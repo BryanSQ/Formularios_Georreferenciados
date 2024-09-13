@@ -8,9 +8,9 @@ const Question = ({ type }) => {
     <>
       <input type_id={type} name='question-name' type="text" placeholder='Pregunta'></input>
       {
-        (type === "1" || type === "2")
+        (type === 1 || type === 2)
           ? <Text option={type} />
-          : (type === "3" || type === "4")
+          : (type === 3 || type === 4)
             ? <List type={type} />
             : <div>Mapa</div>
       }      

@@ -1,5 +1,5 @@
 const Text = ({ option }) => {
-    const tipo = (option === "1")
+    const tipo = (option === 1)
       ? "corta" 
       : "larga";
     return (

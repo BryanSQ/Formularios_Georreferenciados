@@ -9,7 +9,7 @@ function CreateForm() {
   const { data, loading, error } = useFetchData('http://localhost/fields');
 
   const [questions, setQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState("1");
+  const [selectedQuestion, setSelectedQuestion] = useState(1);
 
 
 
@@ -92,22 +92,21 @@ function CreateForm() {
   return (
     <form onSubmit={handleSubmit} className='main-section'>
       <h1>Crear un formulario</h1>
+
       <div className='form-header'>
         <input className='title-input'
           type="text"
           placeholder='Título del formulario'
           name='name'
           required
-        >
-        </input>
+        ></input>
         <input
           className='description-input'
           type="text"
           placeholder='Descripción'
           name='description'
           required
-        >
-        </input>
+        ></input>
       </div>
 
       <div className='add-question-section'>

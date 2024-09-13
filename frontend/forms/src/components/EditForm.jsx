@@ -5,18 +5,16 @@ import './styles/CreateForm.css';
 import { updateForm } from '../services/formServices';
 
 function EditForm({ id }) {
+
+  const { data: fieldData, loading: fieldLoading, error: FieldError } = useFetchData(`http://localhost/fields`);
+
   const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
-  
-  const [formTitle, setFormTitle] = useState('');
-  const [formDescription, setFormDescription] = useState('');
+
   const [questions, setQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState('short');
-  const [isRequired, setIsRequired] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState(1);
 
   useEffect(() => {
     if (data && data.form) {
-      setFormTitle(data.form.name);
-      setFormDescription(data.form.description);
       setQuestions(formatOptions(data.fields));
     }
   }, [data]);
@@ -32,7 +30,7 @@ function EditForm({ id }) {
     return fields.map((field) => {
       const formattedField = {
         name: field.name,
-        type_id: String(field.type.id),
+        type_id: parseInt(field.type.id),
         is_required: field.is_required,
       };
   
@@ -44,71 +42,17 @@ function EditForm({ id }) {
     });
   }
 
+
   const handleSelectChange = (value) => {
     setSelectedQuestion(value);
-    addQuestion(value);
   }
 
   const handleAddQuestionClick = () => {
-    addQuestion(selectedQuestion);
+    setQuestions([...questions, { type_id: parseInt(selectedQuestion) }]);
   }
 
-  const addQuestion = (type) => {
-    if (type === "dropdown" || type === "checkbox") {
-      setQuestions([...questions, {
-        type_id: type,
-        name: "",
-        options: [],
-        is_required: isRequired
-      }]);
-    }
-    else {
-      setQuestions([...questions, {
-        type_id: type,
-        name: "",
-        is_required: isRequired
-      }]);
-    }
-  }
-
-  const handleChangeName = (index, value) => {
-    const newQuestions = [...questions];
-    console.log(value);
-    newQuestions[index].name = value;
-    setQuestions(newQuestions);
-  }
-
-  const addOption = (index) => {
-    const newQuestions = [...questions];
-    const newOptions = [...newQuestions[index].options];
-    newOptions.push('');
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const handleChangeOptions = (index, optionIndex, event) => {
-    const newQuestions = [...questions];
-    const newOptions = [...newQuestions[index].options];
-    newOptions[optionIndex] = event.target.value;
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const removeOption = (index, optionIndex) => {
-    const newQuestions = [...questions];
-    const newOptions = newQuestions[index].options.filter((_, i) => i !== optionIndex);
-    newQuestions[index].options = newOptions;
-    setQuestions(newQuestions);
-  }
-
-  const handleDeleteQuestion = (index) => {
+  const handleDelete = (index) => {
     const newQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(newQuestions);
-  }
-
-  const handleIsRequiredChange = (index) => {
-    const newQuestions = [...questions];
-    newQuestions[index].is_required = !newQuestions[index].is_required;
     setQuestions(newQuestions);
   }
 
@@ -128,20 +72,23 @@ function EditForm({ id }) {
     }
   }
 
+
+
   return (
     <div className='main-section'>
       <h1>Editar formulario</h1>
+
       <div className='form-header'>
         <input className='title-input'
           type="text"
           placeholder='Título del formulario'
-          value={formTitle}
+          value={data.form.name}
           onChange={(e) => setFormTitle(e.target.value)}></input>
         <input
           className='description-input'
           type="text"
           placeholder='Descripción'
-          value={formDescription}
+          value={data.form.description}
           onChange={(e) => setFormDescription(e.target.value)}></input>
       </div>
 
@@ -150,41 +97,34 @@ function EditForm({ id }) {
         <div className='add-question'>
           <select value={selectedQuestion}
             onChange={(e) => handleSelectChange(e.target.value)}>
-            <option value="1">Respuesta corta</option>
-            <option value="2">Párrafo</option>
-            <option value="4">Desplegable</option>
-            <option value="3">Casilla de verificación</option>
-            <option value="5">Mapa</option>
+            {
+              fieldData.map((type) => {
+                return <option key={type.id} value={type.id}>{type.name}</option>
+              })
+            }
           </select>
-          <button onClick={handleAddQuestionClick}>Agregar</button>
+          <button type='button' onClick={handleAddQuestionClick}>Agregar</button>
         </div>
       </div>
 
       <div className='question-section'>
         <h3>Preguntas</h3>
         <div className='questions'>
-          {questions.map((question, index) => {
-            return (
-              <div className='question-box' key={index}>
-                <Question
-                  type={question.type_id}
-                  id={index}
-                  questions={questions}
-                  handleDelete={handleDeleteQuestion}
-                  handleChangeName={handleChangeName}
-                  options={question.options}
-                  addOption={addOption}
-                  handleChangeOptions={handleChangeOptions}
-                  removeOption={removeOption}
-                  handleIsRequiredChange={handleIsRequiredChange}>
-                </Question>
-              </div>
-            )
-          })}
+          {
+            questions.map((question, index) => {
+              return (
+                <div className='question-box' key={index}>
+                  {question.type_id}    
+                  <Question type={question.type_id} />
+                  <button type='button' onClick={() => handleDelete(index)}>Eliminar</button>
+                </div>
+              )
+            })
+          }
         </div>
       </div>
 
-      <button onClick={handleSubmit}>Enviar</button>
+      <button type='submit' onClick={handleSubmit}>Enviar</button>
     </div>
   );
 }
