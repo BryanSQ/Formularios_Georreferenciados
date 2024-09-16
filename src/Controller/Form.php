@@ -15,43 +15,38 @@ class FormController{
   }
 
   public function add_form(){
-
     $data = json_decode(file_get_contents("php://input"), true);
-
 
     $name = $data["name"];
     $description = $data["description"];
     $is_visible = $data["is_visible"];
-    $code = $data["code"];
 
-    $new_form = new Form($name, $description, $code, $is_visible);
+    $new_form = new Form($name, $description, $is_visible);
 
     $fields = $data["fields"];
     foreach ($fields as $field){
       $field_name = $field["name"];
       $field_is_required = $field["is_required"];
-      $field_type = $field["type"];
+      $field_type = $field["type_id"];
 
       $new_field = new Field($field_name, $field_is_required, $field_type);
       $new_form->add_field($new_field);
 
-      if ($field_type === "select" || $field_type === "checkbox"){ {
+      if ($field_type === "3" || $field_type === "4"){
         $options = $field["options"];
         foreach ($options as $option){
           $new_option = new Option($option);
           $new_field->add_option($new_option);
         }
       }
-
     }
 
-    $new_form->create();
+    $new_form_id = $new_form->create();
 
     // returns the new form ID as a JSON string
-    echo json_encode(["id" => $new_form->get_id()]);
+    echo json_encode(["id" => $new_form_id]);
     return;
   }
-}
 
   public function get_form(string $id){
     $form = Form::read($id);
@@ -102,15 +97,15 @@ class FormController{
     return;
   }
 
-  public function update_form(array $data){
-    $form = Form::read($data["id"]);
+  public function update_form(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
+    $form = Form::read($id);
     if (!$form){
       echo json_encode(["error" => "Form not found"]);
       return;
     }
 
     $updated_data = array_merge($form, $data); // se supone que mezcla los datos actuales con los datos del formulario 
-    
     $updated_form = Form::update($updated_data);
 
     if(!$updated_form){
@@ -167,59 +162,44 @@ class FormController{
     return;
   }
 
-  public function get_validation_errors(array $data, bool $is_new = true): array
-  {
-    $errors = [];
+  public function get_map_results(){
+    // get answers where field type is map
+    $maps = Field::get_maps();
 
-    if ($is_new && empty($data["name"])) {
-      $errors[] = "name is required";
+    if (!$maps){
+      http_response_code(404);
+      echo json_encode(["error" => "No maps found"]);
+      return;
     }
 
-    if (array_key_exists("size", $data)) {
-      if (filter_var($data["size"], FILTER_VALIDATE_INT) === false) {
-        $errors[] = "size must be an integer";
-      }
-    }
-
-    return $errors;
+    echo json_encode($maps);
+    return;
   }
 
-  public function get_form_with_answers(string $id)
-  {
-    $data = Form::get_form_with_answers($id);
-    if (!$data){
-      return json_encode(["error" => "Form not found"]);
+  public function get_form_with_answers(string $id) {
+    $form = Form::read($id);
+    if (!$form){
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
     }
 
-    $id = $data[0]["id"];
-    $name = $data[0]["name"];
-    $description = $data[0]["description"];
-    $code = $data[0]["code"];
-    $is_visible = $data[0]["is_visible"];
-    $form = new Form($name, $description, $code, $is_visible);
-    
-    foreach($data as $row){
-      $field_id = $row["Field.id"];
-      
-      if(!$form->has_field($field_id)){
-        $field_name = $row["Field.name"];
-        $field_is_required = $row["Field.is_required"];
-        $field_type = $row["Field_Type.id"];
-        $field = new Field($field_id, $field_name, $field_is_required, $field_type);
-        $anser_id = $row["Answer.id"];
-        $answer = $row["Answer.answer"];
-        
-        $field->add_answer(new Answer($anser_id, $field_id, $answer));
-        $form->add_field($field);
-      } else { 
-        $field = $form->get_a_field($field_id);
-        $anser_id = $row["Answer.id"];
-        $answer = $row["Answer.answer"];
-        $field->add_answer(new Answer($anser_id, $field_id, $answer));
-      
-      }
+    $answers = Form::get_form_with_answers($id);
+
+    if (!$answers){
+      http_response_code(404);
+      echo json_encode(["error" => "Form has no answers"]);
+      return;
     }
-    return json_encode($form);
+
+    $form_with_answers = [
+      'form' => $form,
+      'answers' => $answers,
+    ];
+
+    echo json_encode($form_with_answers);
+    return;
   }
-
 }
+
+

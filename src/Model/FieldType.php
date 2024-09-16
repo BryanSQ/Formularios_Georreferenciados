@@ -1,6 +1,6 @@
 <?php
 
-class FieldType{
+class FieldType {
   private int $id;
   private string $name;
   private PDO $connection;
@@ -19,6 +19,24 @@ class FieldType{
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row["id"];
+  }
+
+  static function get_all(){
+    $connection = Database::get_instance()->get_connection();
+    $sql = "SELECT * FROM Field_Type";
+    $stmt = $connection->prepare($sql);
+    $stmt->execute();
+
+    $field_types = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      // get id and name from the row
+      $field_types[] = [
+        "id" => $row["id"],
+        "name" => $row["name"]
+      ];
+    }
+
+    return $field_types;
   }
 
   public function create(): string

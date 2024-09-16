@@ -1,18 +1,22 @@
 import CreateForm from './components/CreateForm'
-import AnswerView from './components/AnswerView'
+import AnswerForm from './components/AnswerForm'
 import Login from './components/Login'
-import Map from './components/Map'
 import AdminView from './components/AdminView'
+import EditForm from './components/EditForm'
+import ResultMap from './components/ResultMap'
+import ResultTable from './components/ResultTable'
 
 function App() {
 
   return (
     <>
-      <CreateForm></CreateForm>
-      {/* <AnswerView id={1} /> */}
-      {/* <Login></Login> */}
-      {/* <Map/> */}
-       <AdminView></AdminView> 
+      <CreateForm />
+      {/* <AnswerForm id={32} /> */}
+      {/* <Login /> */}
+      {/* <AdminView/> */}
+      {/* <EditForm id={32} /> */}
+      {/* <ResultMap />     */}
+      {/* <ResultTable id={32} /> */}
     </>
   )
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Field{
+class Field {
   private int $id;
   private string $name;
   private bool $is_required;
@@ -12,10 +12,10 @@ class Field{
 
   private PDO $connection;
 
-  public function __construct(string $name, bool $is_required, int $type){
+  public function __construct(string $name, bool $is_required, int $type_id){
     $this->name = $name;
     $this->is_required = $is_required;
-    $this->type_id = $type;
+    $this->type_id = $type_id;
     $this->connection = Database::get_instance()->get_connection();
   }
 
@@ -36,7 +36,7 @@ class Field{
 
   public function create(int $form_id): string
   {
-    $sql = "INSERT INTO Field (name, is_required, type, form_id) 
+    $sql = "INSERT INTO Field (name, is_required, type_id, form_id) 
             VALUES (:name, :is_required, :type_id, :form_id)";
             
     $stmt = $this->connection->prepare($sql);
@@ -53,7 +53,6 @@ class Field{
     foreach ($this->options as $option) {
       $option->create($this->id);
     }
-
 
     return $this->id;
   }
@@ -75,5 +74,46 @@ class Field{
     return $data;
   }
 
+  public static function update(array $data): array | false {
+    $connection = Database::get_instance()->get_connection();
 
+    $sql = "UPDATE Field SET name = :name, 
+    is_required = :is_required, 
+    type_id = :type_id WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':name', $data['name']);
+    $stmt->bindParam(':is_required', $data['is_required']);
+    $stmt->bindParam(':type_id', $data['type_id']);
+    $stmt->bindParam(':id', $data['id']);
+
+    if ($stmt->execute()) {
+        return $data;
+    } else {
+        return false;
+    }
+  }
+
+  public static function get_maps(): array | false{
+    $connection = Database::get_instance()->get_connection();
+
+    $map_id_query = 'SELECT id FROM Field_Type
+            WHERE name = "map" OR name = "MAP"';
+
+    // query only fields with map type
+    $sql = "SELECT Answer.answer as answer, Field.name as field_name
+        FROM Field
+        JOIN Answer ON Field.id = Answer.field_id
+        WHERE Field.type_id = ({$map_id_query})";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->execute();
+
+    $data = [];
+    
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $data[] = $row;
+    }
+    return $data;
+  }
 }

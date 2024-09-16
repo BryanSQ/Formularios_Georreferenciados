@@ -9,6 +9,7 @@ require 'Core/Router.php';
 
 require 'Controller/Form.php';
 require 'Controller/User.php';
+require 'Controller/FieldType.php';
 
 
 
@@ -33,19 +34,28 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
-
-// $database = Database::get_instance();
+$database = Database::get_instance();
 
 $router = new Router();
 
-$router->post('/user', 'UserController@login');
+$router->post('/login', 'UserController@login');
 
 $router->get('/home', 'FormController@home');
+$router->get('/forms', 'FormController@get_all_forms');
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
-$router->post('/forms/{id}/answers', 'FormController@save_answer');
+$router->get('/forms/results/map', 'FormController@get_map_results');
+$router->get('/fields', 'FieldTypeController@get_field_types');
+
+
 $router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
-$router->get('/forms', 'FormController@get_all_forms');
+
+$router->post('/forms/{id}/answers', 'FormController@save_answer');
+
+$router->post('/forms', 'FormController@add_form');
+
+$router->put('/forms/{id}', 'FormController@update_form');
+
 $router->delete('/forms/{id}', 'FormController@remove_form');
 
 
