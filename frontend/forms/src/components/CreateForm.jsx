@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createForm } from '../services/formServices';
+import { useNavigate } from 'react-router-dom';
 
 import Question from './Question';
 import TypeSelect from './helper/TypeSelect';
@@ -7,6 +8,7 @@ import TypeSelect from './helper/TypeSelect';
 import './styles/CreateForm.css';
 
 function CreateForm() {
+  const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(1);
@@ -72,6 +74,7 @@ function CreateForm() {
     try {
       const response = await createForm(data);
       console.log('Formulario creado con éxito:', response);
+      navigate('/admin');
     } catch (error) {
       console.error('Error al crear el formulario:', error);
     }

@@ -1,13 +1,14 @@
 import FormField from './FormField';
-
 import useFetchData from '../hooks/useFetchData';
-
 import { sendAnswer } from '../services/formServices';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Los datos no deben ser inyectados en el componente, deben ser obtenidos desde un servicio
 
 
-const AnswerForm = ({ id }) => {
+const AnswerForm = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
 
@@ -55,6 +56,7 @@ const AnswerForm = ({ id }) => {
     try {
       const response = await sendAnswer(data.form.id, answer);
       console.log(response);
+      navigate('/admin');
     }
     catch (error) {
       console.error(error);

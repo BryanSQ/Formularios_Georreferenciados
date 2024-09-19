@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { updateForm } from '../services/formServices';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import useFetchData from '../hooks/useFetchData';
 
@@ -8,7 +9,9 @@ import TypeSelect from './helper/TypeSelect';
 
 import './styles/CreateForm.css';
 
-function EditForm({ id }) {
+function EditForm() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   
   const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
 
@@ -69,6 +72,7 @@ function EditForm({ id }) {
     try {
       const response = await updateForm(id, data);
       console.log('Formulario creado con éxito:', response);
+      navigate('/admin');
     } catch (error) {
       console.error('Error al crear el formulario:', error);
     }

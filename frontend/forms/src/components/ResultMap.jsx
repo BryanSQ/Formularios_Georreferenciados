@@ -3,8 +3,10 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import useFetchData from '../hooks/useFetchData';
+import { useParams } from 'react-router-dom';
 
 const ResultMap = () => {
+  const { id } = useParams();
   const { data, loading, error } = useFetchData('http://localhost/forms/results/map');
   const [map, setMap] = useState(null);
 

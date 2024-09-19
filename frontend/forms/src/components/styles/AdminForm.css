@@ -34,3 +34,7 @@
     background-color: #000;
     color: #fff;
 }
+
+.buttons button {
+    margin: 5px;
+}

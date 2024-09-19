@@ -1,8 +1,10 @@
 
 import './styles/Login.css';
 import { login } from '../services/userServices';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
 
   const submitLogin = async (e) => {
     e.preventDefault();
@@ -13,6 +15,7 @@ function Login() {
     try{
       const response = await login(data);
       console.log(response);
+      navigate('/admin');
     }
     catch(error){
       console.error(error);

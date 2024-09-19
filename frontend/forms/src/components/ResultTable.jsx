@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import Table from "./Table"
 import "./styles/ResultTable.css"
 import useFetchData from "../hooks/useFetchData";
+import { useParams } from "react-router-dom";
 
-const ResultTable = ({ id }) => {
+const ResultTable = () => {
+  const { id } = useParams();
   const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/answers`);
 
   useEffect(() => {
