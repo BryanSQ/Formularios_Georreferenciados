@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 const ResultMap = () => {
   const { id } = useParams();
-  const { data, loading, error } = useFetchData('http://localhost/forms/results/map/' + id);
+  const { data, loading, error } = useFetchData('http://localhost/api/forms/results/map/' + id);
   const [map, setMap] = useState(null);
 
   useEffect(() => {

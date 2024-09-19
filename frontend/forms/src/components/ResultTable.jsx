@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 const ResultTable = () => {
   const { id } = useParams();
-  const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/answers`);
+  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/answers`);
 
   useEffect(() => {
     if (data) {

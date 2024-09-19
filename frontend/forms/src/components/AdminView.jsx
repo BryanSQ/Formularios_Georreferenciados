@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminView() {
     const navigate = useNavigate();
-    let { data: initialData, loading, error } = useFetchData('http://localhost/forms');
+    let { data: initialData, loading, error } = useFetchData('http://localhost/api/forms');
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function AdminView() {
         return <div>Loading...</div>;
     }
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div>Error!: {error.message}</div>;
     }
 
     const handleDelete = (id) => {
