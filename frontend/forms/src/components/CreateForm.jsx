@@ -91,13 +91,13 @@ function CreateForm() {
           name='name'
           required
         ></input>
-        <input
+        <textarea
           className='description-input'
           type="text"
           placeholder='Descripción'
           name='description'
           required
-        ></input>
+        ></textarea>
       </div>
 
       <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange} />
