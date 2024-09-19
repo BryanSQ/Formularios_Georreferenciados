@@ -58,6 +58,6 @@ $router->put('/forms/{id}', 'FormController@update_form');
 
 $router->delete('/forms/{id}', 'FormController@remove_form');
 
-
+$router->put('/forms/fields/{id}', 'FormController@update_field');
 
 $router->run($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

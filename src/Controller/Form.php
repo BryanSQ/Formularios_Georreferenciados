@@ -117,6 +117,26 @@ class FormController{
     return;
   }
 
+  public function update_field(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
+    $field = Field::read($id);
+    if (!$field){
+      echo json_encode(["error" => "Field not found"]);
+      return;
+    }
+
+    $updated_data = array_merge($field, $data);
+    $updated_field = Field::update($updated_data);
+
+    if(!$updated_field){
+      echo json_encode(["error" => "Failed to update field"]);
+      return;
+    }
+
+    echo json_encode(["id" => $updated_field["id"]]);
+    return;
+  }
+
   public function remove_form(string $id){    
     $is_deleted = Form::delete($id);
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];

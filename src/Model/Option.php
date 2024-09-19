@@ -79,6 +79,23 @@ class Option{
     }
   }
 
+  public static function update_value(string $id, string $value): bool
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "UPDATE Option
+            SET value = :value
+            WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':value', $value, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
   public static function delete($id): bool
   {
     $connection = Database::get_instance()->get_connection();
