@@ -183,6 +183,30 @@ class Form
   }
 
 
+  public static function get_map_results_by_id(int $id): array | false
+  {
+    $connection = Database::get_instance()->get_connection();
+    $map_query = 'SELECT id FROM Field_Type
+            WHERE name = "map" OR name = "MAP"';
+
+    $sql = "SELECT Answer.answer as answer, Field.name as field_name
+            FROM Field
+            JOIN Answer ON Field.id = Answer.field_id
+            WHERE Field.type_id = ({$map_query}) AND Field.form_id = :id";
+
+    $stmt = $connection->prepare($sql);
+
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $data = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $data[] = $row;
+    }
+
+    return $data;
+  }
+
   public function create(): string
   {
     $this->connection = Database::get_instance()->get_connection();

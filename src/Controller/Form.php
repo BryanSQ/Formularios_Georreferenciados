@@ -162,17 +162,17 @@ class FormController{
     return;
   }
 
-  public function get_map_results(){
+  public function get_map_results(string $id){
     // get answers where field type is map
-    $maps = Field::get_maps();
+    $map = Form::get_map_results_by_id($id);
 
-    if (!$maps){
+    if (!$map){
       http_response_code(404);
       echo json_encode(["error" => "No maps found"]);
       return;
     }
 
-    echo json_encode($maps);
+    echo json_encode($map);
     return;
   }
 
