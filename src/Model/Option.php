@@ -15,7 +15,7 @@ class Option{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT * FROM Option
+    $sql = "SELECT * FROM `Option`
             WHERE field_id = :field_id";
     
     $stmt = $connection->prepare($sql);
@@ -47,7 +47,7 @@ class Option{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT * FROM Option
+    $sql = "SELECT * FROM `Option`
             WHERE id = :id";
 
     $stmt = $connection->prepare($sql);
@@ -59,7 +59,7 @@ class Option{
     return $data;
   }
 
-  public static function update(array $data): array | false
+  /*public static function update(array $data): array | false
   {
     $connection = Database::get_instance()->get_connection();
 
@@ -77,13 +77,13 @@ class Option{
     } else {
       return false;
     }
-  }
+  }*/
 
-  public static function update_value(string $id, string $value): bool
+  public static function update(string $id, string $value): bool
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "UPDATE Option
+    $sql = "UPDATE `Option`
             SET value = :value
             WHERE id = :id";
 
@@ -100,7 +100,7 @@ class Option{
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "DELETE FROM Option
+    $sql = "DELETE FROM `Option`
             WHERE id = :id";
 
     $stmt = $connection->prepare($sql);

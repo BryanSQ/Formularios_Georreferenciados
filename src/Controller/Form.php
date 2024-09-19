@@ -220,6 +220,57 @@ class FormController{
     echo json_encode($form_with_answers);
     return;
   }
+
+  public function add_option(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $field = Field::read($id);
+    if (!$field){
+      echo json_encode(["error" => "Field not found"]);
+      return;
+    }
+
+    $option = $data["value"];
+    $new_option = new Option($option);
+    $new_option->create($id);
+
+    echo json_encode(["success" => "Options added"]);
+    return;
+  }
+  //forms/fields/options/5
+  public function delete_option(string $id){
+    $option = Option::read($id);
+    if (!$option){
+      echo json_encode(["error" => "Option not found"]);
+      return;
+    }
+
+    $is_deleted = Option::delete($id);
+    $result = $is_deleted ? ["success" => "Option deleted"] : ["error" => "Option not found"];
+    // returns the result as a JSON string
+    echo json_encode($result);
+    return;
+  }
+
+  public function update_option(string $id){
+    $data = json_decode(file_get_contents("php://input"), true);
+    $option = Option::read($id);
+    if (!$option){
+      echo json_encode(["error" => "Option not found"]);
+      return;
+    }
+
+    $new_value = $data["value"];
+    $updated_option = Option::update($id, $new_value);
+
+    if(!$updated_option){
+      echo json_encode(["error" => "Failed to update option"]);
+      return;
+    }
+
+    echo json_encode(["success" => "Option updated"]);
+    return;
+  }
 }
 
 

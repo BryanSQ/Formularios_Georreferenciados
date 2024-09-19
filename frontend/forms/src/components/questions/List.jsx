@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-const List = ({ type }) => {
+const List = ({ type, optionsList }) => {
 
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState(optionsList);
 
   const addOption = () => {
     setOptions([...options, { id: crypto.randomUUID() }]);
@@ -12,19 +12,23 @@ const List = ({ type }) => {
     setOptions(options.filter(option => option.id !== id));
   }
 
+  
+  //console.log('Options:', options);
 
   return (
     <div name="options">
       {
-        options.map(({id}, index) => {
+        options.map(({id, value}, index) => {
           return (
             <div key={id}>
               <input
+                id={id}
                 className="multiple"
                 type_id={type}
                 name={`option-${index}`}
                 type="text"
                 placeholder={`Opción ${index + 1}`}
+                defaultValue={value}
               />
               <button type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
             </div>
@@ -37,5 +41,7 @@ const List = ({ type }) => {
   );
 
 }
+// ruta para actualizar el option
+// 
 
 export default List;

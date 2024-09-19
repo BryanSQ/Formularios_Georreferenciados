@@ -60,4 +60,11 @@ $router->delete('/forms/{id}', 'FormController@remove_form');
 
 $router->put('/forms/fields/{id}', 'FormController@update_field');
 
+$router->post('/forms/fields/{id}/options', 'FormController@add_option');
+
+$router->delete('/forms/fields/options/{id}', 'FormController@delete_option');
+
+$router->put('/forms/fields/options/{id}', 'FormController@update_option');
+
+
 $router->run($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
