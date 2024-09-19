@@ -59,5 +59,6 @@ $router->put('/forms/{id}', 'FormController@update_form');
 $router->delete('/forms/{id}', 'FormController@remove_form');
 
 
+$request_uri = str_replace('/api', '', $_SERVER['REQUEST_URI']);
 
-$router->run($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+$router->run($_SERVER['REQUEST_METHOD'], $request_uri);

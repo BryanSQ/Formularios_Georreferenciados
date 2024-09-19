@@ -1,6 +1,6 @@
+import 'leaflet/dist/leaflet.css';
 import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 const MapField = ({ field }) => {
   const mapRef = useRef(null);

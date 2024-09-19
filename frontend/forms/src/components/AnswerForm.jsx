@@ -10,7 +10,7 @@ const AnswerForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/fields`);
 
 
   const handleSubmitAnswer = async (e) => {

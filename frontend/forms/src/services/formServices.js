@@ -1,4 +1,4 @@
-const URL = 'http://localhost';
+const URL = 'http://localhost/api';
 
 export const sendAnswer = async (id, data) => {
   const response = await fetch(`${URL}/forms/${id}/answers`, {

@@ -13,7 +13,7 @@ function EditForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  const { data, loading, error } = useFetchData(`http://localhost/forms/${id}/fields`);
+  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/fields`);
 
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(1);
