@@ -92,14 +92,8 @@ function EditForm() {
         <textarea
           className='description-input'
           placeholder='Descripción'
-          value={data.form.description}
+          defaultValue={data.form.description}
         ></textarea>
-        {/* <input
-          className='description-input'
-          type="text"
-          placeholder='Descripción'
-          value={data.form.description}
-          onChange={(e) => setFormDescription(e.target.value)}></input> */}
       </div>
 
       <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange}/>
