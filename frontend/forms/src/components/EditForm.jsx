@@ -88,14 +88,12 @@ function EditForm() {
         <input className='title-input'
           type="text"
           placeholder='Título del formulario'
-          value={data.form.name}
-          onChange={(e) => setFormTitle(e.target.value)}></input>
-        <input
+          value={data.form.name}></input>
+        <textarea
           className='description-input'
-          type="text"
           placeholder='Descripción'
-          value={data.form.description}
-          onChange={(e) => setFormDescription(e.target.value)}></input>
+          defaultValue={data.form.description}
+        ></textarea>
       </div>
 
       <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange}/>
@@ -104,10 +102,10 @@ function EditForm() {
         <h3>Preguntas</h3>
         <div className='questions'>
           {
-            questions.map(({ id, type }) => {
+            questions.map(({ id, type, name }) => {
               return (
                 <div className='question-box' key={id}>
-                  <Question type={type} />
+                  <Question type={type} name={name} />
                   <button type='button' onClick={() => handleDelete(id)}>Eliminar</button>
                 </div>
               )

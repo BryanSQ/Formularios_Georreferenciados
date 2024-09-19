@@ -3,10 +3,10 @@ import List from './questions/List';
 
 
 
-const Question = ({ type }) => {
+const Question = ({ type, name }) => {
   return (
     <>
-      <input type_id={type} name='question-name' type="text" placeholder='Pregunta'></input>
+      <input type_id={type} name='question-name' type="text" placeholder='Pregunta' value={name ? name : ''}></input>
       {
         (type === 1 || type === 2)
           ? <Text option={type} />
