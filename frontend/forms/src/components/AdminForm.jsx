@@ -6,9 +6,11 @@ function AdminForm({ form, handleDelete }) {
 
     return (
         <div className="forms">
-            <h2>{form.name}</h2>
-            <p>{form.description}</p>
-            <p>{form.is_visible ? 'Visible' : 'No visible'}</p>
+            <div>
+                <h2>{form.name}</h2>
+                <p>{form.description}</p>
+                <p>{form.is_visible ? 'Visible' : 'No visible'}</p>
+            </div>
             <div className="buttons">
                 <button onClick={() => navigate(`/edit/${form.id}`)}>Editar</button>
                 <button onClick={() => handleDelete(form.id)}>Eliminar</button>

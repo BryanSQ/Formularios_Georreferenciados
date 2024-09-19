@@ -1,8 +1,11 @@
 .forms {
     border: 1px solid gray;
+    border-radius: 5px;
     padding: 20px;
     margin: 10px 0;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
 }
 
 .forms h2 {
@@ -14,25 +17,10 @@
 }
 
 .forms .buttons {
-    position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
     flex-direction: column;
-}
-
-.forms buttons {
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    border: 1px solid #000;
-    background: none;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.forms buttons:hover {
-    background-color: #000;
-    color: #fff;
 }
 
 .buttons button {
