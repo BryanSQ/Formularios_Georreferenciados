@@ -11,8 +11,6 @@
   border-top: 0;
   border-left: 0;
   border-right: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
 }
 
 .form-header {
@@ -29,6 +27,20 @@
 .description-input {
   margin-top: 20px;
   font-size: large;
+  font-family: 'Arial', sans-serif;
+  width: 80%;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.text-area {
+  margin-top: 20px;
+  font-size: medium;
+  font-family: 'Arial', sans-serif;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
 }
 
 .add-question-section{
