@@ -62,4 +62,21 @@ export const updateForm = async (id, data) => {
   return response.json();
 }
 
+export const updateField = async (id, data) => {
+  const response = await fetch(`${URL}/forms/fields/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    console.log('Error:', response);
+    throw new Error('Error al actualizar el campo');
+  }
+
+  return response;
+}
+
 

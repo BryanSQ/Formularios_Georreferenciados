@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { updateForm } from '../services/formServices';
+import { updateField, updateForm } from '../services/formServices';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import useFetchData from '../hooks/useFetchData';
@@ -61,6 +61,29 @@ function EditForm() {
     setQuestions(questions.filter(question => question.id !== id));
   }
 
+  const handleEdit = async (id) => {
+    const question = questions.find(question => question.id === id);
+    const questionBox = document.querySelector(`.question-box[question_id="${id}"]`);
+    const name = questionBox.querySelector('input').value;
+    const required = questionBox.querySelector('input[name="required"]').checked;
+
+    const data = {
+      id,
+      type: question.type,
+      name: name, 
+      is_required: required
+    }
+
+    console.log('Editando pregunta:', JSON.stringify(data));
+
+    try {
+      const response = await updateField(id, data);
+      console.log('Campo actualizado con éxito:', response);
+    } catch (error) {
+      console.error('Error al actualizar el campo:', error);
+    }
+  }
+
   const handleSubmit = async () => {
     const data = {
       name: formTitle,
@@ -71,10 +94,10 @@ function EditForm() {
 
     try {
       const response = await updateForm(id, data);
-      console.log('Formulario creado con éxito:', response);
+      console.log('Formulario actualizado con éxito:', response);
       navigate('/admin');
     } catch (error) {
-      console.error('Error al crear el formulario:', error);
+      console.error('Error al actualizar el formulario:', error);
     }
   }
 
@@ -88,7 +111,7 @@ function EditForm() {
         <input className='title-input'
           type="text"
           placeholder='Título del formulario'
-          value={data.form.name}></input>
+          defaultValue={data.form.name}></input>
         <textarea
           className='description-input'
           placeholder='Descripción'
@@ -104,9 +127,10 @@ function EditForm() {
           {
             questions.map(({ id, type, name }) => {
               return (
-                <div className='question-box' key={id}>
+                <div className='question-box' key={id} question_id={id}>
                   <Question type={type} name={name} />
                   <button type='button' onClick={() => handleDelete(id)}>Eliminar</button>
+                  <button type='button' onClick={() => handleEdit(id)}>Editar</button>
                 </div>
               )
             })
