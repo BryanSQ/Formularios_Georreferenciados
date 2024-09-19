@@ -7,6 +7,9 @@ import TypeSelect from './helper/TypeSelect';
 
 import './styles/CreateForm.css';
 
+import { v4 as uuidv4 } from 'uuid';
+
+
 function CreateForm() {
   const navigate = useNavigate();
 
@@ -19,7 +22,7 @@ function CreateForm() {
   }
 
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, { id: crypto.randomUUID(), type: selectedQuestion }]);
+    setQuestions([...questions, { id: uuidv4(), type: selectedQuestion }]);
   }
 
   const handleDelete = (id) => {

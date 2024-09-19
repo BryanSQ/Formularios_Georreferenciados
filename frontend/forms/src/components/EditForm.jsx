@@ -11,6 +11,11 @@ import './styles/CreateForm.css';
 
 import API_URL from '../config';
 
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+
 function EditForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,7 +60,7 @@ function EditForm() {
   }
 
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, { id: crypto.randomUUID() , type: selectedQuestion }]);
+    setQuestions([...questions, { id: uuidv4() , type: selectedQuestion }]);
   }
 
   const handleDelete = (id) => {
