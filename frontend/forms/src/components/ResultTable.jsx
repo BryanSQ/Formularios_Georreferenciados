@@ -4,9 +4,11 @@ import "./styles/ResultTable.css"
 import useFetchData from "../hooks/useFetchData";
 import { useParams } from "react-router-dom";
 
+import API_URL from "../config";
+
 const ResultTable = () => {
   const { id } = useParams();
-  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/answers`);
+  const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/answers`);
 
   useEffect(() => {
     if (data) {

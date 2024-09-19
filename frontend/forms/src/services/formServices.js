@@ -1,7 +1,7 @@
-const URL = 'http://localhost/api';
+import API_URL from "../config";
 
 export const sendAnswer = async (id, data) => {
-  const response = await fetch(`${URL}/forms/${id}/answers`, {
+  const response = await fetch(`${API_URL}/forms/${id}/answers`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ export const sendAnswer = async (id, data) => {
 };
 
 export const deleteForm = async (id) => {
-  const response = await fetch(`${URL}/forms/${id}`, {
+  const response = await fetch(`${API_URL}/forms/${id}`, {
     method: 'DELETE'
   });
 
@@ -30,7 +30,7 @@ export const deleteForm = async (id) => {
 
 export const createForm = async (data) => {
   console.log('Data:', data);
-  const response = await fetch(`${URL}/forms`, {
+  const response = await fetch(`${API_URL}/forms`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ export const createForm = async (data) => {
 }
 
 export const updateForm = async (id, data) => {
-  const response = await fetch(`${URL}/forms/${id}`, {
+  const response = await fetch(`${API_URL}/forms/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ export const updateForm = async (id, data) => {
 }
 
 export const updateField = async (id, data) => {
-  const response = await fetch(`${URL}/forms/fields/${id}`, {
+  const response = await fetch(`${API_URL}/forms/fields/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ export const updateField = async (id, data) => {
 }
 
 export const createOption = async (id, data) => {
-  const response = await fetch(`${URL}/forms/fields/${id}/options`, {
+  const response = await fetch(`${API_URL}/forms/fields/${id}/options`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ export const createOption = async (id, data) => {
 }
 
 export const deleteOption = async (id) => {
-  const response = await fetch(`${URL}/forms/fields/options/${id}`, {
+  const response = await fetch(`${API_URL}/forms/fields/options/${id}`, {
     method: 'DELETE'
   });
 
@@ -108,7 +108,7 @@ export const deleteOption = async (id) => {
 }
 
 export const updateOption = async (id, data) => {
-  const response = await fetch(`${URL}/forms/fields/options/${id}`, {
+  const response = await fetch(`${API_URL}/forms/fields/options/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

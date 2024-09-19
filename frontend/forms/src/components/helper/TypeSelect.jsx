@@ -1,7 +1,9 @@
 import useFetchData from "../../hooks/useFetchData";
 
+import API_URL from "../../config";
+
 const TypeSelect = ({ handleClick, handleChange }) => {
-  const { data, loading, error } = useFetchData(`http://localhost/api/fields`);
+  const { data, loading, error } = useFetchData(`${API_URL}/fields`);
 
   if (loading) {
     return <div>Loading...</div>;

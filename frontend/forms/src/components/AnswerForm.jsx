@@ -5,12 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 // Los datos no deben ser inyectados en el componente, deben ser obtenidos desde un servicio
 
+import API_URL from '../config';
 
 const AnswerForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/fields`);
+  const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/fields`);
 
 
   const handleSubmitAnswer = async (e) => {

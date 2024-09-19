@@ -5,9 +5,11 @@ import { deleteForm } from '../services/formServices';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import API_URL from '../config.js';
+
 function AdminView() {
     const navigate = useNavigate();
-    let { data: initialData, loading, error } = useFetchData('http://localhost/api/forms');
+    let { data: initialData, loading, error } = useFetchData(`${API_URL}/forms`);
     const [data, setData] = useState(null);
 
     useEffect(() => {

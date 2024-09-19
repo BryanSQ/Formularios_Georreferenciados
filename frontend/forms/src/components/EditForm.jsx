@@ -9,11 +9,13 @@ import TypeSelect from './helper/TypeSelect';
 
 import './styles/CreateForm.css';
 
+import API_URL from '../config';
+
 function EditForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  const { data, loading, error } = useFetchData(`http://localhost/api/forms/${id}/fields`);
+  const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/fields`);
 
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(1);

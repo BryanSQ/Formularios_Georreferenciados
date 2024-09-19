@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import useFetchData from '../hooks/useFetchData';
 import { useParams } from 'react-router-dom';
 
+import API_URL from '../config';
+
 const ResultMap = () => {
   const { id } = useParams();
-  const { data, loading, error } = useFetchData('http://localhost/api/forms/results/map/' + id);
+  const { data, loading, error } = useFetchData(`${API_URL}/forms/results/map/${id}`);
   const [map, setMap] = useState(null);
 
   useEffect(() => {
