@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import useFetchData from '../hooks/useFetchData';
 import { useParams } from 'react-router-dom';
 
+import MarkerIcon from '../assets/location-pin.png';
+
 import API_URL from '../config';
+
 
 const ResultMap = () => {
   const { id } = useParams();
@@ -20,11 +23,17 @@ const ResultMap = () => {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(mapInstance);
 
+      const myIcon = L.icon({
+        iconUrl: MarkerIcon,
+        iconSize: [50, 50],
+        iconAnchor: [25, 50],
+      });
+
       data.forEach((result) => {
         const coords = result.answer.split(' ');
         const latitude = parseFloat(coords[0]);
         const longitude = parseFloat(coords[1]);
-        L.marker([latitude, longitude]).addTo(mapInstance).bindPopup(result.field_name);
+        L.marker([latitude, longitude], {icon: myIcon}).addTo(mapInstance).bindPopup(result.field_name);
       });
 
       // L.marker([9.6301892, -84.2541844]).addTo(mapInstance);

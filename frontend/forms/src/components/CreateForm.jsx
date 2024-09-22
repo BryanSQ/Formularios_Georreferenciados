@@ -23,6 +23,7 @@ function CreateForm() {
 
   const handleAddQuestionClick = () => {
     setQuestions([...questions, { id: uuidv4(), type: selectedQuestion }]);
+    console.log(questions);
   }
 
   const handleDelete = (id) => {

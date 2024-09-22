@@ -3,20 +3,33 @@ import List from './questions/List';
 
 
 
-const Question = ({ type, name, is_required, options }) => {
+const Question = ({ type }) => {
+
+  const renderInputField = () => {
+    switch (type) {
+      case 1:
+        return <input type="text" placeholder={"Texto de respuesta corto"} disabled></input>
+      case 2:
+        return <input type="text" placeholder={"Texto de respuesta larga"} disabled></input>
+      case 3:
+      case 4:
+        return <List type={type} />;
+      default:
+        return <div>Mapa</div>;
+    }
+  };
+
+
+
   return (
     <>
-      <input type_id={type} name='question-name' type="text" placeholder='Pregunta' defaultValue={name ? name : ''} ></input>
+      <input type_id={type} name='question-name' type="text" placeholder='Pregunta' ></input>
       {
-        (type === 1 || type === 2)
-          ? <Text option={type} />
-          : (type === 3 || type === 4)
-            ? <List type={type} optionsList={options} />
-            : <div>Mapa</div>
+        renderInputField()
       }      
       <div style={{display:"flex", alignContent: "center"}}>
         <label htmlFor='required'>¿Obligatoria?</label>
-        <input id='required' name='required' type='checkbox' defaultChecked={is_required}></input>
+        <input id='required' name='required' type='checkbox' ></input>
       </div>
     </>
   )

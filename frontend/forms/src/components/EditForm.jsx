@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import useFetchData from '../hooks/useFetchData';
 
-import Question from './Question';
+import EditQuestion from './edit/EditQuestion';
 import TypeSelect from './helper/TypeSelect';
 
 import './styles/CreateForm.css';
@@ -67,90 +67,74 @@ function EditForm() {
     setQuestions(questions.filter(question => question.id !== id));
   }
 
-  const handleEdit = async (id) => {
-    const question = questions.find(question => question.id === id);
-    const questionBox = document.querySelector(`.question-box[question_id="${id}"]`);
+  const handleEdit = async (fieldId) => {
+    const question = questions.find(question => question.id === fieldId);
+    const questionBox = document.querySelector(`.question-box[question_id="${fieldId}"]`);
+
     const name = questionBox.querySelector('input').value;
     const required = questionBox.querySelector('input[name="required"]').checked;
+
+    const data = {
+      id: fieldId,
+      type: question.type,
+      name,
+      is_required: required,
+    }
+
+
+    if (question.name !== name || question.is_required !== required) {
+
+      try {
+        const response = await updateField(fieldId, data);
+        console.log('Campo actualizado con éxito:', response);
+      } catch (error) {
+        console.error('Error al actualizar el campo:', error);
+      }
+    }
+
+    // early return if the question does not have options (short text or long text)
+    if (!question.options) return;
+
     const divOptions = questionBox.querySelector('div[name="options"]');
-    const inputs = divOptions.querySelectorAll('input.multiple');
 
-    // Recorre los inputs y extrae el value y el id
-    const newOptions = Array.from(inputs).map(input => ({
-      id: /[a-zA-Z]/.test(input.id) ? -1 : parseInt(input.id),
-      value: input.value
-    }));
+    const updates = Array.from(divOptions.querySelectorAll('input'))
+      .map(input => ({ id: isNaN(input.id) ? -1 : parseInt(input.id), value: input.value }));
 
-    console.log('Options:', question.options);
-    console.log('newOptions:', newOptions);
-    
+    const removed = question.options.filter(option => !updates.some(input => input.id === option.id));
 
-    // Identificar los ids en ambos arrays
-    const previousIds = question.options.map(option => option.id);
-    const inputIds = newOptions.map(option => option.id);
-    
+    const added = updates.filter(({ id }) => id === -1);
 
-    console.log('previousIds:', previousIds);
-    console.log('inputIds:', inputIds);
-
-    // Desaparecieron (están en previousArray pero no en inputArray)
-    const disappeared = question.options.filter(option => !inputIds.includes(option.id));
-
-    // Nuevas (están en inputArray pero no en previousArray)
-    const addedOptions = newOptions.filter(option => !previousIds.includes(option.id));
-
-    // Cambiaron (están en ambos arrays pero cambió el value)
-    const changed = newOptions.filter(option => {
-        const previousOption = question.options.find(prev => prev.id === option.id);
-        return previousOption && previousOption.value !== option.value;
+    const changed = updates.filter(option => {
+      const previousOption = question.options.find(prev => prev.id === option.id);
+      return previousOption && previousOption.value !== option.value;
     });
 
-    disappeared.forEach(async option => {
+    removed.forEach(async ({ id }) => {
       try {
-        await deleteOption(option.id);
-        console.log('Opción eliminada con éxito:', option.id);
+        await deleteOption(id);
+        console.log('Opción eliminada con éxito:', id);
       } catch (error) {
-        console.error('Error al eliminar la opción:', error);
+        console.error('Error al eliminar la opción:', id);
       }
     });
 
-    addedOptions.forEach(async option => {
+    added.forEach(async ({ value }) => {
       try {
-        const data = {
-          value: option.value
-        }
-        await createOption(id, data);
-        console.log('Opción creada con éxito:', option);
+        await createOption(fieldId, { value });
+        console.log('Opción creada con éxito:', value);
       } catch (error) {
         console.error('Error al crear la opción:', error);
       }
     });
 
-    changed.forEach(async option => {
+    changed.forEach(async ({ id, value }) => {
       try {
-        const data = {
-          value: option.value
-        }
-        await updateOption(option.id, data);
-        console.log('Opción actualizada con éxito:', option);
+        await updateOption(id, { value });
+        console.log('Opción actualizada con éxito:', value);
       } catch (error) {
         console.error('Error al actualizar la opción:', error);
       }
     });
-
-    const data = {
-      id,
-      type: question.type,
-      name: name, 
-      is_required: required ? 1 : 0
-    }
-
-    try {
-      const response = await updateField(id, data);
-      console.log('Campo actualizado con éxito:', response);
-    } catch (error) {
-      console.error('Error al actualizar el campo:', error);
-    }
   }
 
   const handleSubmit = async (event) => {
@@ -191,24 +175,16 @@ function EditForm() {
           placeholder='Descripción'
           defaultValue={data.form.description}
         ></textarea>
-      </div>
-
-      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange}/>
+      </div>      
 
       <div className='question-section'>
         <h3>Preguntas</h3>
         <div className='questions'>
           {
-            questions.map(form => {
-              const { id, type, name, is_required } = form
-              let options = null;
-              if(type === 3 || type === 4) {
-                options = form.options;
-                console.log('Opciones desde editForm:', options);
-              }
+            questions.map(({ id, type, name, is_required, options }) => {
               return (
                 <div className='question-box' key={id} question_id={id}>
-                  <Question type={type} name={name} is_required={is_required} options={options}/>
+                  <EditQuestion type={type} name={name} is_required={is_required} options={options}/>
                   <button type='button' onClick={() => handleDelete(id)}>Eliminar</button>
                   <button type='button' onClick={() => handleEdit(id)}>Editar</button>
                 </div>
@@ -218,27 +194,11 @@ function EditForm() {
         </div>
       </div>
 
+      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange}/>
+
       <button type='submit'>Enviar</button>
     </form>
   );
-
-  // Auxiliar functions to manage the options editing
-  function findNewElements(newArray, oldArray) {
-    return newArray.filter(newElement => !oldArray.some(oldElement => oldElement.id === newElement.id));
-  }
-  
-  // Función para encontrar elementos eliminados
-  function findDeletedElements(newArray, oldArray) {
-    return oldArray.filter(oldElement => !newArray.some(newElement => newElement.id === oldElement.id));
-  }
-  
-  // Función para encontrar elementos actualizados
-  function findUpdatedElements(newArray, oldArray) {
-    return newArray.filter(newElement => {
-      const oldElement = oldArray.find(oldElement => oldElement.id === newElement.id);
-      return oldElement && oldElement.value !== newElement.value;
-    });
-  }
 }
 
 export default EditForm;

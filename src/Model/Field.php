@@ -82,10 +82,10 @@ class Field {
     type_id = :type_id WHERE id = :id";
 
     $stmt = $connection->prepare($sql);
-    $stmt->bindParam(':name', $data['name']);
-    $stmt->bindParam(':is_required', $data['is_required']);
-    $stmt->bindParam(':type_id', $data['type_id']);
-    $stmt->bindParam(':id', $data['id']);
+    $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+    $stmt->bindParam(':is_required', $data['is_required'], PDO::PARAM_BOOL);
+    $stmt->bindParam(':type_id', $data['type_id'], PDO::PARAM_INT);
+    $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
 
     if ($stmt->execute()) {
         return $data;
