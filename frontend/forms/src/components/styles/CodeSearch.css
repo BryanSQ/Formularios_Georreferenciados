@@ -1,0 +1,23 @@
+.search{
+    /* display at the center */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.search input {
+    /* width of the input */
+    width: 50%;
+    /* padding */
+    padding: 10px;
+    /* margin */
+    margin: 10px;
+    /* border */
+    border: 1px solid #ccc;
+    /* border radius */
+    border-radius: 5px;
+    /* font size */
+    font-size: 16px;
+}
