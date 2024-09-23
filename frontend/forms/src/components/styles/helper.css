@@ -1,0 +1,18 @@
+/* Asegura que el contenedor ocupe toda la pantalla */
+.error-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  height: 100vh;           /* Altura total de la ventana */
+  width: 100vw;            /* Ancho total de la ventana */
+  /* background-color: #f8d7da; Color de fondo de error (puedes personalizarlo) */
+}
+
+.error-message {
+  font-size: 1.5rem;
+  color: #721c24;         /* Color del texto de error */
+  background-color: #f8d7da; /* Fondo similar al contenedor */
+  padding: 1rem 2rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+}

@@ -1,70 +1,40 @@
 import 'leaflet/dist/leaflet.css';
-import React, { useRef, useEffect, useState } from 'react';
-import L from 'leaflet';
+import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
+
+import customMarker from '../helper/CustomMarker';
+
+const AnswerMarker = ({ positionChange }) => {
+  const [position, setPosition] = useState(null);
+
+  useMapEvent('click', (e) => {
+    setPosition(e.latlng);
+    positionChange(e.latlng);
+  });
+
+  return position === null ? null : (
+      <Marker position={position} icon={customMarker} />
+  );
+};
+
 
 const MapField = ({ field }) => {
-  const mapRef = useRef(null);
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
-  const [markerPosition, setMarkerPosition] = useState({ lat: '', lng: '' });
 
-  useEffect(() => {
-    // Inicializa el mapa
-    const mapInstance = L.map(mapRef.current).setView([9.6301892, -84.2541844], 9);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(mapInstance);
-
-    setMap(mapInstance);
-
-    // limpiar al desmontar
-    return () => {
-      mapInstance.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (map) {
-      map.on('click', (e) => {
-        const { lat, lng } = e.latlng;
-
-        if (marker) {
-          marker.setLatLng([lat, lng]);
-        } else {
-          const newMarker = L.marker([lat, lng]).addTo(map);
-          setMarker(newMarker);
-        }
-
-        // Actualiza la posición del marcador en el estado
-        setMarkerPosition({ lat, lng });
-      });
-    }
-
-    return () => {
-      if (map) {
-        map.off('click');
-      }
-    };
-  }, [map, marker]);
-
-  const handleGetCoordinates = () => {
-    if (markerPosition) {
-      alert(`Latitud: ${markerPosition.lat}, Longitud: ${markerPosition.lng}`);
-    } else {
-      alert('No hay marcador en el mapa.');
-    }
-  };
+  const handlePositionChange = (coordinates) => {
+    const input = document.getElementById(field.id);
+    input.value = `${coordinates.lat}, ${coordinates.lng}`;
+  }
 
   return (
     <div>
-      <div style={{ height: '400px' }}
-        ref={mapRef}
-      />
-      <div>
-        <label>Latitud:</label>
-          <input id={field.id} type="text" name={field.name} value={`${markerPosition.lat} ${markerPosition.lng}`}readOnly />
-      </div>
+      <MapContainer center={[9.9725447, -84.1963422]} zoom={9} style={{ height: '400px' }} >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <AnswerMarker positionChange={handlePositionChange}/>
+      </MapContainer>
+      <input id={field.id} name ={field.name} type="hidden" readOnly />
     </div>
   );
 };
