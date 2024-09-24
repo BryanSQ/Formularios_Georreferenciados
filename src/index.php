@@ -67,5 +67,7 @@ $router->delete('/forms/fields/options/{id}', 'FormController@delete_option');
 
 $router->put('/forms/fields/options/{id}', 'FormController@update_option');
 
+$router->get('/forms/fields/{code}', 'FormController@search_form_by_code');
+
 $request_uri = str_replace('/api', '', $_SERVER['REQUEST_URI']);
 $router->run($_SERVER['REQUEST_METHOD'], $request_uri);

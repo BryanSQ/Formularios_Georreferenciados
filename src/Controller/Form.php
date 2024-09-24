@@ -271,6 +271,31 @@ class FormController{
     echo json_encode(["success" => "Option updated"]);
     return;
   }
+
+  public function search_form_by_code(string $code){
+    $form = Form::search_by_code($code);
+    if (!$form){
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+
+    $fields = Form::get_fields($form["id"]);
+
+    if (!$fields){
+      http_response_code(404);
+      echo json_encode(["error" => "Form does not have fields"]);
+      return;
+    }
+    
+    $form_with_fields = [
+      'form' => $form,
+      'fields' => $fields,
+    ];
+
+    echo json_encode($form_with_fields);
+    return;
+  }
 }
 
 

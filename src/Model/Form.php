@@ -285,4 +285,19 @@ class Form
     return $stmt->rowCount();
   }
 
+  public static function search_by_code(string $code){
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "SELECT * FROM Form
+            WHERE code = :code";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $data;
+  }
+
 }
