@@ -10,6 +10,17 @@ import API_URL from '../config';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
+const container = {
+  // rounded corners, light gray background, box shadow
+  borderRadius: '5px',
+  backgroundColor: '#f4f4f4',
+  boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.1)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'start',
+}
+
+
 const ResultMap = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetchData(`${API_URL}/forms/results/map/${id}`);
@@ -22,21 +33,40 @@ const ResultMap = () => {
     return <Error message={error} />;
   }
 
+
   return (
     <div>
-      <h2>Mapa de resultados</h2>
+      <h2>{data.form.name}</h2>
+      <p>{data.form.description}</p>
       <MapContainer center={[9.9725447, -84.1963422]} zoom={9} style={{ height: '100vh' }} >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {
-          data.map((result, index) => {
-            const position = result.answer.split(" ").map((coordinate) => parseFloat(coordinate));
+          data.results.map(({ submission_id, position, fields }) => {      
+            console.log(position);      
             return (
-              <Marker key={index} position={position} icon={customMarker}>
-                <Popup>
-                  {result.field_name}
+              <Marker key={submission_id} position={position} icon={customMarker}>
+                <Popup className='request-popup'>
+                {
+                  <div>
+                    <div>
+                      Creado: {data.form.created_at}
+                    </div>
+                    <div>
+                      Ubicacion: {JSON.stringify(position)}
+                    </div>
+                    {fields.map(({ field_id, field_name, answer }) => (
+                      <div key={field_id} style={container}>
+                        <h3>{field_name}</h3>
+                        <div>
+                          <p>{answer}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                }
                 </Popup>
               </Marker>
             );

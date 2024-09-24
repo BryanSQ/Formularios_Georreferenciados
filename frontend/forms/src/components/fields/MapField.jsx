@@ -22,7 +22,7 @@ const MapField = ({ field }) => {
 
   const handlePositionChange = (coordinates) => {
     const input = document.getElementById(field.id);
-    input.value = `${coordinates.lat}, ${coordinates.lng}`;
+    input.value = `${coordinates.lat},${coordinates.lng}`;
   }
 
   return (
@@ -34,7 +34,7 @@ const MapField = ({ field }) => {
         />
         <AnswerMarker positionChange={handlePositionChange}/>
       </MapContainer>
-      <input id={field.id} name ={field.name} type="hidden" readOnly />
+      <input id={field.id} type_id={field.type.id} name={field.name} type="hidden" readOnly />
     </div>
   );
 };
