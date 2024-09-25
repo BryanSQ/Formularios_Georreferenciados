@@ -288,7 +288,7 @@ class Form
   public static function search_by_code(string $code){
     $connection = Database::get_instance()->get_connection();
 
-    $sql = "SELECT * FROM Form
+    $sql = "SELECT id FROM Form
             WHERE code = :code";
 
     $stmt = $connection->prepare($sql);
