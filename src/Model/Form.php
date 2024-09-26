@@ -80,8 +80,8 @@ class Form
   {
     $connection = Database::get_instance()->get_connection();
 
-    $sql = 
-    "SELECT
+    $sql =
+      "SELECT
       Field.id AS field_id,
       Field.name AS field_name,
       Field_Type.name AS field_type, Field_Type.id AS type_id,
@@ -100,9 +100,9 @@ class Form
 
     // group by field_id and add the answers to the field
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $field_id = $row['field_id'];
-      if (!array_key_exists($field_id, $data)){
+      if (!array_key_exists($field_id, $data)) {
         $data[$field_id] = [
           'id' => $field_id,
           'name' => $row['field_name'],
@@ -115,7 +115,7 @@ class Form
       }
 
       // if the answer_id is not null, add the answer to the field
-      if ($row['answer_id']){
+      if ($row['answer_id']) {
         $data[$field_id]['answers'][] = [
           'id' => $row['answer_id'],
           'value' => $row['answer_value']
@@ -183,16 +183,51 @@ class Form
   }
 
 
-  public static function get_map_results_by_id(int $id): array | false
+  public static function get_submissions(string $id): array
   {
     $connection = Database::get_instance()->get_connection();
-    $map_query = 'SELECT id FROM Field_Type
-            WHERE name = "map" OR name = "MAP"';
 
-    $sql = "SELECT Answer.answer as answer, Field.name as field_name
-            FROM Field
-            JOIN Answer ON Field.id = Answer.field_id
-            WHERE Field.type_id = ({$map_query}) AND Field.form_id = :id";
+    $sql = "SELECT form_id, field_name, answer
+            FROM Submission
+            JOIN Answer ON Submission.id = Answer.submission_id
+            JOIN Field ON Answer.field_id = Field.id
+            WHERE form_id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $data = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $data[] = $row;
+    }
+
+    return $data;
+  }
+
+
+  public static function get_map_results_by_id(int $id): array|false
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql =
+      "SELECT
+          Submission.id AS submission_id,
+          Field.id AS field_id,
+          Field.name AS field_name,
+          Answer.answer AS answer,
+          Map_Coordinates.latitude AS latitude,
+          Map_Coordinates.longitude AS longitude
+      FROM
+          Submission
+          JOIN Form ON Submission.form_id = Form.id
+          JOIN Field ON Form.id = Field.form_id
+          LEFT JOIN Answer ON Submission.id = Answer.submission_id
+          AND Field.id = Answer.field_id
+          LEFT JOIN Map_Coordinates ON Submission.id = Map_Coordinates.submission_id
+          AND Field.id = Map_Coordinates.field_id
+      WHERE
+          Form.id = :id;";
 
     $stmt = $connection->prepare($sql);
 
@@ -200,9 +235,37 @@ class Form
     $stmt->execute();
 
     $data = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-      $data[] = $row;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $submission_id = $row['submission_id'];
+      if (!array_key_exists($submission_id, $data)) {
+        $data[$submission_id] = [
+          'submission_id' => $submission_id,
+          'fields' => []
+        ];
+      }
+
+      $entry = [
+        'field_id' => $row['field_id'],
+        'field_name' => $row['field_name']
+      ];
+
+      if (!is_null($row['answer'])) {
+        $entry['answer'] = $row['answer'];
+      }
+
+      if (!is_null($row['latitude']) && !is_null($row['longitude'])) {
+        $entry['answer'] = $row['latitude'] . ',' . $row['longitude'];
+      }
+
+      $data[$submission_id]['fields'][] = $entry;
+      $data[$submission_id]["position"] = [
+        (float) $row['latitude'],
+        (float) $row['longitude']
+      ];
     }
+
+    // Convert associative array to indexed array
+    $data = array_values($data);
 
     return $data;
   }

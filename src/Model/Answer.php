@@ -3,24 +3,27 @@
 class Answer {
   private int $id;
   private int $field_id;
+  private int $submission_id;
   private string $answer;
 
   private PDO $connection;
 
-  public function __construct(int $field_id, string $answer){    
+  public function __construct(int $field_id, int $submission, string $answer){
     $this->field_id = $field_id;
     $this->answer = $answer;
+    $this->submission_id = $submission;
     $this->connection = Database::get_instance()->get_connection();
   }
 
   public function create(): string
   {
-    $sql = "INSERT INTO Answer (field_id, answer) 
-            VALUES (:field_id, :answer)";
+    $sql = "INSERT INTO Answer (field_id, submission_id, answer)
+            VALUES (:field_id, :submission_id, :answer)";
             
     $stmt = $this->connection->prepare($sql);
     
     $stmt->bindParam(':field_id', $this->field_id, PDO::PARAM_INT);
+    $stmt->bindParam(':submission_id', $this->submission_id, PDO::PARAM_INT);
     $stmt->bindParam(':answer', $this->answer, PDO::PARAM_STR);
 
     $stmt->execute();

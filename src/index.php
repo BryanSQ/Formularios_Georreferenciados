@@ -40,32 +40,35 @@ $router = new Router();
 
 $router->post('/login', 'UserController@login');
 
+// GET FORMS
 $router->get('/home', 'FormController@home');
 $router->get('/forms', 'FormController@get_all_forms');
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/results/map/{id}', 'FormController@get_map_results');
 $router->get('/fields', 'FieldTypeController@get_field_types');
-
-
 $router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
 
-$router->post('/forms/{id}/answers', 'FormController@save_answer');
-
+// POST FORMS
 $router->post('/forms', 'FormController@add_form');
-
-$router->put('/forms/{id}', 'FormController@update_form');
-
-$router->delete('/forms/{id}', 'FormController@remove_form');
-
-$router->put('/forms/fields/{id}', 'FormController@update_field');
-
-
+$router->post('/forms/{id}/answers', 'FormController@save_answer');
+$router->post('/forms/{id}/fields', 'FormController@add_field');
 $router->post('/forms/fields/{id}/options', 'FormController@add_option');
 
-$router->delete('/forms/fields/options/{id}', 'FormController@delete_option');
 
+// PUT FORMS
+$router->put('/forms/{id}', 'FormController@update_form');
+$router->put('/forms/fields/{id}', 'FormController@update_field');
 $router->put('/forms/fields/options/{id}', 'FormController@update_option');
+
+
+
+// DELETE FORMS
+$router->delete('/forms/{id}', 'FormController@remove_form');
+$router->delete('/forms/fields/options/{id}', 'FormController@delete_option');
+$router->delete('/forms/fields/{id}', 'FormController@remove_field');
+
+
 
 $router->get('/forms/fields/{code}', 'FormController@search_form_by_code');
 

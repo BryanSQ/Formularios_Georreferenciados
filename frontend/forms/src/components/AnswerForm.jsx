@@ -23,7 +23,9 @@ const AnswerForm = () => {
     const objectData = [];
     for (let [key, value] of formData.entries()) {
       let element = e.target.querySelector(`[name="${key}"]`);
+      console.log(element);
       const elementId = element ? element.id : null;
+      const type = element ? element.getAttribute('type_id') : null;
       let selectedOptionId = null;
 
       // If the field is a select element, get the id of the selected option
@@ -43,6 +45,7 @@ const AnswerForm = () => {
       // Push the data to the array, including the field id and the option/checkbox id
       objectData.push({
         field_id: elementId, // The form element's id
+        type_id: type, // The form element's type id
         option_id: selectedOptionId, // The id of the selected option or checkbox, if applicable
         field: key, // The name attribute of the field
         answer: value // The field value
@@ -53,6 +56,8 @@ const AnswerForm = () => {
       form_id: data.form.id,
       fields: objectData
     }
+
+    console.log(JSON.stringify(answer));
 
     try {
       const response = await sendAnswer(data.form.id, answer);
@@ -83,10 +88,7 @@ const AnswerForm = () => {
         {
           data.fields
             .map((field) => (
-              <FormField
-                key={field.id}
-                field={{ id: field.id, name: field.name, type: field.type, options: field.options || [] }}
-              />
+              <FormField key={field.id} field={field} />
             ))
         }
         <button>Enviar</button>

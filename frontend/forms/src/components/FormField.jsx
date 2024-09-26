@@ -4,6 +4,7 @@ import TextBox from "./fields/TextBox";
 import MapField from "./fields/MapField";
 
 const FormField = ({ field }) => {
+  console.log(field);
   return (
     <div className="questions">
       <div className="question-box">

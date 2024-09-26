@@ -62,6 +62,34 @@ export const updateForm = async (id, data) => {
   return response.json();
 }
 
+export const createField = async (id, data) => {
+  const response = await fetch(`${API_URL}/forms/${id}/fields`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al crear el campo');
+  }
+
+  return response.json();
+};
+
+export const deleteField = async (id) => {
+  const response = await fetch(`${API_URL}/forms/fields/${id}`, {
+    method: 'DELETE'
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al eliminar el campo');
+  }
+
+  return response;
+};
+
 export const updateField = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/fields/${id}`, {
     method: 'PUT',
