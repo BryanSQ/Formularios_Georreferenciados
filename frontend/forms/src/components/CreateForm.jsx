@@ -44,37 +44,7 @@ function CreateForm() {
     data.name = form.get('name');
     data.description = form.get('description');
 
-    const boxes = e.target.querySelectorAll('.question-box');
-
-    boxes.forEach((box) => {
-      const question = box.querySelector('[name="question-name"]');
-      const questionName = question.value;
-      const required = box.querySelector('[name="required"]').checked;
-
-      const questionData = {
-        name: questionName,
-        type_id: question.getAttribute('type_id'),
-        is_required: required
-      };
-
-      const options = box.querySelector('[name="options"]');
-
-      if (options) {
-        const optionInputs = options.querySelectorAll('input');
-
-        const optionsArray = [];
-
-        optionInputs.forEach((input) => {
-          optionsArray.push(input.value);
-        });
-
-        questionData.options = optionsArray;
-      }
-
-      data.fields.push(questionData);
-    });
-
-
+    data.fields = getFormFields(e);
 
     try {
       const response = await createForm(data);

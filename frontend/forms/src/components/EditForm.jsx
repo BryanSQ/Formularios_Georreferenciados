@@ -150,19 +150,23 @@ function EditForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('holaaa');
     const formTitle = query('#form-title').value;
     const formDescription = query('#form-description').value;
     const formId = id;
 
-    const data = {
+    const previousName = data.form.name;
+    const previousDescription = data.form.description;
+
+    const updatedData = {
       name: formTitle,
       description: formDescription,
       is_visible: true
     }
 
-    if (formTitle !== data.form.name || formDescription !== data.form.description) {
+    if (formTitle !== previousName || formDescription !== previousDescription) {
       try {
-        await updateForm(formId, data);
+        await updateForm(formId, updatedData);
       } catch (error) {
         console.error('Error al actualizar el formulario:', error);
       }
@@ -181,6 +185,7 @@ function EditForm() {
 
     const removed = filterRemovedObjects(originalQuestions, questionBoxes, 'id').map(({ id }) => id);
 
+    console.log(added);
 
     removed.forEach(async (id) => {
       try {
