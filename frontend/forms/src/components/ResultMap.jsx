@@ -38,6 +38,12 @@ const ResultMap = () => {
     <div>
       <h2>{data.form.name}</h2>
       <p>{data.form.description}</p>
+      <div>
+        <h3>Descarga de los resultados</h3>
+        <a href={`${API_URL}/forms/results/csv/${id}`} download>
+          Descargar CSV
+        </a>
+      </div>
       <MapContainer center={[9.9725447, -84.1963422]} zoom={9} style={{ height: '100vh' }} >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

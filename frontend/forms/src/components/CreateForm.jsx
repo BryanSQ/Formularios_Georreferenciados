@@ -8,7 +8,7 @@ import TypeSelect from './helper/TypeSelect';
 import './styles/CreateForm.css';
 
 import { v4 as uuidv4 } from 'uuid';
-import { getFormFields } from '../utils';
+import { getFormFields } from '../utils/forms';
 
 
 function CreateForm() {

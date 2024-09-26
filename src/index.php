@@ -46,8 +46,8 @@ $router->get('/forms', 'FormController@get_all_forms');
 $router->get('/forms/{id}', 'FormController@get_form');
 $router->get('/forms/{id}/fields', 'FormController@get_form_with_fields');
 $router->get('/forms/results/map/{id}', 'FormController@get_map_results');
-$router->get('/fields', 'FieldTypeController@get_field_types');
 $router->get('/forms/{id}/answers', 'FormController@get_form_with_answers');
+$router->get('/fields', 'FieldTypeController@get_field_types');
 
 // POST FORMS
 $router->post('/forms', 'FormController@add_form');
