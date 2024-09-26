@@ -94,6 +94,19 @@ class Field {
     }
   }
 
+
+  public static function delete(int $id): bool
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "DELETE FROM Field WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    return $stmt->execute();
+  }
+
   public static function get_maps(): array | false{
     $connection = Database::get_instance()->get_connection();
 

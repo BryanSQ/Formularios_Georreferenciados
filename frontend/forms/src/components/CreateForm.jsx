@@ -8,6 +8,7 @@ import TypeSelect from './helper/TypeSelect';
 import './styles/CreateForm.css';
 
 import { v4 as uuidv4 } from 'uuid';
+import { getFormFields } from '../utils';
 
 
 function CreateForm() {
@@ -63,7 +64,7 @@ function CreateForm() {
 
         const optionsArray = [];
 
-        optionInputs.forEach((input, index) => {
+        optionInputs.forEach((input) => {
           optionsArray.push(input.value);
         });
 

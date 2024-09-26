@@ -19,6 +19,7 @@ const EditQuestion = ({ type, name, is_required, options }) => {
   return (
     <>
       <input
+        type_id={type}
         type="text"
         name="question-name"
         placeholder="Pregunta"

@@ -346,6 +346,32 @@ class FormController
     echo json_encode(["success" => "Option updated"]);
     return;
   }
+
+  public function add_field(string $id)
+  {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $field_name = $data["name"];
+    $field_is_required = $data["is_required"];
+    $field_type = $data["type_id"];
+
+    $new_field = new Field($field_name, $field_is_required, $field_type);
+    $new_field_id = $new_field->create($id);
+
+    // returns the new field ID as a JSON string
+    echo json_encode(["id" => $new_field_id]);
+    return;
+  }
+
+  public function remove_field(string $id)
+  {
+    $is_deleted = Field::delete($id);
+    $result = $is_deleted ? ["success" => "Field deleted"] : ["error" => "Field not found"];
+    // returns the result as a JSON string
+    echo json_encode($result);
+    return;
+  }
+
 }
 
 
