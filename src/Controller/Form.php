@@ -371,7 +371,17 @@ class FormController
     echo json_encode($result);
     return;
   }
+  
+  public function search_form_by_code(string $code){
+    $form = Form::search_by_code($code);
+    
+    if (!$form){
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
 
+    echo json_encode($form);
+    return;
+  }
 }
-
-

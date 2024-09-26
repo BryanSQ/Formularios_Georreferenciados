@@ -151,4 +151,12 @@ export const updateOption = async (id, data) => {
   return response.json();
 }
 
+export const searchFormByCode = async (code) => {
+  const response = await fetch(`${API_URL}/forms/fields/${code}`);
 
+  if (!response.ok) {
+    throw new Error('Error al buscar el formulario');
+  }
+
+  return response.json();
+}

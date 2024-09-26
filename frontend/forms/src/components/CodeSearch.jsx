@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import './styles/CodeSearch.css';
+import { searchFormByCode } from '../services/formServices';
 
 const CodeSearch = () => {
   const navigate = useNavigate();
 
-  const handleSearch = (event) => {
+
+
+  const handleSearch = async (event) => {
     event.preventDefault();
 
     const code = event.target[0].value;
@@ -12,8 +15,14 @@ const CodeSearch = () => {
 
     if (!code) return <Error message="El código no puede estar vacío" />;
 
-    // peticion al servidor
-    navigate(`/answer/${34}`);
+    try {
+      const { id } = await searchFormByCode(code);
+      navigate(`/answer/${id}`);
+      
+    } catch (error) {
+      console.error('Error al buscar el formulario:', error);
+      return <Error message="Error al buscar el formulario" />;
+    }
   };
 
   return (
