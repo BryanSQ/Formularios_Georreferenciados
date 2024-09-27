@@ -18,11 +18,11 @@ const List = ({ type }) => {
   //console.log('Options:', options);
 
   return (
-    <div name="options">
+    <div name="options" className="field-options-container">
       {
         options.map(({ id }, index) => {
           return (
-            <div key={id}>
+            <div key={id} className="field-option">
               <input
                 className="multiple"
                 type_id={type}
@@ -30,12 +30,12 @@ const List = ({ type }) => {
                 type="text"
                 placeholder={`Opción ${index + 1}`}
               />
-              <button type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
+              <button className='delete-option' type='button' onClick={() => removeOption(id)}>Eliminar</button>
             </div>
           )
         })
       }
-      <button type='button' onClick={addOption}>Agregar opción</button>
+      <button className="add-option" type='button' onClick={addOption}>Agregar opción</button>
     </div>
   );
 

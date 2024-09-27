@@ -23,7 +23,11 @@ export const CreateForm = () => {
   }
 
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, { id: uuidv4(), type: selectedQuestion }]);
+    setQuestions([...questions, 
+      { 
+        id: uuidv4(),
+        type: 3 //selectedQuestion 
+      }]);
     console.log(questions);
   }
 
@@ -41,10 +45,12 @@ export const CreateForm = () => {
 
     const form = new FormData(e.target);
 
-    data.name = form.get('name');
+
+    data.name = form.get('title');
     data.description = form.get('description');
 
     data.fields = getFormFields(e);
+
 
     try {
       const response = await createForm(data);
@@ -57,14 +63,35 @@ export const CreateForm = () => {
 
   return (
     <section className='main-section'>
-      <div className="form-info">
-        <div className="form-title">
-          <input id='title' type='text' placeholder='Nuevo Formulario' required />
+
+      <form onSubmit={handleSubmit}>
+
+        <div className="form-info">
+          <div className="form-title">
+            <input name='title' type='text' placeholder='Nuevo Formulario' required />
+          </div>
+          <div className="form-description">
+            <textarea name='description' type='text' placeholder='Añade una descripción' required ></textarea>
+          </div>
         </div>
-        <div className="form-description">
-        <textarea id='description' type='text' placeholder='Añade una descripción' required ></textarea>
-        </div>
-      </div>
+
+        {
+          questions.map(({id, type}) => (
+            <div key={id} className='container question-box'>
+              <Question type={type} />
+            </div>
+          ))
+        }
+
+        <button id="add-field" type='button' className='container' onClick={handleAddQuestionClick}>
+          Agregar
+        </button>
+
+        <button type='submit'>
+          Enviar
+        </button>     
+
+      </form>
     </section>
   );
 };

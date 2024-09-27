@@ -5,7 +5,7 @@ const Question = ({ type }) => {
   const renderInputField = () => {
     switch (type) {
       case 1:
-        return <input type="text" placeholder={"Texto de respuesta corto"} disabled></input>
+        return <input type="text" placeholder={"Texto de respuesta corta"} disabled></input>
       case 2:
         return <input type="text" placeholder={"Texto de respuesta larga"} disabled></input>
       case 3:
@@ -20,13 +20,19 @@ const Question = ({ type }) => {
 
   return (
     <>
-      <input type_id={type} name='question-name' type="text" placeholder='Pregunta' ></input>
-      {
-        renderInputField()
-      }      
-      <div style={{display:"flex", alignContent: "center"}}>
+      <div className='field-data'>
+        <input id='question-name' type_id={type} name='question-name' type="text" placeholder='Pregunta' ></input>
+        {
+          renderInputField()
+        }
+      </div>
+
+      <div className='field-config'>
+
+        <select></select>
+
         <label htmlFor='required'>¿Obligatoria?</label>
-        <input id='required' name='required' type='checkbox' ></input>
+        <input id='required' name='required' type='checkbox' />
       </div>
     </>
   )
