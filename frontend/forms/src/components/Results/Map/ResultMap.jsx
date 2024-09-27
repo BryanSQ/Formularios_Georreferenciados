@@ -1,12 +1,12 @@
 import 'leaflet/dist/leaflet.css';
-import useFetchData from '../hooks/useFetchData';
+import useFetchData from '../../../hooks/useFetchData';
 import { useParams } from 'react-router-dom';
 
-import Error from './helper/Error';
+import Error from '../../helper/Error';
 
-import customMarker from './helper/CustomMarker';
+import customMarker from '../../helper/CustomMarker';
 
-import API_URL from '../config';
+import API_URL from '../../../config';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
@@ -21,7 +21,7 @@ const container = {
 }
 
 
-const ResultMap = () => {
+export const ResultMap = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetchData(`${API_URL}/forms/results/map/${id}`);
 
@@ -82,6 +82,4 @@ const ResultMap = () => {
     </div>
   );
 };
-
-export default ResultMap;
 

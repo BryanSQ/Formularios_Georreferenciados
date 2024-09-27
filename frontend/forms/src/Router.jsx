@@ -1,12 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import CreateForm from './components/CreateForm';
-import AnswerForm from './components/AnswerForm';
-import Login from './components/Login';
-import AdminView from './components/AdminView';
-import EditForm from './components/EditForm';
-import ResultMap from './components/ResultMap';
-import ResultTable from './components/ResultTable';
-import CodeSearch from './components/CodeSearch';
+import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch } from './components';
+
 
 function AppRouter() {
   return (

@@ -1,7 +1,4 @@
-import Text from './questions/Text';
-import List from './questions/List';
-
-
+import List from './List';
 
 const Question = ({ type }) => {
 

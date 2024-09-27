@@ -1,13 +1,17 @@
-import AdminForm from './AdminForm.jsx';
-import './styles/AdminView.css';
-import useFetchData from "../hooks/useFetchData.js";
-import { deleteForm } from '../services/formServices';
+import './AdminView.css';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import API_URL from '../config.js';
+import { deleteForm } from '../../services/formServices.js';
 
-function AdminView() {
+import useFetchData from "../../hooks/useFetchData.js";
+
+import { AdminForm } from '../AdminForm/AdminForm.jsx';
+
+import API_URL from '../../config.js';
+
+export const AdminView = () => {
     const navigate = useNavigate();
     let { data: initialData, loading, error } = useFetchData(`${API_URL}/forms`);
     const [data, setData] = useState(null);
@@ -24,7 +28,7 @@ function AdminView() {
     }
 
     const handleDelete = (id) => {
-        console.log('Eliminar', {"formd.id" : id});
+        console.log('Eliminar', { "formd.id": id });
         deleteForm(id)
             .then(() => {
                 console.log('Formulario eliminado');
@@ -33,11 +37,11 @@ function AdminView() {
             .catch((error) => {
                 console.error('Error al eliminar el formulario', error);
             }
-        );
+            );
 
-        
+
     }
-    
+
     return (
         <div className="admin-view">
             <h1>Administración de formularios</h1>
@@ -48,9 +52,7 @@ function AdminView() {
                         return <AdminForm key={form.id} form={form} handleDelete={handleDelete} />
                     }) : <div>No hay formularios</div>
                 }
-            </div>         
+            </div>
         </div>
     );
-}
-
-export default AdminView;
+};

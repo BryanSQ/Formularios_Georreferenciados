@@ -4,23 +4,23 @@ import {
   updateField, updateForm, 
   createOption, deleteOption, 
   updateOption, createField, deleteField 
-} from '../services/formServices';
+} from '../../services/formServices';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { v4 as uuidv4 } from 'uuid';
-import { getFormFields, query } from '../utils/forms';
+import { getFormFields, query } from '../../utils/forms';
 
-import useFetchData from '../hooks/useFetchData';
+import useFetchData from '../../hooks/useFetchData';
 
-import EditQuestion from './edit/EditQuestion';
-import TypeSelect from './helper/TypeSelect';
-import API_URL from '../config';
-import './styles/CreateForm.css';
+import EditQuestion from './EditQuestion';
+import TypeSelect from '../helper/TypeSelect';
+import API_URL from '../../config';
+// import './styles/CreateForm.css';
 
 
 
-function EditForm() {
+export const EditForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -245,6 +245,4 @@ function EditForm() {
       <button type='submit'>Enviar</button>
     </form>
   );
-}
-
-export default EditForm;
+};

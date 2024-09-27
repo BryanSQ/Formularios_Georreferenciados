@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 
-import customMarker from '../helper/CustomMarker';
+import customMarker from '../../helper/CustomMarker';
 
 const AnswerMarker = ({ positionChange }) => {
   const [position, setPosition] = useState(null);

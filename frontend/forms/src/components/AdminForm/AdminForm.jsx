@@ -1,7 +1,7 @@
-import './styles/AdminForm.css';
+import './AdminForm.css';
 import { useNavigate } from 'react-router-dom';
 
-function AdminForm({ form, handleDelete }) {
+export const AdminForm = ({ form, handleDelete }) => {
     const navigate = useNavigate();
 
     return (
@@ -20,6 +20,4 @@ function AdminForm({ form, handleDelete }) {
             </div>
         </div>
     );
-}
-
-export default AdminForm;
+};

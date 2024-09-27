@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { createForm } from '../services/formServices';
+import { createForm } from '../../services/formServices';
 import { useNavigate } from 'react-router-dom';
 
 import Question from './Question';
-import TypeSelect from './helper/TypeSelect';
+import TypeSelect from '../helper/TypeSelect';
 
-import './styles/CreateForm.css';
+import './CreateForm.css';
 
 import { v4 as uuidv4 } from 'uuid';
-import { getFormFields } from '../utils/forms';
+import { getFormFields } from '../../utils/forms';
 
 
-function CreateForm() {
+export const CreateForm = () => {
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
@@ -95,6 +95,4 @@ function CreateForm() {
       <button type='submit'>Enviar</button>
     </form>
   );
-}
-
-export default CreateForm;
+};

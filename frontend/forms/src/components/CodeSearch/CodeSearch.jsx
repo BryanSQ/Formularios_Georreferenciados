@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import './styles/CodeSearch.css';
-import { searchFormByCode } from '../services/formServices';
+import './CodeSearch.css';
 
-const CodeSearch = () => {
+import { useNavigate } from 'react-router-dom';
+
+import { searchFormByCode } from '../../services/formServices';
+
+export const CodeSearch = () => {
   const navigate = useNavigate();
 
 
@@ -34,6 +36,4 @@ const CodeSearch = () => {
       </form>
     </div>
   );
-}
-
-export default CodeSearch;
+};

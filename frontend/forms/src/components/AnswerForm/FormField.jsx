@@ -2,7 +2,6 @@ import Dropdown from "./fields/Dropdown";
 import Checkbox from "./fields/Checkbox";
 import TextBox from "./fields/TextBox";
 import MapField from "./fields/MapField";
-
 const FormField = ({ field }) => {
   console.log(field);
   return (

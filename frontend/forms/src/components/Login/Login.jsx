@@ -1,9 +1,10 @@
 
-import './styles/Login.css';
-import { login } from '../services/userServices';
+import './Login.css';
+
+import { login } from '../../services/userServices';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+export const Login = () => {
   const navigate = useNavigate();
 
   const submitLogin = async (e) => {
@@ -38,6 +39,4 @@ function Login() {
         </form>
       </div>
     );
-}
-
-export default Login;
+};

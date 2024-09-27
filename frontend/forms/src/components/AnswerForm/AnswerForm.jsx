@@ -1,13 +1,13 @@
-import FormField from './FormField';
-import useFetchData from '../hooks/useFetchData';
-import { sendAnswer } from '../services/formServices';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { sendAnswer } from '../../services/formServices';
+import useFetchData from '../../hooks/useFetchData';
+import FormField from './FormField';
 // Los datos no deben ser inyectados en el componente, deben ser obtenidos desde un servicio
 
-import API_URL from '../config';
+import API_URL from '../../config';
 
-const AnswerForm = () => {
+export const AnswerForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -96,5 +96,3 @@ const AnswerForm = () => {
     </div>
   )
 };
-
-export default AnswerForm;
