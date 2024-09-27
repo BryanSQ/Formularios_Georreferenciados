@@ -30,7 +30,7 @@ const List = ({ type }) => {
                 type="text"
                 placeholder={`Opción ${index + 1}`}
               />
-              <button className='delete-option' type='button' onClick={() => removeOption(id)}>Eliminar</button>
+              <button className='delete-button' type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
             </div>
           )
         })

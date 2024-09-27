@@ -17,7 +17,6 @@ const Question = ({ type }) => {
   };
 
 
-
   return (
     <>
       <div className='field-data'>
@@ -29,10 +28,20 @@ const Question = ({ type }) => {
 
       <div className='field-config'>
 
-        <select></select>
+        <select className='type-select'>
+          <option>Respuesta corta</option>
+          <option>Respuesta larga</option>
+          <option>Casilla de verificación</option>
+          <option>Desplegable</option>
+          <option>Mapa</option>
+        </select>
 
-        <label htmlFor='required'>¿Obligatoria?</label>
-        <input id='required' name='required' type='checkbox' />
+        <div className="config-options">
+          <div>
+            <label htmlFor='required'>¿Obligatoria?</label>
+            <input id='required' name='required' type='checkbox' />
+          </div>
+        </div>
       </div>
     </>
   )

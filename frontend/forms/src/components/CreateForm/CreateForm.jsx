@@ -15,7 +15,6 @@ export const CreateForm = () => {
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState(1);
 
 
   const handleSelectChange = (value) => {
@@ -28,7 +27,6 @@ export const CreateForm = () => {
         id: uuidv4(),
         type: 3 //selectedQuestion 
       }]);
-    console.log(questions);
   }
 
   const handleDelete = (id) => {
@@ -64,9 +62,9 @@ export const CreateForm = () => {
   return (
     <section className='main-section'>
 
-      <form onSubmit={handleSubmit}>
+      <form className='new-form' onSubmit={handleSubmit}>
 
-        <div className="form-info">
+        <div className="form-info container">
           <div className="form-title">
             <input name='title' type='text' placeholder='Nuevo Formulario' required />
           </div>
@@ -79,6 +77,9 @@ export const CreateForm = () => {
           questions.map(({id, type}) => (
             <div key={id} className='container question-box'>
               <Question type={type} />
+              <div className='box-options'>
+                <button className='delete-button' type='button' onClick={() => handleDelete(id)}>Eliminar campo</button>
+              </div>
             </div>
           ))
         }
