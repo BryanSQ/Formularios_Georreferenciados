@@ -1,13 +1,65 @@
-:root{
-  font-family: 'Arial', sans-serif;
-}
 .main-section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid red;
+  height: 100vh;
 }
 
-.main-section input{
+.form-info{
+  border: 1px solid blue;
+  border-radius: 15px;
+  width: 800px;
+  height: 200px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  input {
+    font-size: inherit;
+  }
+
+  input::placeholder {
+    font-size: inherit;
+    opacity: 1;
+    color: #000;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input:focus::placeholder {
+    opacity: 0.5;
+  }
+}
+
+.form-title {
+  font-size: 36px;
+}
+
+.form-description {
+  font-size: 24px;
+  font-weight:100;
+
+  textarea {
+    font: inherit;
+    font-size: inherit;
+    width: 100%;
+    border: none;
+    resize: none;
+  }
+
+  textarea::placeholder {
+    font-size: inherit;
+    opacity: 1;
+    color: #000;
+  }
+}
+
+
+/* .main-section input{
   border-top: 0;
   border-left: 0;
   border-right: 0;
@@ -25,13 +77,7 @@
 }
 
 .description-input {
-  margin-top: 20px;
-  font-size: large;
-  font-family: 'Arial', sans-serif;
-  width: 80%;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
+
 }
 
 .text-area {
@@ -44,58 +90,33 @@
 }
 
 .add-question-section{
-  display: flex;
-  flex-direction: column;
-  width: 50%;
+
 }
 
 .add-question{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 20px;
+
 }
 
 .add-question select{
-  font-size: medium;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: 5px;
+
 }
 
 .question-section{
-  display: flex;
-  flex-direction: column;
-  width: 50%;
+
 }
 
 .questions{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
 }
 
 .question-box{
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid rgb(197, 197, 197);
-  border-radius: 10px;
-  padding: 10px;
-  width: 60%;
+
 }
 
 .question-box input{
-  font-size: medium;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  min-width: 60%;
-  margin-right: 5px;
+
 }
 
 .question-box button{
-  margin-top: 5px;
-  margin-bottom: 5px;
-  max-width: 60%;
-}
+
+} */

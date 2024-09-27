@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'InterVariable';
+  src: local('InterVariable'), /* Busca la fuente localmente */
+       url('./assets/fonts/InterVariable.ttf') format('truetype'); /* Si no está localmente, la carga del archivo */
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InterVariable';
+  src: local('InterVariable'), /* Busca la fuente localmente */
+       url('./assets/fonts/InterVariable-Italic.ttf') format('truetype'); /* Si no está localmente, la carga del archivo */
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+:root{
+  font-family: 'InterVariable', 'Arial', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input {
+  border-style: none;
+}

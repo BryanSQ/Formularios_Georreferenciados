@@ -56,43 +56,15 @@ export const CreateForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='main-section'>
-      <h1>Crear un formulario</h1>
-
-      <div className='form-header'>
-        <input className='title-input'
-          type="text"
-          placeholder='Título del formulario'
-          name='name'
-          required
-        ></input>
-        <textarea
-          className='description-input'
-          type="text"
-          placeholder='Descripción'
-          name='description'
-          required
-        ></textarea>
-      </div>
-
-      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange} />
-
-      <div className='question-section'>
-        <h3>Preguntas</h3>
-        <div className='questions'>
-          {
-            questions.map(({ id, type }) => {
-              return (
-                <div className='question-box' key={id}>
-                  <Question type={type}/>
-                  <button type='button' onClick={() => handleDelete(id)}>Eliminar pregunta</button>
-                </div>
-              )
-            })}
+    <section className='main-section'>
+      <div className="form-info">
+        <div className="form-title">
+          <input id='title' type='text' placeholder='Nuevo Formulario' required />
+        </div>
+        <div className="form-description">
+        <textarea id='description' type='text' placeholder='Añade una descripción' required ></textarea>
         </div>
       </div>
-
-      <button type='submit'>Enviar</button>
-    </form>
+    </section>
   );
 };
