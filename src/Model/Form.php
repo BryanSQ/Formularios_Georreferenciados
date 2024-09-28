@@ -215,6 +215,7 @@ class Form
           Submission.id AS submission_id,
           Field.id AS field_id,
           Field.name AS field_name,
+          Field.type_id AS field_type,
           Answer.answer AS answer,
           Map_Coordinates.latitude AS latitude,
           Map_Coordinates.longitude AS longitude
@@ -246,7 +247,8 @@ class Form
 
       $entry = [
         'field_id' => $row['field_id'],
-        'field_name' => $row['field_name']
+        'field_name' => $row['field_name'],
+        'field_type' => $row['field_type']
       ];
 
       if (!is_null($row['answer'])) {

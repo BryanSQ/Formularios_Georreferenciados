@@ -384,4 +384,49 @@ class FormController
     echo json_encode($form);
     return;
   }
+
+  public function get_csv_results(string $id){
+    $form = Form::read($id);
+    if (!$form) {
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+
+  
+    $answers = Form::get_map_results_by_id($id);
+    if (!$answers) {
+        http_response_code(404);
+        echo json_encode(["error" => "Form has no answers"]);
+        return;
+    }
+
+    //echo json_encode($answers);
+    //echo json_encode($answers[0]);
+    //echo json_encode($answers[0]["answers"]);
+    $csv = "";
+    $fields = $answers[0]["fields"];
+
+    foreach ($fields as $field) {
+        $csv .= $field["field_name"] . ",";
+    }
+    $csv = rtrim($csv, ",") . "\n"; 
+
+    foreach ($answers as $answer) {
+      foreach ($answer["fields"] as $ans) {
+        if($ans["field_type"] == 5){
+          $csv .= isset($ans["answer"]) ? '"' . $ans["answer"] . '",' : ",";   
+        } else {
+          $csv .= isset($ans["answer"]) ? $ans["answer"] . "," : ",";   
+        }
+      }
+      $csv = rtrim($csv, ",") . "\n"; 
+    }
+
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="results.csv"');
+    echo $csv;
+    return;
+
+  }
 }

@@ -71,6 +71,7 @@ $router->delete('/forms/fields/{id}', 'FormController@remove_field');
 
 
 $router->get('/forms/fields/{code}', 'FormController@search_form_by_code');
+$router->get('/forms/results/csv/{id}', 'FormController@get_csv_results');
 
 $request_uri = str_replace('/api', '', $_SERVER['REQUEST_URI']);
 $router->run($_SERVER['REQUEST_METHOD'], $request_uri);
