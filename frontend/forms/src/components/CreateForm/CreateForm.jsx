@@ -3,7 +3,6 @@ import { createForm } from '../../services/formServices';
 import { useNavigate } from 'react-router-dom';
 
 import Question from './Question';
-import TypeSelect from '../helper/TypeSelect';
 
 import './CreateForm.css';
 
@@ -17,16 +16,12 @@ export const CreateForm = () => {
   const [questions, setQuestions] = useState([]);
 
 
-  const handleSelectChange = (value) => {
-    setSelectedQuestion(parseInt(value));
-  }
-
   const handleAddQuestionClick = () => {
-    setQuestions([...questions, 
-      { 
-        id: uuidv4(),
-        type: 3 //selectedQuestion 
-      }]);
+    setQuestions([...questions,
+    {
+      id: uuidv4(),
+      type: 3 //selectedQuestion 
+    }]);
   }
 
   const handleDelete = (id) => {
@@ -74,10 +69,14 @@ export const CreateForm = () => {
         </div>
 
         {
-          questions.map(({id, type}) => (
+          questions.map(({ id, type }) => (
             <div key={id} className='container question-box'>
               <Question type={type} />
-              <div className='box-options'>
+              <div className='question-box-footer'>
+                <div>
+                  <label htmlFor='required'>¿Obligatoria?</label>
+                  <input id='required' name='required' type='checkbox' />
+                </div>
                 <button className='delete-button' type='button' onClick={() => handleDelete(id)}>Eliminar campo</button>
               </div>
             </div>
@@ -90,7 +89,7 @@ export const CreateForm = () => {
 
         <button type='submit'>
           Enviar
-        </button>     
+        </button>
 
       </form>
     </section>

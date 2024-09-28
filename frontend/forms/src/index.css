@@ -37,8 +37,7 @@ input {
 
 .container {
   width: 800px;
-  max-width: 800px;
   min-height: 200px;
-  padding: 30px;
+  padding: 23px;
   border-radius: 15px;
 }

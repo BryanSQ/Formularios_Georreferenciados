@@ -14,29 +14,30 @@ const List = ({ type }) => {
     setOptions(options.filter(option => option.id !== id));
   }
 
-  
+
   //console.log('Options:', options);
 
   return (
-    <div name="options" className="field-options-container">
-      {
-        options.map(({ id }, index) => {
-          return (
-            <div key={id} className="field-option">
-              <input
-                className="multiple"
-                type_id={type}
-                name={`option-${index}`}
-                type="text"
-                placeholder={`Opción ${index + 1}`}
-              />
-              <button className='delete-button' type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
-            </div>
-          )
-        })
-      }
+    <>
+      <div name="options" className="question-box-body">
+        {
+          options.map(({ id }, index) => {
+            return (
+              <div key={id}>
+                <input
+                  type_id={type}
+                  name={`option-${index}`}
+                  type="text"
+                  placeholder={`Opción ${index + 1}`}
+                />
+                <button className='delete-button' type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
+              </div>
+            )
+          })
+        }
       <button className="add-option" type='button' onClick={addOption}>Agregar opción</button>
-    </div>
+      </div>
+    </>
   );
 
 }
