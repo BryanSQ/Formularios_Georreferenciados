@@ -20,7 +20,7 @@ const Question = () => {
       case 4:
         return <List type={type} />;
       default:
-        return <div>Mapa</div>;
+        return <div className='question-box-body'>Mapa</div>;
     }
   };
 

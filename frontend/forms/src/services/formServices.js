@@ -29,7 +29,6 @@ export const deleteForm = async (id) => {
 }
 
 export const createForm = async (data) => {
-  console.log('Data:', data);
   const response = await fetch(`${API_URL}/forms`, {
     method: 'POST',
     headers: {

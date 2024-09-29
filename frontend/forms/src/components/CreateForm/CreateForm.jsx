@@ -44,6 +44,13 @@ export const CreateForm = () => {
 
     data.fields = getFormFields(e);
 
+    console.log(data);
+
+    if (data.fields.length === 0){
+      console.error('Error al crear el formulario: No hay campos');
+      return;
+    }
+
 
     try {
       const response = await createForm(data);
@@ -87,7 +94,7 @@ export const CreateForm = () => {
           Agregar
         </button>
 
-        <button type='submit'>
+        <button type='submit' className='accept-button'>
           Enviar
         </button>
 

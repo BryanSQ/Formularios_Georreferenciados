@@ -14,9 +14,6 @@ const List = ({ type }) => {
     setOptions(options.filter(option => option.id !== id));
   }
 
-
-  //console.log('Options:', options);
-
   return (
     <>
       <div name="options" className="question-box-body">
@@ -41,7 +38,5 @@ const List = ({ type }) => {
   );
 
 }
-// ruta para actualizar el option
-// 
 
 export default List;
