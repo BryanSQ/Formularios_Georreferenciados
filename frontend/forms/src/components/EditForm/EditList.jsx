@@ -18,26 +18,25 @@ const EditList = ({ type, optionList }) => {
   //console.log('Options:', options);
 
   return (
-    <div name="options">
+    <div name="options" className="question-box-body">
       {
         options.map(({ id, value }, index) => {
           return (
             <div key={id}>
               <input
                 id={id}
-                className="multiple"
                 type_id={type}
                 name={`option-${index}`}
                 type="text"
                 placeholder={`Opción ${index + 1}`}
                 defaultValue={value}
               />
-              <button type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
+              <button className='delete-button' type='button' onClick={() => removeOption(id)}>Eliminar opción</button>
             </div>
           )
         })
       }
-      <button type='button' onClick={addOption}>Agregar opción</button>
+      <button className="add-option" type='button' onClick={addOption}>Agregar opción</button>
     </div>
   );
 

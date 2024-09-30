@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 100vh; */
 }
 
 .new-form {
@@ -110,7 +109,7 @@
   justify-content: space-between;
   height: 50px;
 
-  #question-name {
+  input[name='question-name'] {
     font-size: 24px;
     font-weight: 700;
     border-bottom: 1px solid var(--primary-blue);
@@ -118,7 +117,7 @@
   }
 }
 
-.question-box-body {
+.question-box-body{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -140,6 +139,7 @@
   div {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 50%;
     font-size: 16px;
     border-bottom: 1px solid var(--gray);

@@ -1,0 +1,23 @@
+#form-description {
+  font:inherit;
+  font-size: 24px;
+  font-weight: 200;
+  width: 100%;
+  border: none;
+  resize: none;
+}
+
+textarea::placeholder {
+  font-size: inherit;
+  opacity: 1;
+  color: #000;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+textarea:focus::placeholder {
+  opacity: 0.5;
+}
+

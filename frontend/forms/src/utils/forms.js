@@ -3,8 +3,8 @@ const getFormFields = (e) => {
   const boxes = e.target.querySelectorAll('.question-box');
 
   boxes.forEach((box) => {
-    const questionId = box.getAttribute('question_id');
     const question = box.querySelector('[name="question-name"]');
+    const questionId = question.id;
     const questionName = question.value;
     const required = box.querySelector('[name="required"]').checked;
 
@@ -14,9 +14,12 @@ const getFormFields = (e) => {
       is_required: required
     };
 
-    questionId && (questionData.question_id = questionId);
+    questionId && (questionData.id = questionId);
 
-    const options = box.querySelector('[name="options"]');
+    // const options = box.querySelector('[name="options"]');
+    const options = box.querySelector('.question-box-body');
+
+    
 
     if (options) {
       const optionInputs = options.querySelectorAll('input');

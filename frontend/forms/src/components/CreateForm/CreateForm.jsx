@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { createForm } from '../../services/formServices';
 import { useNavigate } from 'react-router-dom';
 
-import Question from './Question';
-
 import './CreateForm.css';
 
 import { v4 as uuidv4 } from 'uuid';
 import { getFormFields } from '../../utils/forms';
+import { Question, QuestionBody, QuestionFooter, QuestionHeader } from '../UI/question';
+import { Field, TypeSelect } from '../UI';
 
 
 export const CreateForm = () => {
@@ -16,16 +16,21 @@ export const CreateForm = () => {
   const [questions, setQuestions] = useState([]);
 
 
-  const handleAddQuestionClick = () => {
-    setQuestions([...questions,
-    {
-      id: uuidv4(),
-      type: 3 //selectedQuestion 
-    }]);
+  const handleAdd = () => {
+    setQuestions([...questions, { id: uuidv4(), type: 1 }]);
   }
 
   const handleDelete = (id) => {
     setQuestions(questions.filter(question => question.id !== id));
+  }
+
+  const changeType = (id, type) => {
+    setQuestions(questions.map(question => {
+      if (question.id === id) {
+        return { ...question, type: parseInt(type) };
+      }
+      return question;
+    }));
   }
 
   const handleSubmit = async (e) => {
@@ -46,7 +51,7 @@ export const CreateForm = () => {
 
     console.log(data);
 
-    if (data.fields.length === 0){
+    if (data.fields.length === 0) {
       console.error('Error al crear el formulario: No hay campos');
       return;
     }
@@ -76,21 +81,35 @@ export const CreateForm = () => {
         </div>
 
         {
-          questions.map(({ id, type }) => (
-            <div key={id} className='container question-box'>
-              <Question type={type} />
-              <div className='question-box-footer'>
-                <div>
-                  <label htmlFor='required'>¿Obligatoria?</label>
-                  <input id='required' name='required' type='checkbox' />
-                </div>
-                <button className='delete-button' type='button' onClick={() => handleDelete(id)}>Eliminar campo</button>
-              </div>
-            </div>
-          ))
+          questions.map(({ id, type }) => {
+            return (
+              <Question key={id} >
+
+                <QuestionHeader>
+                  <input id='question-name' type_id={type} name='question-name' type="text" placeholder='Pregunta' />
+                  <TypeSelect id={id} handleChange={changeType} />
+                </QuestionHeader>
+
+                <QuestionBody>
+                  <Field type={type} />
+                </QuestionBody>
+
+                <QuestionFooter>
+                  <div>
+                    <label htmlFor='required'>¿Obligatoria?</label>
+                    <input id='required' name='required' type='checkbox' />
+                  </div>
+                  <button type='button' className='delete-button' onClick={() => handleDelete(id)}>
+                    Eliminar
+                  </button>
+                </QuestionFooter>
+                
+              </Question>
+            );
+          })
         }
 
-        <button id="add-field" type='button' className='container' onClick={handleAddQuestionClick}>
+        <button id="add-field" type='button' className='container' onClick={handleAdd}>
           Agregar
         </button>
 
@@ -102,3 +121,16 @@ export const CreateForm = () => {
     </section>
   );
 };
+
+{/* <div key={id} className='container question-box'>
+  <Question />
+  <div className='question-box-footer'>
+    <div>
+      <label htmlFor='required'>¿Obligatoria?</label>
+      <input id='required' name='required' type='checkbox' />
+    </div>
+    <button type='button' className='delete-button' onClick={() => handleDelete(id)}>
+      Eliminar
+    </button>
+  </div>
+</div> */}

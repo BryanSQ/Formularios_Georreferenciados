@@ -2,7 +2,7 @@ import useFetchData from "../../hooks/useFetchData";
 
 import API_URL from "../../config";
 
-const TypeSelect = ({ handleChange }) => {
+export const TypeSelect = ({ id, handleChange }) => {
   const { data, loading, error } = useFetchData(`${API_URL}/fields`);
 
   if (loading) {
@@ -14,7 +14,7 @@ const TypeSelect = ({ handleChange }) => {
 
   return (
     <select className='type-select'
-      onChange={(e) => handleChange(e.target.value)}>
+      onChange={(e) => handleChange(id, e.target.value)}>
       {
         data.map((type) => {
           return <option key={type.id} value={type.id}>{type.name}</option>
@@ -22,6 +22,4 @@ const TypeSelect = ({ handleChange }) => {
       }
     </select>
   );
-}
-
-export default TypeSelect;
+};

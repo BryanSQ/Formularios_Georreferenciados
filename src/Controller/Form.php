@@ -349,13 +349,24 @@ class FormController
 
   public function add_field(string $id)
   {
+    $types_info = $this->load_types_info();
     $data = json_decode(file_get_contents("php://input"), true);
 
     $field_name = $data["name"];
     $field_is_required = $data["is_required"];
-    $field_type = $data["type_id"];
+    $field_type = (int)$data["type_id"];
+
 
     $new_field = new Field($field_name, $field_is_required, $field_type);
+
+    if ($field_type === $types_info["checkbox"]["id"] || $field_type === $types_info["select"]["id"]) {
+      $options = $data["options"];
+      foreach ($options as $option) {
+        $new_option = new Option($option);
+        $new_field->add_option($new_option);
+      }
+    }
+
     $new_field_id = $new_field->create($id);
 
     // returns the new field ID as a JSON string

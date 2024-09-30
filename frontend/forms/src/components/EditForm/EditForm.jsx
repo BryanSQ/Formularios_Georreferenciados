@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { 
-  updateField, updateForm, 
-  createOption, deleteOption, 
-  updateOption, createField, deleteField 
+import {
+  updateField, updateForm,
+  createOption, deleteOption,
+  updateOption, createField, deleteField
 } from '../../services/formServices';
 
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,10 +13,14 @@ import { getFormFields, query } from '../../utils/forms';
 
 import useFetchData from '../../hooks/useFetchData';
 
-import EditQuestion from './EditQuestion';
-import TypeSelect from '../helper/TypeSelect';
+
 import API_URL from '../../config';
-// import './styles/CreateForm.css';
+
+import '../CreateForm/CreateForm.css';
+import './EditForm.css';
+import { Question, QuestionBody, QuestionFooter, QuestionHeader } from '../UI/question';
+import { Field, TypeSelect } from '../UI';
+
 
 
 
@@ -27,13 +31,11 @@ export const EditForm = () => {
   const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/fields`);
 
   const [questions, setQuestions] = useState([]);
-  const [originalQuestions, setOriginalQuestions] = useState([]);
-  const [selectedQuestion, setSelectedQuestion] = useState(1);
+
 
   useEffect(() => {
     if (data && data.form) {
       setQuestions(formatOptions(data.fields));
-      setOriginalQuestions(formatOptions(data.fields));
     }
   }, [data]);
 
@@ -51,6 +53,7 @@ export const EditForm = () => {
         name: field.name,
         type: parseInt(field.type.id),
         is_required: field.is_required,
+        tag: 'old'
       };
 
       if (field.type.id === 4 || field.type.id === 3) {
@@ -61,16 +64,28 @@ export const EditForm = () => {
     });
   }
 
-  const handleSelectChange = (value) => {
-    setSelectedQuestion(parseInt(value));
-  }
-
-  const handleAddQuestionClick = () => {
-    setQuestions([...questions, { id: uuidv4(), type: selectedQuestion }]);
+  const handleAdd = () => {
+    const newId = uuidv4();
+    setQuestions([...questions, { id: newId, type: selectedQuestion, tag: 'new' }]);
   }
 
   const handleDelete = (id) => {
-    setQuestions(questions.filter(question => question.id !== id));
+    // find the id and set the tag to delete
+    setQuestions(questions.map(question => {
+      if (question.id === id) {
+        return { ...question, tag: 'delete' };
+      }
+      return question;
+    }));
+  }
+
+  const changeType = (id, type) => {
+    setQuestions(questions.map(question => {
+      if (question.id === id) {
+        return { ...question, type: parseInt(type) };
+      }
+      return question;
+    }));
   }
 
 
@@ -79,13 +94,13 @@ export const EditForm = () => {
       .filter(item => !comparison.some(compareItem => compareItem[key] === item[key]))
   }
 
-
   const handleEdit = async (fieldId) => {
     const question = questions.find(question => question.id === fieldId);
     const questionBox = query(`.question-box[question_id="${fieldId}"]`);
+    
+    const name = questionBox.querySelector('[name="question-name"]').value;
 
-    const name = query('input').value;
-    const required = query('input[name="required"]').checked;
+    const required = questionBox.querySelector('input[name="required"]').checked;
 
     const data = {
       id: fieldId,
@@ -107,12 +122,10 @@ export const EditForm = () => {
     // early return if the question does not have options (short text or long text)
     if (!question.options) return;
 
-    const divOptions = questionBox.querySelector('div[name="options"]');
+    const divOptions = questionBox.querySelector('.question-box-body')
 
     const updates = Array.from(divOptions.querySelectorAll('input'))
       .map(input => ({ id: isNaN(input.id) ? -1 : parseInt(input.id), value: input.value }));
-
-    // const removed = question.options.filter(option => !updates.some(input => input.id === option.id));
 
     const removed = filterRemovedObjects(question.options, updates, 'id');
 
@@ -150,9 +163,11 @@ export const EditForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('holaaa');
-    const formTitle = query('#form-title').value;
-    const formDescription = query('#form-description').value;
+
+    const form = new FormData(event.target);
+    
+    const formTitle = form.get('title');
+    const formDescription = form.get('description');
     const formId = id;
 
     const previousName = data.form.name;
@@ -173,19 +188,16 @@ export const EditForm = () => {
     }
 
 
-    const questionBoxes = getFormFields(event).map(({ question_id, ...rest }) => {
+    const questionBoxes = getFormFields(event).map(question => {
       return {
-        id: isNaN(question_id) ? -1 : parseInt(question_id),
-        form_id: parseInt(formId),
-        ...rest
+        form_id: formId,
+        ...question
       };
     });
 
-    const added = questionBoxes.filter(({ id }) => id === -1);
+    const added = questionBoxes.filter(question => questions.some(({ id, tag }) => question.id === id && tag === 'new'));
 
-    const removed = filterRemovedObjects(originalQuestions, questionBoxes, 'id').map(({ id }) => id);
-
-    console.log(added);
+    const removed = questions.filter(({ tag }) => tag === 'delete').map(({ id }) => id);
 
     removed.forEach(async (id) => {
       try {
@@ -203,46 +215,64 @@ export const EditForm = () => {
       }
     });
 
+    // remove the deleted fields and set remaining fields as old
+    setQuestions(questions.filter(({ id }) => !removed.includes(id)).map(question => {
+      return { ...question, tag: 'old' };
+    }));
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className='main-section'>
-      <h1>Editar formulario</h1>
+    <section className='main-section'>
 
-      <div className='form-header'>
-        <input className='title-input'
-          id='form-title'
-          type="text"
-          placeholder='Título del formulario'
-          defaultValue={data.form.name}></input>
-        <textarea
-          id="form-description"
-          className='description-input'
-          placeholder='Descripción'
-          defaultValue={data.form.description}
-        ></textarea>
-      </div>
+      <form className='new-form' onSubmit={(e) => handleSubmit(e)}>
 
-      <div className='question-section'>
-        <h3>Preguntas</h3>
-        <div className='questions'>
-          {
-            questions.map(({ id, type, name, is_required, options }) => {
-              return (
-                <div className='question-box' key={id} question_id={id}>
-                  <EditQuestion type={type} name={name} is_required={is_required} options={options} />
-                  <button type='button' onClick={() => handleDelete(id)}>Eliminar</button>
-                  <button type='button' onClick={() => handleEdit(id)}>Editar</button>
-                </div>
-              )
-            })
-          }
+        <div className='form-info container'>
+          <div className='form-title'>
+            <input name='title' type="text" placeholder='Título del formulario' defaultValue={data.form.name} />
+          </div>
+          <div className='form-description'>
+            <textarea name='description' placeholder='Añade una descripción' defaultValue={data.form.description} ></textarea>
+          </div>
         </div>
-      </div>
 
-      <TypeSelect handleClick={handleAddQuestionClick} handleChange={handleSelectChange} />
+        {
+          questions.map(({ id, type, tag, name, is_required, options }) => {
+            if (tag === 'delete') return null;            
+            return (
+              <Question key={id} id={id}>
 
-      <button type='submit'>Enviar</button>
-    </form>
+                <QuestionHeader>
+                  <input id={id} type_id={type} type="text" name="question-name" placeholder="Pregunta" defaultValue={name || ''} />
+                  {
+                    tag === 'new' && ( <TypeSelect id={id} handleChange={changeType} />)
+                  }
+                </QuestionHeader>
+
+                <QuestionBody>
+                  <Field type={type} options={options} />
+                </QuestionBody>
+
+                <QuestionFooter>
+                  <div>
+                    <label htmlFor="required">¿Obligatoria?</label>
+                    <input id="required" name="required" type="checkbox" defaultChecked={is_required} />
+                  </div>
+                  <button className='delete-button' type='button' onClick={() => handleDelete(id)}>Eliminar</button>
+                  <button className='accept-button' type='button' onClick={() => handleEdit(id)}>Guardar Cambios</button>
+                </QuestionFooter>
+
+              </Question>
+            )
+          })
+        }
+
+        <button id="add-field" type='button' className='container' onClick={handleAdd}>
+          Agregar
+        </button>
+
+        <button className='accept-button' type='submit'>Enviar</button>
+      </form>
+
+    </section>
   );
 };
