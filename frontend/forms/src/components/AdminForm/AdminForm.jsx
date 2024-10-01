@@ -5,8 +5,8 @@ export const AdminForm = ({ form, handleDelete }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="forms">
-            <div>
+        <div className="form">
+            <div className='info'>
                 <h2>{form.name}</h2>
                 <p>{form.description}</p>
                 <p>{form.is_visible ? 'Visible' : 'No visible'}</p>
