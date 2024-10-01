@@ -1,0 +1,115 @@
+.answer-view{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 20px;
+    background-color: #f0f0f0;
+}
+
+.question-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+    width: 100%;
+}
+
+.question-container{
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--white);
+    border: 2px solid var(--white);
+    border-radius: 10px;
+    padding: 10px;
+    width: 30%;
+
+    label[name='question-name']{
+        font-size: large;
+        font-weight: 500;
+        margin-bottom: 10px;
+        /* color: var(--dark-blue); */
+    }
+
+    input, textarea{
+        padding: 5px;
+        border-bottom: 2px solid var(--primary-blue);
+        font-size: medium;
+        transition: all 0.1s;
+    }
+
+        textarea::placeholder,
+        input::placeholder {
+            opacity: 1;
+            color: #000;
+        }
+    
+        textarea:focus,
+        input:focus {
+            outline: none;
+        }
+    
+        textarea:focus::placeholder,
+        input:focus::placeholder {
+            opacity: 0.5;
+        }
+
+    input{
+        width: 60%;
+    }
+
+    textarea{
+        width: 95%;
+    }
+
+    select{
+        padding: 5px;
+        border: 2px solid var(--gray);
+        border-radius: 5px;
+
+        font-size: medium;
+        width: fit-content;
+    }
+
+    select:focus{
+        outline: none;
+        border-color: var(--primary-blue);
+    }
+}
+
+.send-answer-button{
+    padding: 5px;
+    border: 2px solid var(--primary-blue);
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-weight: bold;
+    font-size: medium;
+    width: 10%;
+
+    transition: all 0.3s;
+}
+
+.send-answer-button:hover{
+    cursor: pointer;
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
+@media screen and (max-width: 768px){
+    .form-info{
+        width: 80%;
+    }
+
+    .question-container{
+        width: 80%;
+    }
+
+    .send-answer-button{
+        width: 20%;
+    }
+}

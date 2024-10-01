@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { sendAnswer } from '../../services/formServices';
 import useFetchData from '../../hooks/useFetchData';
 import FormField from './FormField';
-// Los datos no deben ser inyectados en el componente, deben ser obtenidos desde un servicio
+import './AnswerForm.css';
 
 import API_URL from '../../config';
 
@@ -78,9 +78,11 @@ export const AnswerForm = () => {
   }
 
   return (
-    <div className='main-section'>
-      <h1>Formulario: {data.form.name}</h1>
-      <p>{data.form.description}</p>
+    <div className='answer-view'>
+      <div className='form-info'>
+        <h1 className='form-title'>Formulario: {data.form.name}</h1>
+        <p className='form-description'>{data.form.description}</p>
+      </div>
       <form
         onSubmit={handleSubmitAnswer}
         className='question-section'
@@ -91,7 +93,7 @@ export const AnswerForm = () => {
               <FormField key={field.id} field={field} />
             ))
         }
-        <button>Enviar</button>
+        <button className='send-answer-button'>Enviar</button>
       </form>
     </div>
   )
