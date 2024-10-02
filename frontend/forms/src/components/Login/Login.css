@@ -3,50 +3,80 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #f5f5f5; /* Gris claro */
-    font-family: Arial, sans-serif;
+    height: 100vh; 
+}
+
+.img{
+    width: 200px;
+    height: 200px;
 }
 
 .main-login h1 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333; /* Gris oscuro */
+    color: #000; /* Gris oscuro */
 }
 
 .main-login form {
     background: #fff; /* Blanco */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra gris */
-    width: 300px;
+    padding: 35px;
+    border-radius: 15px; 
+    border: 1px solid var(--gray);
+    box-shadow: 0 0 10px var(--gray);  
+    width: 425px;
 }
 
 .main-login form div {
     margin-bottom: 15px;
 }
 
-
-
+.input-label {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000; 
+    margin-bottom: 10px;
+}
 .main-login input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc; /* Gris claro */
+    border: 1px solid var(--dark-blue); /* Gris claro */
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 19px;
+    margin-top: 12px;
 }
 
-.main-login button {
-    width: 100%;
+.message-error {
     padding: 10px;
-    background-color: #8b8b8b; /* Gris oscuro */
-    border: none;
-    border-radius: 4px;
-    color: white; /* Blanco */
-    font-size: 16px;
-    cursor: pointer;
+    margin-top: 15px;
+    color: white;
+    background-color: #940000;
+    border: 1px solid #ac0000;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    transition: all 0.3s;
 }
 
-.main-login button:hover {
-    background-color: #555; /* Gris medio */
+.login-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+
+    border: 2px solid var(--primary-blue);
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+
+    color: var(--white);
+    font-weight: bold;
+    font-size: large;
+
+    transition: all 0.3s;
+}
+
+.login-button:hover {
+    cursor: pointer;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border-color: var(--white);
 }

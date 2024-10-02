@@ -10,7 +10,13 @@ export const login = async (data) => {
     });
     
     if (!response.ok) {
-        throw new Error('Error al iniciar sesión');
+        if(response.status === 401){
+            throw new Error('Correo electrónico o contraseña incorrectos.');
+        } else if(response.status === 400){
+            throw new Error('Ingrese un correo electrónico y una contraseña.');
+        } else {
+            throw new Error('Error al iniciar sesión.');
+        }
     }
     
     return response.json();
