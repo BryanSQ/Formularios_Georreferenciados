@@ -28,12 +28,15 @@ export const CodeSearch = () => {
   };
 
   return (
-    <div className="search">
-      <h2>Busqueda por Codigo</h2>
-      <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Codigo" minLength={6} maxLength={6} required/>
-        <button type="submit">Buscar</button>
-      </form>
+    <div className="search-view">
+      <div className='code-container'>
+        <h2>Búsqueda por Código</h2>
+        <p>Ingrese el código del formulario por buscar:</p>
+        <form className='form-code' onSubmit={handleSearch}>
+          <input type="text" placeholder="Código" minLength={6} maxLength={6} required/>
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
     </div>
   );
 };

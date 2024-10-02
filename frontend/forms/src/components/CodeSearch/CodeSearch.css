@@ -1,23 +1,74 @@
-.search{
-    /* display at the center */
+.search-view{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
+
+    background-image: url('../../assets/onda-azul-transparente.png');
+    background-size: 500px; /* Ajusta el tamaño del patrón */
+    background-repeat: repeat; /* Repite la imagen para cubrir todo el contenedor */
+    background-position: top left; /* Posiciona la imagen en la esquina superior izquierda */
 }
 
-.search input {
-    /* width of the input */
+.code-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 50px var(--gray);
+
+    font-size: larger;
+
+    padding: 50px;
+    gap: 20px;
+}
+
+.form-code{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.form-code input {
     width: 50%;
-    /* padding */
     padding: 10px;
-    /* margin */
     margin: 10px;
-    /* border */
     border: 1px solid #ccc;
-    /* border radius */
     border-radius: 5px;
-    /* font size */
     font-size: 16px;
+}
+
+.form-code input:focus {
+    outline: none;
+    border: 2px solid var(--primary-blue);
+}
+
+.form-code button {
+    padding: 5px;
+    border: 2px solid var(--primary-blue);
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-weight: bold;
+    font-size: medium;
+
+    transition: all 0.3s;
+}
+
+.form-code button:hover {
+    cursor: pointer;
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
+@media screen and (max-width: 768px) {
+    .code-container{
+        width: 90%;
+    }
 }
