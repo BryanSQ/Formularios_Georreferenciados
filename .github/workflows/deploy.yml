@@ -15,16 +15,16 @@ jobs:
 
       - name: Debug secrets
         run: |
-          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "SSH_PRIVATE_KEY is not set!"
+          if [ -z "${{ secrets.VM_SSH_KEY }}" ]; then
+            echo "VM_SSH_KEY is not set!"
             exit 1
           fi
-          if [ -z "${{ secrets.SSH_HOST }}" ]; then
-            echo "SSH_HOST is not set!"
+          if [ -z "${{ secrets.VM_HOST }}" ]; then
+            echo "VM_HOST is not set!"
             exit 1
           fi
-          if [ -z "${{ secrets.SSH_USERNAME }}" ]; then
-            echo "SSH_USERNAME is not set!"
+          if [ -z "${{ secrets.VM_USER }}" ]; then
+            echo "VM_USER is not set!"
             exit 1
           fi
         shell: bash
