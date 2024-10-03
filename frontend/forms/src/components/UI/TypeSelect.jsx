@@ -17,7 +17,7 @@ export const TypeSelect = ({ id, handleChange }) => {
       onChange={(e) => handleChange(id, e.target.value)}>
       {
         data.map((type) => {
-          return <option key={type.id} value={type.id}>{type.name}</option>
+          return <option key={type.id} value={type.id}>{type.spanish_name}</option>
         })
       }
     </select>

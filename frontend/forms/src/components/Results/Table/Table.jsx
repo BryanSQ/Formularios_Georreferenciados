@@ -17,7 +17,9 @@ const Table = ({ name, type, answers }) => {
 
     return (
         <>
-            <b>{name}</b>
+            <div className="result-header">
+                {name}
+            </div>
             {table}
         </>
     )

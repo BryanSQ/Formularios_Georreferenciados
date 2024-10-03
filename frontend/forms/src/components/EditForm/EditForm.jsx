@@ -66,7 +66,7 @@ export const EditForm = () => {
 
   const handleAdd = () => {
     const newId = uuidv4();
-    setQuestions([...questions, { id: newId, type: selectedQuestion, tag: 'new' }]);
+    setQuestions([...questions, { id: newId, type: 1, tag: 'new' }]);
   }
 
   const handleDelete = (id) => {

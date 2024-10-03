@@ -11,7 +11,7 @@ const ListTable = ({ answers }) => {
       <table>
         <thead>
           <tr>
-            <th>Opcion</th>
+            <th>Opción</th>
             <th>Cantidad de selecciones</th>
           </tr>
         </thead>

@@ -41,3 +41,9 @@ input {
   padding: 23px;
   border-radius: 15px;
 }
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

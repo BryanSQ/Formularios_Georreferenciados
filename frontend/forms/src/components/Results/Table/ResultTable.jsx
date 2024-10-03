@@ -1,5 +1,5 @@
 import "./ResultTable.css"
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import useFetchData from "../../../hooks/useFetchData";
@@ -26,20 +26,23 @@ export const ResultTable = () => {
   }
 
   return (
-    <div className="main_container">
-      <h1>{data.form.name}</h1>
-      <p>{data.form.description}</p>
-      <div>
-        <h3>Descarga de los resultados</h3>
-        <a href={`${API_URL}/forms/results/csv/${id}`} download>
-          Descargar CSV
-        </a>
-      </div>
-      {data.answers.map((answer, index) => (
-        <div key={index} className="result_table">
-          <Table name={answer.name} type={answer.type.id} answers={answer.answers} />
+    <section className="main-section">
+
+      <div className="results">
+        <div className="container form-info">
+          <h1>{data.form.name}</h1>
+          <p>{data.form.description}</p>
+          <a href={`${API_URL}/forms/results/csv/${id}`} download>
+            Descargar CSV
+          </a>
         </div>
-      ))}
-    </div>
+
+        {data.answers.map((answer, index) => (
+          <div key={index} className="result-container">
+            <Table name={answer.name} type={answer.type.id} answers={answer.answers} />
+          </div>
+        ))}
+      </div>
+    </section>
   )
 };

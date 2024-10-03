@@ -121,16 +121,3 @@ export const CreateForm = () => {
     </section>
   );
 };
-
-{/* <div key={id} className='container question-box'>
-  <Question />
-  <div className='question-box-footer'>
-    <div>
-      <label htmlFor='required'>¿Obligatoria?</label>
-      <input id='required' name='required' type='checkbox' />
-    </div>
-    <button type='button' className='delete-button' onClick={() => handleDelete(id)}>
-      Eliminar
-    </button>
-  </div>
-</div> */}
