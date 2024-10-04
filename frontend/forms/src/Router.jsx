@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch } from './components';
+import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch, PreviewForm } from './components';
 
 
 function AppRouter() {
@@ -14,6 +14,7 @@ function AppRouter() {
       <Route path="/map/:id" element={<ResultMap />} />
       <Route path="/table/:id" element={<ResultTable />} />
       <Route path="/search" element={<CodeSearch />} />
+      <Route path="preview/:id" element={<PreviewForm />} />
     </Routes>
   );
 }
