@@ -48,12 +48,10 @@ export const ResultMap = () => {
                 console.log(position);      
                 return (
                   <Marker key={submission_id} position={position} icon={customMarker}>
-                    <Popup className='request-popup'>
+                    <Popup className='request-popup popup'>
                     {
                       <div className = "answers-container">
-                        <div className = "creation-date">
-                          Fecha de la respuesta: {data.form.created_at}
-                        </div>
+                        
                         <div>
                           {/*Ubicacion: {JSON.stringify(position)}*/}
                         </div>
@@ -65,6 +63,9 @@ export const ResultMap = () => {
                             </div>
                           </div>
                         ))}
+                        <div className = "creation-date">
+                          Fecha de la respuesta: {data.form.created_at}
+                        </div>
                       </div>
                     }
                     </Popup>
