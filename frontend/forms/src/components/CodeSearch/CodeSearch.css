@@ -27,18 +27,18 @@
     gap: 20px;
 }
 
-.form-code{
+.form-code {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 70%;
+    gap: 10px; /* Añade un espacio entre el input y el botón */
 }
 
 .form-code input {
-    width: 50%;
+    flex: 1; /* Permite que el input ocupe todo el espacio disponible */
     padding: 10px;
-    margin: 10px;
+    margin: 10px 0; /* Ajusta el margen superior e inferior */
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -50,14 +50,18 @@
 }
 
 .form-code button {
-    padding: 5px;
+    padding: 17px 17px; /* Ajusta el padding para que el ícono se vea bien */
     border: 2px solid var(--primary-blue);
     border-radius: 5px;
     background-color: var(--primary-blue);
     color: var(--white);
     font-weight: bold;
     font-size: medium;
-
+    background-image: url('../../assets/searchIcon.png');
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center; /* Posiciona la imagen en el centro del botón */
+    background-size: 28px 28px; /* Ajusta el tamaño de la imagen */
+    
     transition: all 0.3s;
 }
 
@@ -72,3 +76,4 @@
         width: 90%;
     }
 }
+
