@@ -3,7 +3,7 @@
     border-radius: 15px;
     padding: 30px;
     display: flex;
-    width: 55%;
+    width: 45%;
     flex-direction: column;
     gap: 30px;
   
@@ -86,4 +86,12 @@
     border: 2px solid var(--primary-blue);
   }
 
+@media screen and (max-width: 820px) {
+    .resultmap-info{
+        width: 90%;
+    }
 
+    .resultmap-container{
+        width: 90%;
+    }
+}
