@@ -1,6 +1,9 @@
 import './AdminForm.css';
 import { useNavigate } from 'react-router-dom';
 
+import visibleIcon from '../../assets/visible.png';
+import notVisibleIcon from '../../assets/invisible.png';
+
 export const AdminForm = ({ form, handleDelete }) => {
     const navigate = useNavigate();
 
@@ -9,7 +12,13 @@ export const AdminForm = ({ form, handleDelete }) => {
             <div className='info'>
                 <h2>{form.name}</h2>
                 <p>{form.description}</p>
-                <p>{form.is_visible ? 'Visible' : 'No visible'}</p>
+                <div className='info-buttons'>
+                    <img 
+                        className='visibility-icon'
+                        src={form.is_visible ? visibleIcon : notVisibleIcon}
+                        alt={form.is_visible ? 'Visible' : 'No visible'} />
+                    <p className='code'>{form.code}</p>
+                </div>
             </div>
             <div className="buttons">
                 <button onClick={() => navigate(`/edit/${form.id}`)}>Editar</button>

@@ -61,11 +61,9 @@ class Form
 
 
   // get all forms 
-
   public static function get_all(): array
   {
-    // change * to the column names when the table is created
-    $sql = "SELECT id, name, description, is_visible FROM Form";
+    $sql = "SELECT id, name, description, is_visible, code FROM Form";
     $stmt = Database::get_instance()->get_connection()->query($sql);
 
     $data = [];
