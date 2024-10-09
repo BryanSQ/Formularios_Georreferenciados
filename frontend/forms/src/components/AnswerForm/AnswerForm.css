@@ -101,7 +101,7 @@
     border-color: var(--dark-blue);
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 820px){
     .form-info{
         width: 80%;
     }
