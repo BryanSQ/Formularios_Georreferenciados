@@ -44,10 +44,6 @@ export const AdminView = () => {
 
     return (
         <div className="admin-view">
-            <div className='admin-header'>
-                <h1>Administración de formularios</h1>
-                <button className="create-button" onClick={() => navigate(`/create`)}>Crear un formulario</button>
-            </div>
             <div className="forms-container">
                 {
                     data.length > 0 ? data.map((form) => {
