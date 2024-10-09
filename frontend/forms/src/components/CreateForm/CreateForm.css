@@ -4,6 +4,7 @@
   align-items: center;
   padding: 20px;
   gap: 80px;
+  width: 100%;
 
   input {
     font-size: inherit;
@@ -36,6 +37,10 @@
 
 .form-title {
   font-size: 36px;
+  
+  input{
+    width: 100%;
+  }
 }
 
 .form-description {
@@ -176,72 +181,77 @@
   font-size: 20px;
   width: 200px;
 }
-/*
 
+@media screen and (max-width: 810px) {
+  .new-form {
+    gap: 20px;
+  }
 
-.delete-button:hover {
-  background-color: red;
-  color: var(--white);
-  transition: background-color 0.3s ease, color 0.3s ease;
-} */
+  .form-info {
+    padding: 20px;
+    gap: 20px;
+  }
 
+  .form-title {
+    font-size: 24px;
+  }
 
-/* .main-section input{
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
+  .form-description {
+    font-size: 20px;
+
+    textarea {
+      font-size: 20px;
+    }
+  }
+
+  #add-field {
+    font-size: 20px;
+  }
+
+  .question-box {
+    gap: 20px;
+  }
+
+  .question-box-header {
+    gap: 10px;
+  }
+
+  .question-box-body {
+    gap: 5px;
+  }
+
+  .type-select {
+    width: 30%;
+  }
+
+  .question-box-footer {
+    gap: 20px;
+  }
+
+  .add-option {
+    font-size: 16px;
+    width: 150px;
+  }
+
+  .delete-button {
+    font-size: 16px;
+    height: 25px;
+  }
+
+  .accept-button {
+    font-size: 16px;
+    width: 150px;
+  }
+
+  #question-name {
+    font-size: 18px;
+  }
+
+  .question-box-body{
+    font-size: 16px;
+  }
+
+  .delete-button {
+    font-size: 16px;
+  }
 }
-
-.form-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.title-input {
-  margin-top: 20px;
-  font-size: xx-large;
-}
-
-.description-input {
-
-}
-
-.text-area {
-  margin-top: 20px;
-  font-size: medium;
-  font-family: 'Arial', sans-serif;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-}
-
-.add-question-section{
-
-}
-
-.add-question{
-
-}
-
-.add-question select{
-
-}
-
-.question-section{
-
-}
-
-.questions{
-
-}
-
-
-
-.question-box input{
-
-}
-
-.question-box button{
-
-} */

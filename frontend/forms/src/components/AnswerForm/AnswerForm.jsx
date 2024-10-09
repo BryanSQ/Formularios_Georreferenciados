@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { sendAnswer } from '../../services/formServices';
 import useFetchData from '../../hooks/useFetchData';
-import FormField from './FormField';
+import FormField from '../UI/FormField';
 import './AnswerForm.css';
 
 import API_URL from '../../config';

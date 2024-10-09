@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { searchFormByCode } from '../../services/formServices';
 
+
 export const CodeSearch = () => {
   const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ export const CodeSearch = () => {
         <p>Ingrese el código del formulario por buscar:</p>
         <form className='form-code' onSubmit={handleSearch}>
           <input type="text" placeholder="Código" minLength={6} maxLength={6} required/>
-          <button type="submit">Buscar</button>
+          <button className='search-button' type="submit"></button>
         </form>
       </div>
     </div>

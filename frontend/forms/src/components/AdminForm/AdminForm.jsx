@@ -16,6 +16,7 @@ export const AdminForm = ({ form, handleDelete }) => {
                 <button onClick={() => handleDelete(form.id)}>Eliminar</button>
                 <button onClick={() => navigate(`/table/${form.id}`)}>Vista de resultados tabular</button>
                 <button onClick={() => navigate(`/map/${form.id}`)}>Vista de resultados mapa</button>
+                <button onClick={() => navigate(`/preview/${form.id}`)}>Vista previa</button>
                 <button onClick={() => navigate(`/answer/${form.id}`)}>Vista de responder formulario</button>
             </div>
         </div>

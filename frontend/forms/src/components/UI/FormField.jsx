@@ -1,7 +1,7 @@
-import Dropdown from "./fields/Dropdown";
-import Checkbox from "./fields/Checkbox";
-import TextBox from "./fields/TextBox";
-import MapField from "./fields/MapField";
+import Dropdown from "../AnswerForm/fields/Dropdown";
+import Checkbox from "../AnswerForm/fields/Checkbox";
+import TextBox from "../AnswerForm/fields/TextBox";
+import MapField from "../AnswerForm/fields/MapField";
 const FormField = ({ field }) => {
   console.log(field);
   return (
