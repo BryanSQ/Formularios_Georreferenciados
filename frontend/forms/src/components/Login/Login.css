@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh; 
+    margin-top: 50px;
 }
 
 .img{
@@ -13,11 +12,11 @@
 .main-login h1 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #000; /* Gris oscuro */
+    color: #000; 
 }
 
 .main-login form {
-    background: #fff; /* Blanco */
+    background: #fff; 
     padding: 35px;
     border-radius: 15px; 
     border: 1px solid var(--gray);
@@ -38,7 +37,7 @@
 .main-login input {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--dark-blue); /* Gris claro */
+    border: 1px solid var(--dark-blue); 
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 19px;
@@ -63,7 +62,7 @@
     padding: 8px;
 
     border: 2px solid var(--primary-blue);
-    border-radius: 5px;
+    border-radius: 15px;
     background-color: var(--primary-blue);
 
     color: var(--white);

@@ -1,0 +1,75 @@
+.header{
+    background-color: var(--white); 
+    color: var(--dark-blue);
+    padding: 15px 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid var(--dark-blue);
+}
+
+
+.header-logo{
+    display: flex;
+    align-items: flex-start;
+}
+
+.header-logo img{
+    width: 250px;
+}
+
+.header-tittle{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-options{
+    justify-content: flex-end;
+   
+    display: flex; 
+    gap: 20px;
+}
+
+.button {
+    width: 100%;
+    padding: 8px;
+
+    border: 2px solid var(--primary-blue);
+    border-radius: 15px;
+    background-color: var(--primary-blue);
+
+    color: var(--white);
+    font-weight: bold;
+    font-size: 16px;
+
+    transition: all 0.3s;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.config-button{
+    width: 100%;
+    background-image: url('../../assets/adminIcon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45px 45px;
+    border: 0;
+}
+
+.config-button:hover{
+    width: 100%;
+    background-image: url('../../assets/adminIconHover.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45px 45px;
+    border: 0;
+}
+
+
