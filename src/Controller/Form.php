@@ -109,6 +109,11 @@ class FormController
     $forms = Form::get_all();
     if (!$forms) {
 
+      if (count($forms) == 0) {
+        echo json_encode($forms);
+        return;
+      }
+
       http_response_code(404);
       echo json_encode(["error" => "No forms found"]);
       return;
