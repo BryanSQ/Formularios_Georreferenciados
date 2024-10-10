@@ -62,7 +62,7 @@ export const AnswerForm = () => {
     try {
       const response = await sendAnswer(data.form.id, answer);
       console.log(response);
-      navigate('/admin');
+      navigate('/');
     }
     catch (error) {
       console.error(error);
