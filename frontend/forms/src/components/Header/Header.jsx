@@ -13,8 +13,8 @@ export const Header = () =>{
                     <h2>Sistema de Formularios Georreferenciados</h2>
                 </div>
                 <div className="header-options">
-                    <button className="button" onClick={() => navigate('/')}>Inicio</button>
-                    <button className="button" onClick={() => navigate('/search')}>Buscar formulario</button>
+                    <button className="home-button" onClick={() => navigate('/')}></button>
+                    <button className="find-button" onClick={() => navigate('/search')}></button>
                     <button className="config-button" onClick={() => navigate('/login')}></button>
                 </div> 
         </header>
