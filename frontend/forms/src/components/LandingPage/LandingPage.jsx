@@ -17,7 +17,7 @@ export const LandingPage = () => {
                 <div className="about-section">
                     <h3>Acerca del sistema</h3>
                     <p>
-                        Este es sistema web de formularios georreferenciados diseñado
+                        Este es un sistema web de formularios georreferenciados diseñado
                         para satisfacer las necesidades del <b>Laboratorio de Investigación e Innovación Tecnológica (LIIT)</b> de
                         la <b>Universidad Estatal a Distancia de Costa Rica</b>. El sistema permite la creación, personalización y
                         distribución de formularios que incluyen la capacidad de marcar <b>ubicaciones geográficas en un mapa</b>.
