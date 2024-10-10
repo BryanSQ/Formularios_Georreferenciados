@@ -10,10 +10,12 @@ export const LandingPage = () => {
                 <p>¡Sé parte del proceso de innovación e investigación del <b>LIIT</b>!</p>
             </div>
             <div className="background">
+                <div>
                 <button 
                     className="search-button"
                     onClick={() => navigate('/search')}
                     >Buscar un formulario por código</button>
+                </div>
                 <div className="about-section">
                     <h3>Acerca del sistema</h3>
                     <p>
