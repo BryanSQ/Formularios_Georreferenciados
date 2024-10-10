@@ -7,3 +7,4 @@ export { ResultMap } from './Results/Map/ResultMap.jsx';
 export { ResultTable } from './Results/Table/ResultTable.jsx';
 export { CodeSearch } from './CodeSearch/CodeSearch.jsx';
 export { PreviewForm } from './PreviewForm/PreviewForm.jsx';
+export { LandingPage } from './LandingPage/LandingPage.jsx';

@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
-import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch, PreviewForm } from './components';
+import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch, PreviewForm, LandingPage } from './components';
 
 
 function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateForm />} />
       <Route path="/answer/:id" element={<AnswerForm />} />
       <Route path="/login" element={<Login />} />
