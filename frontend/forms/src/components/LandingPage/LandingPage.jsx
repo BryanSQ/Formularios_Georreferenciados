@@ -11,7 +11,7 @@ export const LandingPage = () => {
             </div>
             <div className="background">
                 <button 
-                    className="search-button"
+                    className="search-btn"
                     onClick={() => navigate('/search')}
                     >Buscar un formulario por código</button>
                 <div className="about-section">
