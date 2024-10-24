@@ -44,6 +44,10 @@
     padding-bottom: 50px;    
 }
 
+.search-box{
+    margin-bottom: 50px;
+}
+
 .about-section{
     display: flex;
     flex-direction: column;
