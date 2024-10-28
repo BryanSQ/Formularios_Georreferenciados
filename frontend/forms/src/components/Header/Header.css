@@ -56,18 +56,19 @@
     background-image: url('../../assets/homeIcon.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 45px 45px;
+    background-size: 35px 35px;
     border: 0;
 }
 
 .home-button:hover {
+    cursor: pointer;
     background-image: url('../../assets/homeIconHover.png');
 }
 
 .find-button {
     width: 45px; 
     height: 45px; 
-    background-image: url('../../assets/findIcon.png');
+    background-image: url('../../assets/mapIcon.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 35px 35px;
@@ -75,7 +76,8 @@
 }
 
 .find-button:hover {
-    background-image: url('../../assets/findIconHover.png');
+    cursor: pointer;
+    background-image: url('../../assets/mapIconHover.png');
 }
 
 
@@ -85,11 +87,12 @@
     background-image: url('../../assets/adminIcon.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 45px 45px;
+    background-size: 35px 35px;
     border: 0;
 }
 
 .config-button:hover {
+    cursor: pointer;
     background-image: url('../../assets/adminIconHover.png');
 }
 

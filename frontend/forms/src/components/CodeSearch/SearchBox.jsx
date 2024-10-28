@@ -16,7 +16,12 @@ export const SearchBox = ({ object }) => {
 
     try {
       const { id } = await searchFormByCode(code);
-      navigate(`/answer/${id}`);
+      if(object === 'formulario'){
+        navigate(`/answer/${id}`);
+      }
+      else{
+        navigate(`/map/${id}`);
+      }      
       
     } catch (error) {
       console.error('Error al buscar el formulario:', error);
