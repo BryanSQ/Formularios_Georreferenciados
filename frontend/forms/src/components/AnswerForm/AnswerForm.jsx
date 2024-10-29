@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-
 import { sendAnswer } from '../../services/formServices';
 import useFetchData from '../../hooks/useFetchData';
 import FormField from '../UI/FormField';
@@ -8,11 +7,12 @@ import './AnswerForm.css';
 import API_URL from '../../config';
 
 export const AnswerForm = () => {
+
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { code } = useParams();
+  const { data, loading, error } = useFetchData(`${API_URL}/forms/search/${code}/fields`);
 
-  const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/fields`);
-
+  
 
   const handleSubmitAnswer = async (e) => {
     e.preventDefault();

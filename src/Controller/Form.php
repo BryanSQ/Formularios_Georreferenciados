@@ -104,6 +104,34 @@ class FormController
     return;
   }
 
+  public function get_form_with_fields_by_code(string $code)
+  {
+    $found = Form::search_by_code($code);
+  
+    if (!$found) {
+      http_response_code(404);
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+    $id = $found["id"];
+    $form = Form::read($id);
+    $fields = Form::get_fields($id);
+
+    if (!$fields) {
+      http_response_code(404);
+      echo json_encode(["error" => "Form does not have fields"]);
+      return;
+    }
+
+    $form_with_fields = [
+      'form' => $form,
+      'fields' => $fields,
+    ];
+
+    echo json_encode($form_with_fields);
+    return;
+  }
+
   public function get_all_forms()
   {
     $forms = Form::get_all();

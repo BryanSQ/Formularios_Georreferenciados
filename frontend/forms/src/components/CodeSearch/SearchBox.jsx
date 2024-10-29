@@ -17,7 +17,7 @@ export const SearchBox = ({ object }) => {
     try {
       const { id } = await searchFormByCode(code);
       if(object === 'formulario'){
-        navigate(`/answer/${id}`);
+        navigate(`/answer/${code}`);
       }
       else{
         navigate(`/map/${id}`);

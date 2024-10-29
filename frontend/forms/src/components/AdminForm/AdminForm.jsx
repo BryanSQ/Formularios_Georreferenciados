@@ -3,9 +3,17 @@ import { useNavigate } from 'react-router-dom';
 
 import visibleIcon from '../../assets/visible.png';
 import notVisibleIcon from '../../assets/invisible.png';
+import API_URL from '../../config';
 
 export const AdminForm = ({ form, handleDelete }) => {
     const navigate = useNavigate();
+    const prepareUrl = () => {
+        if (API_URL.includes('localhost')) {
+            return API_URL.replace('/api', ':5173');
+        } else {
+            return API_URL.replace('api', '');
+        }
+    }
 
     return (
         <div className="form">
@@ -19,6 +27,7 @@ export const AdminForm = ({ form, handleDelete }) => {
                         alt={form.is_visible ? 'Visible' : 'No visible'} />
                     <p className='code'>{form.code}</p>
                 </div>
+                <div className='code'>{`${prepareUrl()}/answer/${form.code}`}</div>
             </div>
             <div className="buttons">
                 <button onClick={() => navigate(`/edit/${form.id}`)}>Editar</button>
