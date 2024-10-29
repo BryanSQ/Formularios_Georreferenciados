@@ -473,4 +473,15 @@ class FormController
     return;
 
   }
+
+
+  public function remove_submission(int $id):void {
+    $is_submission_deleted = Submission::delete($id);
+    echo json_encode($is_submission_deleted);
+    $result = $is_submission_deleted ? ["success" => "Submission deleted"] : ["error" => "Submission not found"];
+    // returns the result as a JSON string
+    echo json_encode($result);
+    return;
+  }
+
 }

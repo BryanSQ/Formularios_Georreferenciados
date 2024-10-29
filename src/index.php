@@ -68,6 +68,7 @@ $router->put('/forms/fields/options/{id}', 'FormController@update_option');
 $router->delete('/forms/{id}', 'FormController@remove_form');
 $router->delete('/forms/fields/options/{id}', 'FormController@delete_option');
 $router->delete('/forms/fields/{id}', 'FormController@remove_field');
+$router->delete('/forms/{id}/answers', 'FormController@remove_submission');
 
 
 

@@ -37,4 +37,19 @@ class Submission{
     $submission = $stmt->fetch(PDO::FETCH_ASSOC);
     return $submission;
   }
+
+
+  public static function delete(string $id): int
+  {
+    $connection = Database::get_instance()->get_connection();
+
+    $sql = "DELETE FROM Submission WHERE id = :id";
+
+    $stmt = $connection->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->rowCount();
+  }
+
 }

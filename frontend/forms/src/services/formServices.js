@@ -159,3 +159,15 @@ export const searchFormByCode = async (code) => {
 
   return response.json();
 }
+
+export const removeSubmission = async (id) => {
+  const response = await fetch(`${API_URL}/forms/${id}/answers`,{
+    method: 'DELETE'
+  });
+
+  if (!response.ok){
+    throw new Error('Error al buscar la respuesta');
+  }
+
+  return response;
+}

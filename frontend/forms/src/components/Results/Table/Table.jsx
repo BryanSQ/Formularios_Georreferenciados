@@ -5,13 +5,13 @@ import MapTable from "./tables/MapTable";
 const Table = ({ name, type, answers }) => {
 
     let table;
-    if(type === 1 || type === 2) {
+    if (type === 1 || type === 2) {
         table = <TextTable answers={answers} />
     }
-    else if(type === 3 || type === 4) {
+    else if (type === 3 || type === 4) {
         table = <ListTable answers={answers} />
     }
-    else{
+    else {
         table = <MapTable answers={answers} />
     }
 
