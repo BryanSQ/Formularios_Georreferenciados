@@ -11,7 +11,7 @@ export const AdminForm = ({ form, handleDelete }) => {
         if (API_URL.includes('localhost')) {
             return API_URL.replace('/api', ':5173');
         } else {
-            return API_URL.replace('api', '');
+            return API_URL.replace('/api', '');
         }
     }
 
