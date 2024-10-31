@@ -20,7 +20,7 @@ import '../CreateForm/CreateForm.css';
 import './EditForm.css';
 import { Question, QuestionBody, QuestionFooter, QuestionHeader } from '../UI/question';
 import { Field, TypeSelect } from '../UI';
-
+import { ConfirmMessage } from '../helper/ConfirmMessage';
 
 
 
@@ -31,6 +31,9 @@ export const EditForm = () => {
   const { data, loading, error } = useFetchData(`${API_URL}/forms/${id}/fields`);
 
   const [questions, setQuestions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [onConfirm, setOnConfirm] = useState(() => { });
 
 
   useEffect(() => {
@@ -97,7 +100,7 @@ export const EditForm = () => {
   const handleEdit = async (fieldId) => {
     const question = questions.find(question => question.id === fieldId);
     const questionBox = query(`.question-box[question_id="${fieldId}"]`);
-    
+
     const name = questionBox.querySelector('[name="question-name"]').value;
 
     const required = questionBox.querySelector('input[name="required"]').checked;
@@ -114,6 +117,9 @@ export const EditForm = () => {
 
       try {
         await updateField(fieldId, data);
+        setMessage('Campo actualizado con éxito');
+        setOnConfirm(() => () => setIsOpen(false));
+        setIsOpen(true);
       } catch (error) {
         console.error('Error al actualizar el campo:', error);
       }
@@ -165,7 +171,7 @@ export const EditForm = () => {
     event.preventDefault();
 
     const form = new FormData(event.target);
-    
+
     const formTitle = form.get('title');
     const formDescription = form.get('description');
     const formId = id;
@@ -182,6 +188,9 @@ export const EditForm = () => {
     if (formTitle !== previousName || formDescription !== previousDescription) {
       try {
         await updateForm(formId, updatedData);
+        setMessage('Formulario actualizado con éxito');
+        setOnConfirm(() => () => navigate("/admin"));
+        setIsOpen(true);
       } catch (error) {
         console.error('Error al actualizar el formulario:', error);
       }
@@ -224,6 +233,9 @@ export const EditForm = () => {
   return (
     <section className='main-section'>
 
+      {isOpen && <ConfirmMessage message={message}
+        onConfirm={onConfirm} onCancel={""} />}
+
       <form className='new-form' onSubmit={(e) => handleSubmit(e)}>
 
         <div className='form-info container'>
@@ -237,14 +249,14 @@ export const EditForm = () => {
 
         {
           questions.map(({ id, type, tag, name, is_required, options }) => {
-            if (tag === 'delete') return null;            
+            if (tag === 'delete') return null;
             return (
               <Question key={id} id={id}>
 
                 <QuestionHeader>
                   <input id={id} type_id={type} type="text" name="question-name" placeholder="Pregunta" defaultValue={name || ''} />
                   {
-                    tag === 'new' && ( <TypeSelect id={id} handleChange={changeType} />)
+                    tag === 'new' && (<TypeSelect id={id} handleChange={changeType} />)
                   }
                 </QuestionHeader>
 

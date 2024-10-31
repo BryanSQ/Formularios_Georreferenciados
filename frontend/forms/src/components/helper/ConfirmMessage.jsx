@@ -6,7 +6,7 @@ export const ConfirmMessage = ({ message, onConfirm, onCancel }) => {
       <div className='confirm-message'>
         <p>{message}</p>
         <div className='modal-buttons'>
-          <button className='cancel' onClick={onCancel}>Cancelar</button>
+          {onCancel !== "" && <button className='cancel' onClick={onCancel}>Cancelar</button>}
           <button className='confirm' onClick={onConfirm}>Confirmar</button>
         </div>
       </div>

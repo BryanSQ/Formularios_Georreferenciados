@@ -8,12 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { getFormFields } from '../../utils/forms';
 import { Question, QuestionBody, QuestionFooter, QuestionHeader } from '../UI/question';
 import { Field, TypeSelect } from '../UI';
+import { ConfirmMessage } from '../helper/ConfirmMessage';
 
 
 export const CreateForm = () => {
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
 
   const handleAdd = () => {
@@ -60,7 +62,7 @@ export const CreateForm = () => {
     try {
       const response = await createForm(data);
       console.log('Formulario creado con éxito:', response);
-      navigate('/admin');
+      setIsOpen(true);
     } catch (error) {
       console.error('Error al crear el formulario:', error);
     }
@@ -68,6 +70,9 @@ export const CreateForm = () => {
 
   return (
     <section className='main-section'>
+
+      {isOpen && <ConfirmMessage message='Formulario creado con éxito' 
+      onConfirm={() => navigate('/admin')} onCancel={""} />}
 
       <form className='new-form' onSubmit={handleSubmit}>
 
