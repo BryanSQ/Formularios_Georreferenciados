@@ -7,7 +7,7 @@ import API_URL from '../../config';
 
 import clipboard from '../../assets/copy-clipboard.svg';
 
-export const AdminForm = ({ form, handleDelete }) => {
+export const AdminForm = ({ form, prepareDelete }) => {
     const navigate = useNavigate();
     const prepareUrl = () => {
         if (API_URL.includes('localhost')) {
@@ -27,7 +27,7 @@ export const AdminForm = ({ form, handleDelete }) => {
                 <h2>{form.name}</h2>
                 <p>{form.description}</p>
                 <div className='info-buttons'>
-                    <img 
+                    <img
                         className='visibility-icon'
                         src={form.is_visible ? visibleIcon : notVisibleIcon}
                         alt={form.is_visible ? 'Visible' : 'No visible'} />
@@ -43,12 +43,12 @@ export const AdminForm = ({ form, handleDelete }) => {
             </div>
             <div className="buttons">
                 <button onClick={() => navigate(`/edit/${form.id}`)}>Editar</button>
-                <button onClick={() => handleDelete(form.id)}>Eliminar</button>
+                <button onClick={() => prepareDelete(form)}>Eliminar</button>
                 <button onClick={() => navigate(`/table/${form.id}`)}>Vista de resultados tabular</button>
                 <button onClick={() => navigate(`/map/${form.id}`)}>Vista de resultados mapa</button>
                 <button onClick={() => navigate(`/preview/${form.id}`)}>Vista previa</button>
-                <button onClick={() => navigate(`/answer/${form.id}`)}>Vista de responder formulario</button>
             </div>
         </div>
+
     );
 };

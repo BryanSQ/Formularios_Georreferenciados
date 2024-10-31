@@ -6,12 +6,15 @@ import useFetchData from "../../../hooks/useFetchData";
 import API_URL from "../../../config";
 
 import { removeSubmission } from "../../../services/formServices";
+import { ConfirmMessage } from "../../helper/ConfirmMessage";
 
 export const ResultTable = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetchData(`${API_URL}/forms/results/map/${id}`);
 
   const [submissions, setSubmissions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [submissionToBeDeleted, setSubmissionToBeDeleted] = useState(null);
 
   useEffect(() => {
     if (data && data.results) {
@@ -26,14 +29,23 @@ export const ResultTable = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const prepareDelete = (id) => {
+    setSubmissionToBeDeleted(id);
+    setIsOpen(true);
+  }
+
   const deleteSubmission = async (submission_id) => {   
     setSubmissions(submissions.filter(submission => submission.submission_id !== submission_id));
     await removeSubmission(submission_id)
+    setIsOpen(false);
   }
 
   return (
     data && (
       <section className="main-section">
+        {isOpen && <ConfirmMessage message="¿Desea eliminar esta respuesta?" 
+        onConfirm={() => deleteSubmission(submissionToBeDeleted)} onCancel={() => setIsOpen(false)} />}
+
         <div className="results">
           <div className="container form-info">
             <h1>{data.form.name}</h1>
@@ -58,7 +70,7 @@ export const ResultTable = () => {
                     </div>
                   );
                 })}
-                <button style={{ alignSelf: 'flex-end' }} className="delete-button" onClick={() => deleteSubmission(submission_id)}>
+                <button style={{ alignSelf: 'flex-end' }} className="delete-button" onClick={() => prepareDelete(submission_id)}>
                   Eliminar respuesta
                 </button>
               </div>
