@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { sendAnswer } from '../../services/formServices';
+import { ConfirmMessage } from '../helper/ConfirmMessage';
 import useFetchData from '../../hooks/useFetchData';
 import FormField from '../UI/FormField';
 import './AnswerForm.css';
@@ -11,7 +13,7 @@ export const AnswerForm = () => {
   const navigate = useNavigate();
   const { code } = useParams();
   const { data, loading, error } = useFetchData(`${API_URL}/forms/search/${code}/fields`);
-
+  const [isOpen, setIsOpen] = useState(false);
   
 
   const handleSubmitAnswer = async (e) => {
@@ -62,7 +64,7 @@ export const AnswerForm = () => {
     try {
       const response = await sendAnswer(data.form.id, answer);
       console.log(response);
-      navigate('/');
+      setIsOpen(true);
     }
     catch (error) {
       console.error(error);
@@ -79,6 +81,7 @@ export const AnswerForm = () => {
 
   return (
     <div className='answer-view'>
+      {isOpen && <ConfirmMessage message='Respuesta enviada con éxito' onConfirm={() => navigate('/')} onCancel={""} />}
       <div className='form-info'>
         <h1 className='form-title'>Formulario: {data.form.name}</h1>
         <p className='form-description'>{data.form.description}</p>
