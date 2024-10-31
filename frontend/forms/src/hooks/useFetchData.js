@@ -9,13 +9,13 @@ const useFetchData = (url) => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
+        const result = await response.json();
         if (!response.ok) {
+          setError(result.error);
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        const result = await response.json();
         setData(result);
       } catch (err) {
-        setError(err.message);
       } finally {
         setLoading(false);
       }

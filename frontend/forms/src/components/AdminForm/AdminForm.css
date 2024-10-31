@@ -72,6 +72,18 @@
 .code{
     color: var(--primary-blue);
     font-weight: bold;
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    button {
+        cursor: pointer;
+    }
+
+    button:hover{
+        scale: 1.1;
+    }
 }
 
 @media screen and (max-width: 768px) {

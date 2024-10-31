@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch, PreviewForm, LandingPage } from './components';
+import { Login, CreateForm, AnswerForm, AdminView, EditForm, ResultMap, ResultTable, CodeSearch, PreviewForm, LandingPage, Error } from './components';
 
 
 function AppRouter() {
@@ -15,6 +15,7 @@ function AppRouter() {
       <Route path="/table/:id" element={<ResultTable />} />
       <Route path="/search" element={<CodeSearch />} />
       <Route path="preview/:id" element={<PreviewForm />} />
+      <Route path="*" element={<Error message='No se ha encontrado esta página.' />} />
     </Routes>
   );
 }

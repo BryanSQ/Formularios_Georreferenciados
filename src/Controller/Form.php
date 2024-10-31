@@ -288,7 +288,7 @@ class FormController
 
     if (!$map) {
       http_response_code(404);
-      echo json_encode(["error" => "No maps found"]);
+      echo json_encode(["error" => "¡No se encontraron mapas para este formulario!"]);
       return;
     }
     $map_results = [

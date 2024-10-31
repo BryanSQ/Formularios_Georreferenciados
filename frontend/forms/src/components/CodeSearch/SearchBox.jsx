@@ -1,6 +1,6 @@
 import { searchFormByCode } from '../../services/formServices';
 import { useNavigate } from 'react-router-dom';
-import Error from '../helper/Error';
+import { Error } from '../helper/Error';
 
 export const SearchBox = ({ object }) => {
 

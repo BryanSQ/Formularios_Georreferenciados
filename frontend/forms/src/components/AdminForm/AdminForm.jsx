@@ -5,6 +5,8 @@ import visibleIcon from '../../assets/visible.png';
 import notVisibleIcon from '../../assets/invisible.png';
 import API_URL from '../../config';
 
+import clipboard from '../../assets/copy-clipboard.svg';
+
 export const AdminForm = ({ form, handleDelete }) => {
     const navigate = useNavigate();
     const prepareUrl = () => {
@@ -14,6 +16,10 @@ export const AdminForm = ({ form, handleDelete }) => {
             return API_URL.substring(0, API_URL.length - 4);
         }
     }
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(`${prepareUrl()}/answer/${form.code}`);
+    };
 
     return (
         <div className="form">
@@ -27,7 +33,13 @@ export const AdminForm = ({ form, handleDelete }) => {
                         alt={form.is_visible ? 'Visible' : 'No visible'} />
                     <p className='code'>{form.code}</p>
                 </div>
-                <div className='code'>{`${prepareUrl()}/answer/${form.code}`}</div>
+                <div className='code'>
+                    {`${prepareUrl()}/answer/${form.code}`}
+                    <button style={{border: 'none'}} onClick={copyToClipboard}>
+                        <img src={clipboard} alt='Copy to clipboard' />
+                    </button>
+                    
+                </div>
             </div>
             <div className="buttons">
                 <button onClick={() => navigate(`/edit/${form.id}`)}>Editar</button>

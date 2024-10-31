@@ -8,3 +8,4 @@ export { ResultTable } from './Results/Table/ResultTable.jsx';
 export { CodeSearch } from './CodeSearch/CodeSearch.jsx';
 export { PreviewForm } from './PreviewForm/PreviewForm.jsx';
 export { LandingPage } from './LandingPage/LandingPage.jsx';
+export { Error } from './helper/Error.jsx';
