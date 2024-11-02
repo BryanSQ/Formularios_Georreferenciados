@@ -47,6 +47,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 350px;
+    overflow-y: auto;
   }
 
   .results-container{
@@ -79,6 +81,7 @@
 
   .creation-date{
     font-size: 15px;
+    margin-top: 15px;
   }
 
   .popup{
@@ -94,4 +97,16 @@
     .resultmap-container{
         width: 90%;
     }
+}
+
+.leaflet-control-fullscreen {
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.leaflet-control-fullscreen:before {
+  content: "\26F6"; /* Código Unicode para el ícono */
+  font-size: 18px;
+  color: #333;
 }

@@ -7,15 +7,26 @@ import { Error } from '../../helper/Error';
 import customMarker from '../../helper/CustomMarker';
 
 import API_URL from '../../../config';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet.fullscreen';
 
-
+import fullscreenIcon from '../../../assets/fullscreen.png';
 import './ResultMap.css';
+
+const FullscreenControl = () => {
+  const map = useMap();
+  L.control.fullscreen({ position: 'topleft',
+                         title: 'Ver en pantalla completa', 
+                         titleCancel: 'Salir de pantalla completa',
+                        content: `<img src="${fullscreenIcon}" alt="Fullscreen" style="width: 15px; height: 15px; align-items: center;" />`,}
+  ).addTo(map);
+  return null; 
+};
 
 const resultmapStyle = {
   height: '67vh',
 }
-
 
 export const ResultMap = () => {
   const { id } = useParams();
@@ -45,6 +56,7 @@ export const ResultMap = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
+            <FullscreenControl />
             {
               data.results.map(({ submission_id, position, fields }) => {      
                 console.log(position);      
@@ -52,8 +64,8 @@ export const ResultMap = () => {
                   <Marker key={submission_id} position={position} icon={customMarker}>
                     <Popup className='request-popup popup'>
                     {
-                      <div className = "answers-container">
-                        
+                      <div>
+                        <div className = "answers-container">
                         <div>
                           {/*Ubicacion: {JSON.stringify(position)}*/}
                         </div>
@@ -65,10 +77,14 @@ export const ResultMap = () => {
                             </div>
                           </div>
                         ))}
-                        <div className = "creation-date">
-                          Fecha de la respuesta: {data.form.created_at}
+                        
+                      </div>
+                      <div className = "creation-date">
+                          Fecha de registro: {data.form.created_at}
                         </div>
                       </div>
+                      
+                      
                     }
                     </Popup>
                   </Marker>

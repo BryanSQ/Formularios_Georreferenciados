@@ -1,7 +1,10 @@
 import 'leaflet/dist/leaflet.css';
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvent, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet.fullscreen';
 
+import fullscreenIcon from '../../../assets/fullscreen.png';
 import customMarker from '../../helper/CustomMarker';
 
 const AnswerMarker = ({ positionChange }) => {
@@ -15,6 +18,16 @@ const AnswerMarker = ({ positionChange }) => {
   return position === null ? null : (
       <Marker position={position} icon={customMarker} />
   );
+};
+
+const FullscreenControl = () => {
+  const map = useMap();
+  L.control.fullscreen({ position: 'topleft',
+                         title: 'Ver en pantalla completa', 
+                         titleCancel: 'Salir de pantalla completa',
+                        content: `<img src="${fullscreenIcon}" alt="Fullscreen" style="width: 15px; height: 15px; align-items: center;" />`,}
+  ).addTo(map);
+  return null; 
 };
 
 
@@ -32,6 +45,7 @@ const MapField = ({ field }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
+        <FullscreenControl />
         <AnswerMarker positionChange={handlePositionChange}/>
       </MapContainer>
       <input id={field.id} type_id={field.type.id} name={field.name} type="hidden" readOnly />
