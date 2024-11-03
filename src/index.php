@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   if (isset($_SERVER['HTTP_ORIGIN'])) {
       $allowedOrigins = [
           'http://localhost:5173',
-          'https://129.159.93.14'
+          'http://129.159.93.14'
       ];
       
       // check origin
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 if (isset($_SERVER['HTTP_ORIGIN'])) {
   $allowedOrigins = [
       'http://localhost:5173',
-      'https://129.159.93.14'
+      'http://129.159.93.14'
   ];
 
   if (in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
