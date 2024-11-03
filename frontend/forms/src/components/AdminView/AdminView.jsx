@@ -12,6 +12,8 @@ import { ConfirmMessage } from '../helper/ConfirmMessage.jsx';
 
 import API_URL from '../../config.js';
 
+import { logout } from '../../services/userServices.js';
+
 export const AdminView = () => {
     const navigate = useNavigate();
     let { data: initialData, loading, error } = useFetchData(`${API_URL}/forms`);
@@ -49,8 +51,21 @@ export const AdminView = () => {
             );
     }
 
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/');
+        }
+        catch (error) {
+            console.error('Error al cerrar sesión', error);
+        }
+    };
+
     return (
         <div className="admin-view">
+            <div style={{alignSelf: 'flex-end'}}>
+                <button className='logout-button' onClick={handleLogout}>Salir</button>
+            </div>
             <div className="forms-container">
                 {
                     data.length > 0 ? data.map((form, i) => {
@@ -58,7 +73,7 @@ export const AdminView = () => {
                     }) : <div>No hay formularios</div>
                 }
                 {isOpen && <ConfirmMessage message={`¿Desea eliminar el formulario "${formToBeDeleted.name}"?`}
-                onConfirm={() => handleDelete(8)}
+                onConfirm={() => handleDelete()}
                 onCancel={() => setIsOpen(false)} />}
                 <button className='forms-container-create'
                 onClick={() => navigate(`/create`)}>

@@ -3,6 +3,7 @@ import API_URL from "../config";
 export const login = async (data) => {
     const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
         'Content-Type': 'application/json'
         },
@@ -17,6 +18,19 @@ export const login = async (data) => {
         } else {
             throw new Error('Error al iniciar sesión.');
         }
+    }
+    
+    return response.json();
+}
+
+export const logout = async () => {
+    const response = await fetch(`${API_URL}/logout`, {
+        method: 'POST',
+        credentials: 'include'
+    });
+    
+    if (!response.ok) {
+        throw new Error('Error al cerrar sesión.');
     }
     
     return response.json();

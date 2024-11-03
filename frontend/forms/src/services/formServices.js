@@ -18,7 +18,8 @@ export const sendAnswer = async (id, data) => {
 
 export const deleteForm = async (id) => {
   const response = await fetch(`${API_URL}/forms/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   });
 
   if (!response.ok) {
@@ -31,6 +32,7 @@ export const deleteForm = async (id) => {
 export const createForm = async (data) => {
   const response = await fetch(`${API_URL}/forms`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -47,7 +49,8 @@ export const createForm = async (data) => {
 
 export const updateForm = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/${id}`, {
-    method: 'PUT',
+    method: 'PUT',    
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -64,6 +67,7 @@ export const updateForm = async (id, data) => {
 export const createField = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/${id}/fields`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -79,7 +83,8 @@ export const createField = async (id, data) => {
 
 export const deleteField = async (id) => {
   const response = await fetch(`${API_URL}/forms/fields/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   });
 
   if (!response.ok) {
@@ -92,6 +97,7 @@ export const deleteField = async (id) => {
 export const updateField = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/fields/${id}`, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -109,6 +115,7 @@ export const updateField = async (id, data) => {
 export const createOption = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/fields/${id}/options`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -124,7 +131,8 @@ export const createOption = async (id, data) => {
 
 export const deleteOption = async (id) => {
   const response = await fetch(`${API_URL}/forms/fields/options/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   });
 
   if (!response.ok) {
@@ -137,6 +145,7 @@ export const deleteOption = async (id) => {
 export const updateOption = async (id, data) => {
   const response = await fetch(`${API_URL}/forms/fields/options/${id}`, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -162,7 +171,8 @@ export const searchFormByCode = async (code) => {
 
 export const removeSubmission = async (id) => {
   const response = await fetch(`${API_URL}/forms/${id}/answers`,{
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   });
 
   if (!response.ok){

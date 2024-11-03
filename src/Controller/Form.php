@@ -33,6 +33,16 @@ class FormController
 
   public function add_form()
   {
+
+    session_start();
+
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $data = json_decode(file_get_contents("php://input"), true);
 
     $name = $data["name"];
@@ -134,6 +144,15 @@ class FormController
 
   public function get_all_forms()
   {
+
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $forms = Form::get_all();
     if (!$forms) {
 
@@ -153,6 +172,15 @@ class FormController
 
   public function update_form(string $id)
   {
+
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $data = json_decode(file_get_contents("php://input"), true);
     $form = Form::read($id);
     if (!$form) {
@@ -174,6 +202,15 @@ class FormController
 
   public function update_field(string $id)
   {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
+
     $data = json_decode(file_get_contents("php://input"), true);
     $field = Field::read($id);
     if (!$field) {
@@ -195,6 +232,14 @@ class FormController
 
   public function remove_form(string $id)
   {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $is_deleted = Form::delete($id);
     $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
     // returns the result as a JSON string
@@ -328,6 +373,15 @@ class FormController
 
   public function add_option(string $id)
   {
+
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $data = json_decode(file_get_contents("php://input"), true);
 
     $field = Field::read($id);
@@ -346,6 +400,14 @@ class FormController
   //forms/fields/options/5
   public function delete_option(string $id)
   {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $option = Option::read($id);
     if (!$option) {
       echo json_encode(["error" => "Option not found"]);
@@ -361,6 +423,14 @@ class FormController
 
   public function update_option(string $id)
   {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $data = json_decode(file_get_contents("php://input"), true);
     $option = Option::read($id);
     if (!$option) {
@@ -382,6 +452,14 @@ class FormController
 
   public function add_field(string $id)
   {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $types_info = $this->load_types_info();
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -409,6 +487,15 @@ class FormController
 
   public function remove_field(string $id)
   {
+
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $is_deleted = Field::delete($id);
     $result = $is_deleted ? ["success" => "Field deleted"] : ["error" => "Field not found"];
     // returns the result as a JSON string
@@ -476,6 +563,14 @@ class FormController
 
 
   public function remove_submission(int $id):void {
+    session_start();
+
+    if (!isset($_SESSION["email"])) {
+      http_response_code(401);
+      echo json_encode(["error" => "Unauthorized"]);
+      return;
+    }
+
     $is_submission_deleted = Submission::delete($id);
     echo json_encode($is_submission_deleted);
     $result = $is_submission_deleted ? ["success" => "Submission deleted"] : ["error" => "Submission not found"];

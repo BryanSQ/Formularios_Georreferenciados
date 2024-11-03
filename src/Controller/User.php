@@ -28,10 +28,31 @@ class UserController{
       return;
     }
 
+
+    session_set_cookie_params([
+      'lifetime' =>  3600 ,
+      'path' => '/',
+      'secure' => false,
+      'httponly' => true,
+      'samesite' => 'Lax'
+    ]);
+
+    session_start();
+
+    $_SESSION["email"] = $email;
+
     http_response_code(200);
-    echo json_encode(["success"=> "Welcome"]);
+    echo json_encode(["success"=> "Welcome "]);
     return;
   }
 
+
+  public function logout(){
+    session_start();
+    session_destroy();
+    http_response_code(200);
+    echo json_encode(["success"=> "Goodbye"]);
+    return;
+  }
 
 }
