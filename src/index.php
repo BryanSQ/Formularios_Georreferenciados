@@ -13,29 +13,41 @@ require 'Controller/FieldType.php';
 
 
 
+// check preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  
-  header("Access-Control-Allow-Origin: http://localhost:5173");
+  if (isset($_SERVER['HTTP_ORIGIN'])) {
+      $allowedOrigins = [
+          'http://localhost:5173',
+          'https://129.159.93.14'
+      ];
+      
+      // check origin
+      if (in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
+          header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+          header("Access-Control-Allow-Credentials: true");
+      }
+  }
+
   header("Access-Control-Allow-Headers: Content-Type, Authorization");
   header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-  header("Access-Control-Allow-Credentials: true");
   exit;
 }
 
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+  $allowedOrigins = [
+      'http://localhost:5173',
+      'https://129.159.93.14'
+  ];
 
-// Set the content type for responses
+  if (in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
+      header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+      header("Access-Control-Allow-Credentials: true");
+  }
+}
+
 header("Content-Type: application/json; charset=UTF-8");
 
-// Allow requests from any origin (adjust for security as needed)
-header("Access-Control-Allow-Origin: http://localhost:5173");
 
-// Allow specific HTTP methods
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-
-// Allow specific headers (adjust if needed)
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-header("Access-Control-Allow-Credentials: true");
 
 
 $database = Database::get_instance();
