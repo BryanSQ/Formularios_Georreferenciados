@@ -8,6 +8,7 @@ import customMarker from '../../helper/CustomMarker';
 
 import API_URL from '../../../config';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet.fullscreen';
 
@@ -57,9 +58,9 @@ export const ResultMap = () => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             <FullscreenControl />
+            <MarkerClusterGroup>
             {
-              data.results.map(({ submission_id, position, fields }) => {      
-                console.log(position);      
+              data.results.map(({ submission_id, position, fields }) => {                      
                 return (
                   <Marker key={submission_id} position={position} icon={customMarker}>
                     <Popup className='request-popup popup'>
@@ -83,14 +84,13 @@ export const ResultMap = () => {
                           Fecha de registro: {data.form.created_at}
                         </div>
                       </div>
-                      
-                      
                     }
                     </Popup>
                   </Marker>
                 );
               })
             }
+            </MarkerClusterGroup>
           </MapContainer>
       </div>  
     </div>

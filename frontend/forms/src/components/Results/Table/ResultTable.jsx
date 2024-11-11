@@ -7,6 +7,7 @@ import API_URL from "../../../config";
 
 import { removeSubmission } from "../../../services/formServices";
 import { ConfirmMessage } from "../../helper/ConfirmMessage";
+import { Error } from "../../helper/Error";
 
 export const ResultTable = () => {
   const { id } = useParams();
@@ -26,7 +27,7 @@ export const ResultTable = () => {
     return <div>Loading...</div>;
   }
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <Error message={error} />;
   }
 
   const prepareDelete = (id) => {
