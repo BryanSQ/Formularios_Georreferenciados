@@ -93,7 +93,14 @@ CREATE TABLE IF NOT EXISTS Map_Coordinates(
     longitude DECIMAL(11, 8) NOT NULL,
     CONSTRAINT fk_map_coordinates_field_id FOREIGN KEY (field_id) REFERENCES Field(id) ON DELETE CASCADE,
     CONSTRAINT fk_map_coordinates_submission_id FOREIGN KEY (submission_id) REFERENCES Submission(id) ON DELETE CASCADE
+);
 
+CREATE TABLE IF NOT EXISTS FormLogs(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    action TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_forms_log_user_id FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 DELIMITER //

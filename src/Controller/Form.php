@@ -6,6 +6,7 @@ require 'Model/Answer.php';
 require 'Model/Option.php';
 require 'Model/Submission.php';
 require 'Model/MapCoordinates.php';
+require 'Model/Log.php';
 
 class FormController
 {
@@ -70,6 +71,14 @@ class FormController
     }
 
     $new_form_id = $new_form->create();
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    if (!$log->create($user_id["id"], "Created form with ID: $new_form_id, title: $name")){
+      echo json_encode(["error" => "Failed to create log"]);
+    }
+    
 
     // returns the new form ID as a JSON string
     echo json_encode(["id" => $new_form_id]);
@@ -196,6 +205,14 @@ class FormController
       return;
     }
 
+    $name = $updated_form["name"];
+
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    $log->create($user_id["id"], "Updated form with ID: {$updated_form["id"]}, title: $name");
+
     echo json_encode(["id" => $updated_form["id"]]);
     return;
   }
@@ -226,6 +243,13 @@ class FormController
       return;
     }
 
+    $name = $updated_field["name"];
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    $log->create($user_id["id"], "Updated field with ID: {$updated_field["id"]}, value: $name");
+
     echo json_encode(["id" => $updated_field["id"]]);
     return;
   }
@@ -241,9 +265,20 @@ class FormController
     }
 
     $is_deleted = Form::delete($id);
-    $result = $is_deleted ? ["success" => "Form deleted"] : ["error" => "Form not found"];
+
+    if (!$is_deleted) {
+      echo json_encode(["error" => "Form not found"]);
+      return;
+    }
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    $log->create($user_id["id"], "Deleted form with ID: $id");
+    
+
     // returns the result as a JSON string
-    echo json_encode($result);
+    echo json_encode(["success" => "Form deleted"]);
     return;
   }
 
@@ -394,6 +429,12 @@ class FormController
     $new_option = new Option($option);
     $new_option->create($id);
 
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    $log->create($user_id["id"], "Added option to field with ID: $id, value: $option");
+    
+
     echo json_encode(["success" => "Options added"]);
     return;
   }
@@ -416,6 +457,15 @@ class FormController
 
     $is_deleted = Option::delete($id);
     $result = $is_deleted ? ["success" => "Option deleted"] : ["error" => "Option not found"];
+
+    if (!$is_deleted) {
+      echo json_encode($result);
+      return;
+    }
+
+      $user_id = User::get_by_email($_SESSION["email"]);
+      $log = new Log();
+      $log->create($user_id["id"], "Deleted option with ID: $id");
     // returns the result as a JSON string
     echo json_encode($result);
     return;
@@ -445,6 +495,10 @@ class FormController
       echo json_encode(["error" => "Failed to update option"]);
       return;
     }
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+    $log = new Log();
+    $log->create($user_id["id"], "Updated option with ID: $id, value: $new_value");
 
     echo json_encode(["success" => "Option updated"]);
     return;
@@ -480,6 +534,11 @@ class FormController
 
     $new_field_id = $new_field->create($id);
 
+    $user_id = User::get_by_email($_SESSION["email"]);
+
+    $log = new Log();
+    $log->create($user_id["id"], "Added field to form with ID: $id, title: $field_name");
+
     // returns the new field ID as a JSON string
     echo json_encode(["id" => $new_field_id]);
     return;
@@ -498,6 +557,16 @@ class FormController
 
     $is_deleted = Field::delete($id);
     $result = $is_deleted ? ["success" => "Field deleted"] : ["error" => "Field not found"];
+
+    if (!$is_deleted) {
+      echo json_encode($result);
+      return;
+    }
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+    $log = new Log();
+    $log->create($user_id["id"], "Deleted field with ID: $id");
+
     // returns the result as a JSON string
     echo json_encode($result);
     return;
@@ -574,6 +643,17 @@ class FormController
     $is_submission_deleted = Submission::delete($id);
     echo json_encode($is_submission_deleted);
     $result = $is_submission_deleted ? ["success" => "Submission deleted"] : ["error" => "Submission not found"];
+
+    if (!$is_submission_deleted) {
+      echo json_encode($result);
+      return;
+    }
+
+    $user_id = User::get_by_email($_SESSION["email"]);
+    $log = new Log();
+    $log->create($user_id["id"], "Deleted submission with ID: $id");
+
+
     // returns the result as a JSON string
     echo json_encode($result);
     return;

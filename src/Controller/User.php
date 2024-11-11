@@ -21,6 +21,7 @@ class UserController{
       return;
     }
 
+    
     $user_exists = User::login($email, $password);
     if(!$user_exists){
       http_response_code(401);
@@ -54,5 +55,4 @@ class UserController{
     echo json_encode(["success"=> "Goodbye"]);
     return;
   }
-
 }

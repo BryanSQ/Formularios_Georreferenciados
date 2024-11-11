@@ -99,4 +99,10 @@ class User{
     return $stmt->rowCount() > 0;
   }
 
+
+  public static function get_by_email($email){
+    $stmt = Database::get_instance()->get_connection()->prepare("SELECT * FROM User WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);    
+  }
 }
