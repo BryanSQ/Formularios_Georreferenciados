@@ -17,8 +17,14 @@ export const AdminForm = ({ form, prepareDelete }) => {
         }
     }
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(`${prepareUrl()}/answer/${form.code}`);
+    const copyToClipboard = async () => {
+        try {
+            navigator.clipboard.writeText(`${prepareUrl()}/answer/${form.code}`);
+        }
+        catch (err) {
+            console.error(err.message)
+        }
+            
     };
 
     return (
