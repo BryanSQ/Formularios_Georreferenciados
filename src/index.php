@@ -58,6 +58,7 @@ $router = new Router();
 
 $router->post('/login', 'UserController@login');
 $router->post('/logout', 'UserController@logout');
+$router->get('/isLoggedIn', 'UserController@isLoggedIn');
 
 // GET FORMS
 $router->get('/home', 'FormController@home');

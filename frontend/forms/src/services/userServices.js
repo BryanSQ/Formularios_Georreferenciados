@@ -36,3 +36,12 @@ export const logout = async () => {
     return response.json();
 }
 
+export const isLoggedIn = async () => {
+    const response = await fetch(`${API_URL}/isLoggedIn`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    
+    return response.ok;
+}
+

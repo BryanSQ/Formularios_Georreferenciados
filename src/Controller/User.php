@@ -55,4 +55,16 @@ class UserController{
     echo json_encode(["success"=> "Goodbye"]);
     return;
   }
+
+  public function isLoggedIn(){
+    session_start();
+    if(isset($_SESSION["email"])){
+      http_response_code(200);
+      echo json_encode(["success"=> "User is logged in"]);
+      return;
+    }
+    http_response_code(401);
+    echo json_encode(["error"=> "User is not logged in"]);
+    return;
+  }
 }
