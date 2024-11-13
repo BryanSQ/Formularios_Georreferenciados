@@ -10,7 +10,7 @@ describe('API - GetForm Tests', () => {
     });
 
     test('GET: If the id exists, the test should return a 200 status and the response must contain the form and fields properties', async () => {
-        const id = '1';
+        const id = '6';
         const response = await fetch(`http://localhost/api/forms/${id}/fields`, {
             method: 'GET',
             headers: {

@@ -267,6 +267,7 @@ class FormController
     $is_deleted = Form::delete($id);
 
     if (!$is_deleted) {
+      http_response_code(404);
       echo json_encode(["error" => "Form not found"]);
       return;
     }
