@@ -193,6 +193,7 @@ class FormController
     $data = json_decode(file_get_contents("php://input"), true);
     $form = Form::read($id);
     if (!$form) {
+      http_response_code(404);
       echo json_encode(["error" => "Form not found"]);
       return;
     }
