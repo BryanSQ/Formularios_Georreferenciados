@@ -188,14 +188,14 @@ export const EditForm = () => {
     if (formTitle !== previousName || formDescription !== previousDescription) {
       try {
         await updateForm(formId, updatedData);
-        setMessage('Formulario actualizado con éxito');
-        setOnConfirm(() => () => navigate("/admin"));
-        setIsOpen(true);
       } catch (error) {
         console.error('Error al actualizar el formulario:', error);
       }
     }
 
+    setMessage('Formulario actualizado con éxito');
+    setOnConfirm(() => () => navigate("/admin"));
+    setIsOpen(true);
 
     const questionBoxes = getFormFields(event).map(question => {
       return {
