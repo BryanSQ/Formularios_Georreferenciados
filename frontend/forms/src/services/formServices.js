@@ -61,7 +61,7 @@ export const updateForm = async (id, data) => {
     throw new Error('Error al actualizar el formulario');
   }
 
-  return response.json();
+  return response;
 }
 
 export const createField = async (id, data) => {
