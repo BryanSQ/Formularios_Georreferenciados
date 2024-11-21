@@ -32,7 +32,6 @@ sudo apt install -y php8.3 php8.3-cli php8.3-mysql  libapache2-mod-php8.3
 
 # Configurar PHP como módulo de Apache
 echo "Configurando Apache para usar PHP 8.3..."
-sudo a2dismod php
 sudo a2enmod php8.3
 sudo systemctl restart apache2
 
