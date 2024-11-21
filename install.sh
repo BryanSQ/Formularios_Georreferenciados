@@ -97,7 +97,7 @@ echo "<VirtualHost *:80>
         AllowOverride All
         Require all granted
     </Directory>
-</VirtualHost>" > /etc/apache2/sites-available/forms-site.conf
+</VirtualHost>" > | sudo tee /etc/apache2/sites-available/forms-site.conf > /dev/null
 
 
 
