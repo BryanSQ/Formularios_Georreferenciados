@@ -67,14 +67,15 @@ fi
 echo "Escribiendo configuración en config.php..."
 echo "<?php
 
-$host = "localhost";
-$db_host = "$DB_NAME";
+\$host = 'localhost';
+\$db_host = '\$DB_NAME';
 
 return [
-    'dsn' => "mysql:host={$host};dbname={$db_host};charset=utf8",
-    'username' => '$DB_USER',
-    'password' => '$DB_ROOT_PASSWORD',
+    'dsn' => 'mysql:host={\$host};dbname={\$db_host};charset=utf8',
+    'username' => '\$DB_USER',
+    'password' => '\$DB_ROOT_PASSWORD',
 ];" > src/config.php
+
 
 # Configuración de Apache
 
