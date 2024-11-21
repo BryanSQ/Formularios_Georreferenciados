@@ -1,5 +1,9 @@
 CREATE DATABASE IF NOT EXISTS formsSystem;
 
+CREATE USER IF NOT EXISTS 'fsAdmin'@'localhost' IDENTIFIED BY 'fsa!at!LIIT.2024';
+GRANT ALL PRIVILEGES ON formsSystem.* TO 'fsAdmin'@'localhost';
+FLUSH PRIVILEGES;
+
 USE formsSystem;
 CREATE TABLE User(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -95,7 +99,7 @@ CREATE TABLE IF NOT EXISTS Map_Coordinates(
     CONSTRAINT fk_map_coordinates_submission_id FOREIGN KEY (submission_id) REFERENCES Submission(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS FormLogs(
+CREATE TABLE IF NOT EXISTS FormsLog(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     action TEXT NOT NULL,
