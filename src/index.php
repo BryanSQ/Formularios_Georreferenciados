@@ -11,16 +11,15 @@ require 'Controller/Form.php';
 require 'Controller/User.php';
 require 'Controller/FieldType.php';
 
-
+// Introduzca en este array la dirección IP donde se aloja este programa.
+$allowedOrigins = [
+          'http://localhost:5173',
+      ];
 
 // check preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   if (isset($_SERVER['HTTP_ORIGIN'])) {
-      $allowedOrigins = [
-          'http://localhost:5173',
-          'http://129.159.93.14', 
-          'http://150.136.56.106'
-      ];
+      
       
       // check origin
       if (in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
@@ -35,11 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
-  $allowedOrigins = [
-      'http://localhost:5173',
-      'http://129.159.93.14', 
-      'http://150.136.56.106'
-  ];
 
   if (in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
       header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
