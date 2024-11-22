@@ -52,3 +52,7 @@ Para ejecutar el script, asegúrese de contar con permisos de superusuario y uti
 `chmod 700 install.sh`
 `bash install.sh`
 ---
+
+## Último Paso
+En el archivo `/src/index.php` modifique el array `$allowedOrigins` e introduzca la dirección IP o el dominio donde se aloja la aplicación.
+En el directorio `/frontend/forms/dist/assets/` se encuentra un archivo `index-HASH.js` donde HASH es un string aleatorio, lo relevante es que es el único archivo de JavaScript de esta carpeta. Utilice un editor de código que le permita buscar y reemplazar texto, localice el elemento YOUR_API_URL_HERE y cambielo por la dirección IP o el dominio donde se aloja la aplicación.
